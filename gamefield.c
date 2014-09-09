@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
 #include "gamefield.h"
-#include "gtkcard.h"
+#include "gtkfieldcard.h"
 
 GameField* 
 game_field_new (guint field_num)
@@ -12,10 +12,10 @@ game_field_new (guint field_num)
 
 	new->rows = field_num;
 	new->cols = field_num;
-	new->gfield = (GtkCard***) calloc (field_num, sizeof (GtkCard**));
+	new->gfield = (GtkFieldCard***) calloc (field_num, sizeof (GtkFieldCard**));
 
 	for (i = 0; i < new->rows; i++)
-		new->gfield[i] = (GtkCard**) calloc (field_num, sizeof (GtkCard*));
+		new->gfield[i] = (GtkFieldCard**) calloc (field_num, sizeof (GtkFieldCard*));
 
 	return new;
 }
@@ -32,7 +32,7 @@ game_field_add (GameField* game_field, GtkToggleButton* button)
 
 	outofloop:
 
-	game_field->gfield[i][j] = gtk_card_new_empty (button);
+	game_field->gfield[i][j] = gtk_field_card_new_empty (button, i, j);
 
 	return ;
 }
@@ -49,22 +49,22 @@ game_field_get_cols (GameField* game_field)
 	return game_field->cols;
 }
 
-GtkCard*
+GtkFieldCard*
 game_field_get_nth (GameField* game_field, guint row, guint col)
 {
 	return game_field->gfield[row][col];
 }
 
-GtkCard*
+GtkFieldCard*
 game_field_get_random (GameField* game_field)
 {
-	GtkCard* tmp_card;
+	GtkFieldCard* tmp_card;
 	guint i, j;
 
 	for (i = 0; i < game_field_get_rows (game_field); i++){
 		for (j = 0; j < game_field_get_cols (game_field); j++){
 			tmp_card = game_field_get_nth (game_field, i, j);
-			if (gtk_card_is_full (tmp_card) == FALSE)
+			if (gtk_card_is_full (gtk_field_card_get_gtk_card (tmp_card)) == FALSE)
 				return tmp_card;
 		}
 	}
@@ -72,16 +72,16 @@ game_field_get_random (GameField* game_field)
 	return NULL;
 }
 
-GtkCard* 
+GtkFieldCard* 
 game_field_get_selected (GameField* game_field)
 {
-	GtkCard* field_card;
+	GtkFieldCard* field_card;
 	guint i, j;
 
 	for (i = 0; i < game_field_get_rows (game_field); i++){
         for (j = 0; j < game_field_get_cols (game_field); j++){
             field_card = game_field_get_nth (game_field, i, j);
-            if (gtk_card_is_selected (field_card) == FALSE && gtk_widget_is_sensitive (GTK_WIDGET(gtk_card_get_button (field_card)))) // game field is selected when button is raised
+            if (gtk_card_is_selected (gtk_field_card_get_gtk_card (field_card)) == FALSE && gtk_widget_is_sensitive (GTK_WIDGET(gtk_card_get_button (gtk_field_card_get_gtk_card (field_card))))) // game field is selected when button is raised
                 return field_card;
         }
     }
@@ -96,7 +96,7 @@ game_field_free (GameField* game_field)
 
 	for (i = 0; i < game_field_get_rows (game_field); i++){
 		for (j = 0; j < game_field_get_cols (game_field); j++){
-			gtk_card_free (game_field->gfield[i][j]);
+			gtk_field_card_free (game_field->gfield[i][j]);
 		}
 	}
 
