@@ -44,6 +44,18 @@ gtk_field_card_get_gtk_card (GtkFieldCard* gfcard)
 	return gfcard->gcard;
 }
 
+guint
+gtk_field_card_get_row (GtkFieldCard* gfcard)
+{
+	return gfcard->row;
+}
+
+guint
+gtk_field_card_get_col (GtkFieldCard* gfcard)
+{
+	return gfcard->col;
+}
+
 void
 gtk_field_card_free (GtkFieldCard* gfcard)
 {

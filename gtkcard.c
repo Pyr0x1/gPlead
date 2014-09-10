@@ -91,6 +91,12 @@ gtk_card_is_full (GtkCard* gcard)
 	return gcard->full;
 }
 
+gint
+gtk_card_compare (GtkCard* gcard1, GtkCard* gcard2, guint position)
+{
+	return card_compare (gcard1->card, gcard2->card, position);
+}
+
 void 
 gtk_card_switch_content (GtkCard* gcard1, GtkCard* gcard2)
 {

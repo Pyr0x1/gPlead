@@ -19,6 +19,7 @@ void gtk_card_set_full (GtkCard* gcard);
 GtkToggleButton* gtk_card_get_button (GtkCard* gcard);
 gboolean gtk_card_is_selected (GtkCard* gcard);
 gboolean gtk_card_is_full (GtkCard* gcard);
+gint gtk_card_compare (GtkCard* gcard1, GtkCard* gcard2, guint position);
 void gtk_card_switch_content (GtkCard* gcard1, GtkCard* gcard2);
 void gtk_card_write_label (GtkCard* gcard);
 void gtk_card_clear (GtkCard* gcard);
