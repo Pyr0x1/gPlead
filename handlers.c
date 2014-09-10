@@ -65,7 +65,7 @@ on_buttonfield_toggled (GtkToggleButton* button, gpointer user_data)
     if (clicked_state == FALSE){ // this operates when you click on an empty place in the game field
 
         if (game_play_player_card_selected (game_field, player_hand) == TRUE)           
-            game_play_cpu_card_random (game_field, cpu_hand);
+            game_play_cpu_card_greedy (game_field, cpu_hand);
         else
             gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
     }
