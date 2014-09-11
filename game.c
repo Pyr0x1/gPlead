@@ -92,8 +92,8 @@ game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 	gboolean find;
 	guint r,c,i;
 	
-	
 	find = FALSE;
+
 	// if it's the first turn (no card on the field) choose a random move
 	for (r = 0; r < game_field_get_rows (game_field) && !find; r++)
 		for (c = 0; c < game_field_get_cols (game_field) && !find; c++){
@@ -176,7 +176,7 @@ game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 												
 
 												// get the near card
-												gtk_widget_set_name (GTK_WIDGET(gtk_card_get_button (gtk_field_card_get_gtk_card ( game_field_get_nth (game_field, near_r[near_i], near_c[near_i]) ))), "togglebuttoncpuplayed");
+												//gtk_widget_set_name (GTK_WIDGET(gtk_card_get_button (gtk_field_card_get_gtk_card ( game_field_get_nth (game_field, near_r[near_i], near_c[near_i]) ))), "togglebuttoncpuplayed");
 												
 												
 												/*
@@ -281,7 +281,6 @@ game_conquer_cards (GameField* game_field, GtkFieldCard* field_card, gboolean is
 					
 					const gchar *card_name = gtk_widget_get_name (GTK_WIDGET (gtk_card_get_button (gtk_field_card_get_gtk_card (game_field_get_nth (game_field, near_r[near_i], near_c[near_i]) ))));
 					
-					
 					if (is_player_card){
 						if ( strcmp( (char*) card_name, "togglebuttoncpuplayed") == 0 ){	// if the card is of the cpu
 							
@@ -292,7 +291,8 @@ game_conquer_cards (GameField* game_field, GtkFieldCard* field_card, gboolean is
 							gtk_score_inc (player_score);
 							gtk_score_dec (cpu_score);
 						}
-					else
+					}
+					else{
 						if ( strcmp( (char*) card_name, "togglebuttonuser") == 0 ){	// if the card is of the player
 							
 							// get the near card
