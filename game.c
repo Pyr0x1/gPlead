@@ -75,6 +75,8 @@ game_play_cpu_card_random (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 		gtk_card_write_label (cpu_card);
 		gtk_card_switch_content (cpu_card, gtk_field_card_get_gtk_card (field_card));
 	    gtk_widget_set_name (GTK_WIDGET(gtk_card_get_button (cpu_card)), "");
+	    gtk_widget_set_sensitive (GTK_WIDGET(gtk_card_get_button (gtk_field_card_get_gtk_card (field_card))), TRUE);
+	    gtk_toggle_button_set_active (gtk_card_get_button (gtk_field_card_get_gtk_card (field_card)), FALSE);
 	    gtk_widget_set_sensitive (GTK_WIDGET(gtk_card_get_button (gtk_field_card_get_gtk_card (field_card))), FALSE);
 	    gtk_widget_set_name (GTK_WIDGET(gtk_card_get_button (gtk_field_card_get_gtk_card (field_card))), "togglebuttoncpuplayed");
 
@@ -169,6 +171,8 @@ game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 												gtk_card_write_label (cpu_card);
 												gtk_card_switch_content (cpu_card, gtk_field_card_get_gtk_card (field_card));
 											    gtk_widget_set_name (GTK_WIDGET(gtk_card_get_button (cpu_card)), "");
+											    gtk_widget_set_sensitive (GTK_WIDGET(gtk_card_get_button (gtk_field_card_get_gtk_card (field_card))), TRUE);
+											    gtk_toggle_button_set_active (gtk_card_get_button (gtk_field_card_get_gtk_card (field_card)), FALSE);
 											    gtk_widget_set_sensitive (GTK_WIDGET(gtk_card_get_button (gtk_field_card_get_gtk_card (field_card))), FALSE);
 											    gtk_widget_set_name (GTK_WIDGET(gtk_card_get_button (gtk_field_card_get_gtk_card (field_card))), "togglebuttoncpuplayed");
 											
