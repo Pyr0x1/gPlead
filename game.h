@@ -22,7 +22,7 @@ void game_data_free (GameData* game_data);
 
 // these functions return true if the card was correctly played, false otherwise (like if no card is selected)
 gboolean game_play_player_card_selected (GameField* game_field, CardsHand* player_hand, GtkScore* player_score, GtkScore* cpu_score);
-gboolean game_play_cpu_card_random (GameField* game_field, CardsHand* cpu_hand);
+gboolean game_play_cpu_card_random (GameField* game_field, CardsHand* cpu_hand, GtkScore* player_score, GtkScore* cpu_score);
 gboolean game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore* player_score, GtkScore* cpu_score);
 gboolean game_play_cpu_card_best (GameField* game_field, CardsHand* cpu_hand);	// TODO
 

@@ -66,7 +66,7 @@ game_play_player_card_selected (GameField* game_field, CardsHand* player_hand, G
 }
 
 gboolean 
-game_play_cpu_card_random (GameField* game_field, CardsHand* cpu_hand)
+game_play_cpu_card_random (GameField* game_field, CardsHand* cpu_hand, GtkScore* player_score, GtkScore* cpu_score)
 {
 	GtkCard* cpu_card = cards_hand_get_random (cpu_hand);
 	GtkFieldCard* field_card = game_field_get_random (game_field);
@@ -77,6 +77,8 @@ game_play_cpu_card_random (GameField* game_field, CardsHand* cpu_hand)
 	    gtk_widget_set_name (GTK_WIDGET(gtk_card_get_button (cpu_card)), "");
 	    gtk_widget_set_sensitive (GTK_WIDGET(gtk_card_get_button (gtk_field_card_get_gtk_card (field_card))), FALSE);
 	    gtk_widget_set_name (GTK_WIDGET(gtk_card_get_button (gtk_field_card_get_gtk_card (field_card))), "togglebuttoncpuplayed");
+
+	    gtk_score_inc (cpu_score);
 
 	    return TRUE;
 	}
@@ -108,7 +110,7 @@ game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 	
 	//if find is stil false no card has been found, so make a random move
 	if (!find)
-		return game_play_cpu_card_random (game_field, cpu_hand);
+		return game_play_cpu_card_random (game_field, cpu_hand, player_score, cpu_score);
 	
 	
 	// otherwise make a greedy choice (first card with gain will be played)
@@ -160,7 +162,7 @@ game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 										
 										if (strcmp( (char*)card_name, "togglebuttonuser") == 0 ){	// if the card is of the player
 											
-											find=TRUE;
+											find = TRUE;
 
 											// play the card
 											if (cpu_card != NULL && field_card != NULL){
@@ -171,6 +173,8 @@ game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 											    gtk_widget_set_name (GTK_WIDGET(gtk_card_get_button (gtk_field_card_get_gtk_card (field_card))), "togglebuttoncpuplayed");
 											
 												gtk_score_inc (cpu_score);
+
+												printf ("Played CPU card\n");
 												
 												// obtain the near cards
 												
@@ -217,7 +221,7 @@ game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 	}
 	
 	// if there is no gain play a random card
-	return game_play_cpu_card_random( game_field, cpu_hand);
+	return game_play_cpu_card_random (game_field, cpu_hand, player_score, cpu_score);
 	
 
 	return FALSE;
@@ -290,6 +294,10 @@ game_conquer_cards (GameField* game_field, GtkFieldCard* field_card, gboolean is
 							// update score
 							gtk_score_inc (player_score);
 							gtk_score_dec (cpu_score);
+
+							/*printf ("Conquer cpu card\n");
+							printf ("New player score: %d\n", gtk_score_get (player_score));
+							printf ("New cpu score: %d\n", gtk_score_get (cpu_score));*/
 						}
 					}
 					else{
@@ -301,6 +309,10 @@ game_conquer_cards (GameField* game_field, GtkFieldCard* field_card, gboolean is
 							// update score
 							gtk_score_inc (cpu_score);
 							gtk_score_dec (player_score);
+
+							/*printf ("Conquer player card\n");
+							printf ("New player score: %d\n", gtk_score_get (player_score));
+							printf ("New cpu score: %d\n", gtk_score_get (cpu_score));*/
 						}
 					}
 				}
