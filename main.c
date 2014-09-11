@@ -44,9 +44,7 @@ main (int argc, char *argv[])
         gui_data = gui_create (cards_num, field_num);
         game_data = game_data_new (cards_num, 
         						   field_num, 
-        						   gui_data_get_player_buttons (gui_data),
-        						   gui_data_get_field_buttons (gui_data),
-        						   gui_data_get_cpu_buttons (gui_data));
+        						   gui_data);
 
         handlers_connect_all (gui_data, game_data);
 

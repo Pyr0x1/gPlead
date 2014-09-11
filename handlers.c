@@ -58,14 +58,17 @@ on_buttonfield_toggled (GtkToggleButton* button, gpointer user_data)
     CardsHand* player_hand = (CardsHand*) game_data->player_hand;
     GameField* game_field = (GameField*) game_data->game_field;
     CardsHand* cpu_hand = (CardsHand*) game_data->cpu_hand;
+    GtkScore* player_score = (GtkScore*) game_data->player_score;
+    GtkScore* cpu_score = (GtkScore*) game_data->cpu_score;
+
     gboolean clicked_state;
 
     clicked_state = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button));
 
     if (clicked_state == FALSE){ // this operates when you click on an empty place in the game field
 
-        if (game_play_player_card_selected (game_field, player_hand) == TRUE)           
-            game_play_cpu_card_greedy (game_field, cpu_hand);
+        if (game_play_player_card_selected (game_field, player_hand, player_score, cpu_score) == TRUE)           
+            game_play_cpu_card_greedy (game_field, cpu_hand, player_score, cpu_score);
         else
             gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
     }

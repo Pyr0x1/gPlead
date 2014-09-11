@@ -16,7 +16,9 @@ gui_create (guint cards_num, guint field_num)
 	GtkWidget* fake_label;
 	GtkWidget** player_buttons;
     GtkWidget*** field_buttons;
-    GtkWidget** cpu_buttons; 
+    GtkWidget** cpu_buttons;
+    GtkWidget* player_score_label;
+    GtkWidget* cpu_score_label;
     GtkSizeGroup* size_group;
 
     GuiData* gui_data;
@@ -87,18 +89,19 @@ gui_create (guint cards_num, guint field_num)
 
 	label_padding = (cards_num - field_num) / 2;
 
-	for (i = label_padding; i < field_num + label_padding; i++){
+	for (i = 0; i < field_num; i++){
 		for (j = 0; j < field_num; j++){
-			field_buttons[i-label_padding][j] = gtk_toggle_button_new_with_label (NULL);
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (field_buttons[i-label_padding][j]), TRUE);
-			gtk_size_group_add_widget (size_group, field_buttons[i-label_padding][j]);
-			gtk_grid_attach (GTK_GRID (grid), field_buttons[i-label_padding][j], j, i - label_padding, 1, 1);
+			field_buttons[i][j] = gtk_toggle_button_new_with_label (NULL);
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (field_buttons[i][j]), TRUE);
+			gtk_size_group_add_widget (size_group, field_buttons[i][j]);
+			gtk_grid_attach (GTK_GRID (grid), field_buttons[i][j], j, i, 1, 1);
 		}
 	}
 
 	// Fake labels to have space on top and bottom of game field
 
 	for (i = 0; i < label_padding; i++){
+
 		gtk_grid_insert_row (GTK_GRID (grid), 0);
 
 		fake_label = gtk_label_new (NULL);
@@ -110,6 +113,14 @@ gui_create (guint cards_num, guint field_num)
 		gtk_grid_attach (GTK_GRID (grid), fake_label, 1, (field_num + 2 * label_padding - 1), 1, 1);
 	}
 	
+	// Add labels for score
+	player_score_label = gtk_label_new (NULL);
+	gtk_size_group_add_widget (size_group, player_score_label);
+	gtk_grid_attach (GTK_GRID (grid), player_score_label, 0, 0, 1, 1);
+
+	cpu_score_label = gtk_label_new (NULL);
+	gtk_size_group_add_widget (size_group, cpu_score_label);
+	gtk_grid_attach (GTK_GRID (grid), cpu_score_label, field_num - 1, 0, 1, 1);
 
 	// Adds grid to horizontal box
 	gtk_box_pack_start (GTK_BOX (hbox), grid, TRUE, FALSE, 5);
@@ -158,6 +169,8 @@ gui_create (guint cards_num, guint field_num)
     gui_data->player_buttons = player_buttons;
 	gui_data->field_buttons = field_buttons;
 	gui_data->cpu_buttons = cpu_buttons; 
+	gui_data->player_score_label = player_score_label;
+	gui_data->cpu_score_label = cpu_score_label;
 
 	return gui_data;
 }
@@ -184,6 +197,18 @@ GtkWidget***
 gui_data_get_field_buttons (GuiData* gui_data)
 {
 	return gui_data->field_buttons;
+}
+
+GtkWidget*
+gui_data_get_player_score_label (GuiData* gui_data)
+{
+	return gui_data->player_score_label;
+}
+
+GtkWidget*
+gui_data_get_cpu_score_label (GuiData* gui_data)
+{
+	return gui_data->cpu_score_label;
 }
 
 guint 
