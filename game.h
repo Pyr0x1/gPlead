@@ -21,7 +21,7 @@ gboolean game_play_player_card_selected (GameField* game_field, CardsHand* playe
 gboolean game_play_cpu_card_random (GameField* game_field, CardsHand* cpu_hand);
 gboolean game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand);
 gboolean game_play_cpu_card_best (GameField* game_field, CardsHand* cpu_hand);	// TODO
-void game_conquer_cards (GameField* game_field, GtkFieldCard* field_card);
+void game_conquer_cards (GameField* game_field, GtkFieldCard* field_card, gboolean is_player_card);
 
 #endif
 

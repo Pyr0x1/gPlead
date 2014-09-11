@@ -45,7 +45,7 @@ game_play_player_card_selected (GameField* game_field, CardsHand* player_hand)
 	    gtk_widget_set_sensitive (GTK_WIDGET(gtk_card_get_button (gtk_field_card_get_gtk_card (field_card))), FALSE);
 	    gtk_widget_set_name (GTK_WIDGET(gtk_card_get_button (gtk_field_card_get_gtk_card (field_card))), "togglebuttonuser");
 
-	    game_conquer_cards (game_field, field_card);
+	    game_conquer_cards (game_field, field_card, TRUE);
 
 	    return TRUE;
 	}
@@ -164,7 +164,10 @@ game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand)
 												// get the near card
 												gtk_widget_set_name (GTK_WIDGET(gtk_card_get_button (gtk_field_card_get_gtk_card ( game_field_get_nth (game_field, near_r[near_i], near_c[near_i]) ))), "togglebuttoncpuplayed");
 												
-												// check if the other positions contains player card that can be obttained
+												
+												/*
+												{
+												// check if the other positions contains player card that can be obtained
 												int index;
 												
 												for (index = near_i+1; index < 4; index++)
@@ -179,7 +182,11 @@ game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand)
 																		gtk_widget_set_name (GTK_WIDGET (gtk_card_get_button (gtk_field_card_get_gtk_card (game_field_get_nth (game_field, near_r[index], near_c[index]) ))), "togglebuttoncpuplayed");
 														}
 												
-										
+												}
+												*/
+												
+												game_conquer_cards( game_field, field_card, FALSE);
+												
 											    return TRUE;
 											}
 											
@@ -234,7 +241,7 @@ game_data_free (GameData* game_data)
 
 
 void
-game_conquer_cards (GameField* game_field, GtkFieldCard* field_card)
+game_conquer_cards (GameField* game_field, GtkFieldCard* field_card, gboolean is_player_card)
 {
 	// find if there is a card near, compare values and check if can be obtained (gain)
 	gint near_r[4], near_c[4], position[4];
@@ -271,12 +278,21 @@ game_conquer_cards (GameField* game_field, GtkFieldCard* field_card)
 					
 					const gchar *card_name = gtk_widget_get_name (GTK_WIDGET (gtk_card_get_button (gtk_field_card_get_gtk_card (game_field_get_nth (game_field, near_r[near_i], near_c[near_i]) ))));
 					
-					if( strcmp( (char*) card_name, "togglebuttoncpuplayed") == 0 ){	// if the card is of the cpu
-						
-						// get the near card
-						gtk_widget_set_name (GTK_WIDGET (gtk_card_get_button (gtk_field_card_get_gtk_card ( game_field_get_nth (game_field, near_r[near_i], near_c[near_i]) ))), "togglebuttonuser");
-						
-					}
+					
+					if(is_player_card)
+						if( strcmp( (char*) card_name, "togglebuttoncpuplayed") == 0 ){	// if the card is of the cpu
+							
+							// get the near card
+							gtk_widget_set_name (GTK_WIDGET (gtk_card_get_button (gtk_field_card_get_gtk_card ( game_field_get_nth (game_field, near_r[near_i], near_c[near_i]) ))), "togglebuttonuser");
+							
+						}
+					else
+						if( strcmp( (char*) card_name, "togglebuttonuser") == 0 ){	// if the card is of the player
+							
+							// get the near card
+							gtk_widget_set_name (GTK_WIDGET (gtk_card_get_button (gtk_field_card_get_gtk_card ( game_field_get_nth (game_field, near_r[near_i], near_c[near_i]) ))), "togglebuttoncpuplayed");
+							
+						}
 				}
 			}
 		}
