@@ -75,6 +75,13 @@ on_buttonfield_toggled (GtkToggleButton* button, gpointer user_data)
                 gtk_main_iteration ();
             Sleep (1000);
             */
+            
+            int i;
+            
+            // set insensitive to prevent player from move twice
+            for (i=0; i<cards_hand_get_cards_num(player_hand); i++)
+	    		gtk_widget_set_sensitive (GTK_WIDGET(gtk_card_get_button ( cards_hand_get_nth( player_hand, i) )), FALSE);
+            
             g_timeout_add( 1000,	// 1 second
                       on_timeout_cpu_moves,
                       (gpointer) user_data );
@@ -83,6 +90,7 @@ on_buttonfield_toggled (GtkToggleButton* button, gpointer user_data)
         }
         else
             gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
+        
     }
 
     return ;
@@ -99,6 +107,15 @@ on_timeout_cpu_moves( gpointer user_data ){
     GtkScore* cpu_score = (GtkScore*) game_data->cpu_score;
 	
 	game_play_cpu_card_greedy (game_field, cpu_hand, player_score, cpu_score);
+	
+	
+    int i;
+    
+    // after the cpu moves, the player can newly select cards (only not void cards)
+    for (i=0; i<cards_hand_get_cards_num(player_hand); i++)
+    	if( strcmp(gtk_widget_get_name (GTK_WIDGET(gtk_card_get_button ( cards_hand_get_nth( player_hand, i) ))), "togglebuttonuser")==0 )
+			gtk_widget_set_sensitive (GTK_WIDGET(gtk_card_get_button ( cards_hand_get_nth( player_hand, i) )), TRUE);
+    
 	
 	return FALSE;	// if true this function would be called at regular timing, with false it will execute only once
 }

@@ -85,6 +85,8 @@ game_play_cpu_card_random (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 	    return TRUE;
 	}
 
+	// if there is no card in hand, or no place in field, return with false
+
 	return FALSE;
 }
 
@@ -222,7 +224,7 @@ game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 		}
 	}
 	
-	// if there is no gain play a random card
+	// if there is no gain play a random card (when there is no card to play nor zone free on the field cpu_random will return false)
 	return game_play_cpu_card_random (game_field, cpu_hand, player_score, cpu_score);
 	
 
