@@ -19,6 +19,7 @@ guint game_field_get_cols (GameField* game_field);
 GtkFieldCard* game_field_get_nth (GameField* game_field, guint row, guint col);
 GtkFieldCard* game_field_get_random (GameField* game_field); // actually gets first free spot on game field
 GtkFieldCard* game_field_get_selected (GameField* game_field);
+void game_field_force_redraw (GameField* game_field);
 void game_field_free (GameField* game_field);
 
 #endif

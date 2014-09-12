@@ -67,8 +67,13 @@ on_buttonfield_toggled (GtkToggleButton* button, gpointer user_data)
 
     if (clicked_state == FALSE){ // this operates when you click on an empty place in the game field
 
-        if (game_play_player_card_selected (game_field, player_hand, player_score, cpu_score) == TRUE)           
+        if (game_play_player_card_selected (game_field, player_hand, player_score, cpu_score) == TRUE) {
+            game_field_force_redraw (game_field); // sets field widgets in "redraw" state
+            while (gtk_events_pending ()) // used to redraw widgets
+                gtk_main_iteration ();
+            sleep (1);      
             game_play_cpu_card_greedy (game_field, cpu_hand, player_score, cpu_score);
+        }
         else
             gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
     }

@@ -89,6 +89,20 @@ game_field_get_selected (GameField* game_field)
 	return NULL; // "should" never return NULL
 }
 
+void
+game_field_force_redraw (GameField* game_field)
+{
+	guint i, j;
+
+	for (i = 0; i < game_field_get_rows (game_field); i++){
+		for (j = 0; j < game_field_get_cols (game_field); j++){
+			gtk_widget_queue_draw (GTK_WIDGET (gtk_card_get_button (gtk_field_card_get_gtk_card (game_field_get_nth (game_field, i, j)))));
+		}
+	}
+
+	return ;
+}
+
 void 
 game_field_free (GameField* game_field)
 {
