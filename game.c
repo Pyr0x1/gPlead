@@ -96,9 +96,9 @@ game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 {
 	GtkCard* cpu_card = NULL;
 	GtkFieldCard* field_card = NULL;
+	GamePath* game_path;
 	gboolean find;
 	guint r, c, i, j;
-	gint **path;
 	
 	find = FALSE;
 
@@ -119,7 +119,7 @@ game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 		return game_play_cpu_card_random (game_field, cpu_hand, player_score, cpu_score);
 	
 	// get a path to scan the field in a non obvious way
-	path = generate_random_path (game_field_get_cols (game_field), game_field_get_rows (game_field));
+	game_path = game_path_new_random (game_field_get_cols (game_field), game_field_get_rows (game_field));
 	
 	// otherwise make a greedy choice (first card with gain will be played)
 	find = FALSE;
@@ -133,8 +133,8 @@ game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 				for (c = 0; c < game_field_get_cols (game_field) && !find; c++){*/
 			for (j = 0; j < game_field_get_rows (game_field) * game_field_get_cols (game_field); j++){
 					
-					r = path[j][0];
-					c = path[j][1];
+					r = game_path_get_nth_row (game_path, j);
+					c = game_path_get_nth_col (game_path, j);
 					
 					// get a place on the field
 					field_card = game_field_get_nth (game_field, r, c);
@@ -222,7 +222,7 @@ game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 												/*for (i = 0; i < game_field_get_rows (game_field) * game_field_get_cols (game_field); i++)
 													free (path[i]);
 												free (path);*/
-												free_path (path, game_field_get_cols (game_field), game_field_get_rows (game_field));
+												game_path_free (game_path);
 												
 											    return TRUE;
 											}
@@ -242,7 +242,7 @@ game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 	/*for (i = 0; i < game_field_get_rows (game_field) * game_field_get_cols (game_field); i++)
 		free (path[i]);
 	free (path);*/
-	free_path (path, game_field_get_cols (game_field), game_field_get_rows (game_field));
+	game_path_free (game_path);
 	
 	// if there is no gain play a random card (when there is no card to play nor zone free on the field cpu_random will return false)
 	return game_play_cpu_card_random (game_field, cpu_hand, player_score, cpu_score);
