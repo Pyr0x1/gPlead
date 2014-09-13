@@ -89,7 +89,8 @@ on_buttonfield_toggled (GtkToggleButton* button, gpointer user_data)
             //game_play_cpu_card_greedy (game_field, cpu_hand, player_score, cpu_score);
         }
         else
-            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
+        	if( strcmp( gtk_widget_get_name (GTK_WIDGET( button )), "togglebuttoncpuplayed")!=0 && strcmp( gtk_widget_get_name (GTK_WIDGET( button )), "togglebuttonuser")!=0 )
+            	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
         
     }
 
