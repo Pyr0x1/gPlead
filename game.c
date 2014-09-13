@@ -90,13 +90,54 @@ game_play_cpu_card_random (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 	return FALSE;
 }
 
+// return a vector of coordinates row-column (int[num_col*num_row][2], equivalent to int[num_cards_in_field][2])
+// the path can be used to scan the field in an unordered way
+int**
+generate_random_path(int num_col, int num_row){
+	int ** path;
+	int i;
+	int choice;
+	
+	path= (int **)calloc( num_col*num_row, sizeof(int*));
+	
+	for (i=0; i< num_col*num_row; i++)
+		path[i]= (int *)calloc( 2, sizeof(int));
+	
+	choice= rand()%3;
+	
+	switch(choice){
+		case 0:	// ordered
+			for (i=0; i< num_col*num_row; i++){
+				path[i][0]=i/ num_col;	// row
+				path[i][1]=i% num_col;	// col
+			}
+			break;
+		case 1: // ordered inverse
+			for (i=0; i< num_col*num_row; i++){
+				path[i][0]= (num_col*num_row-i-1)/ num_col;	// row
+				path[i][1]= (num_col*num_row-i-1)% num_col;	// col
+			}
+			break;
+		case 2: // column ordered, from bottom left to top right
+			for (i=0; i< num_col*num_row; i++){
+				path[i][0]= (num_col*num_row-i-1)% num_row;	// row
+				path[i][1]= (i)/ num_col;	// col
+			}
+			break;
+	}
+	
+	
+	return path;
+}
+
 gboolean 
 game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore* player_score, GtkScore* cpu_score)
 {
 	GtkCard* cpu_card = NULL;
 	GtkFieldCard* field_card = NULL;
 	gboolean find;
-	guint r,c,i;
+	guint r,c,i,j;
+	int **path;
 	
 	find = FALSE;
 
@@ -117,6 +158,9 @@ game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 		return game_play_cpu_card_random (game_field, cpu_hand, player_score, cpu_score);
 	
 	
+	// get a path to scan the field in a non obvious way
+	path= generate_random_path( game_field_get_cols (game_field), game_field_get_rows (game_field) );
+	
 	// otherwise make a greedy choice (first card with gain will be played)
 	find = FALSE;
 	for (i = 0; i < cards_hand_get_cards_num (cpu_hand) && !find; i++){
@@ -124,9 +168,14 @@ game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 			
 			// get a card on cpu hand
 			cpu_card = cards_hand_get_nth (cpu_hand, i);
-			
+			/*
 			for (r = 0; r < game_field_get_rows (game_field) && !find; r++){
-				for (c = 0; c < game_field_get_cols (game_field) && !find; c++){
+				for (c = 0; c < game_field_get_cols (game_field) && !find; c++){*/
+			for (j=0; j< game_field_get_rows (game_field)*game_field_get_cols (game_field); j++){{
+					
+					r= path[j][0];
+					c= path[j][1];
+					
 					// get a place on the field
 					field_card = game_field_get_nth (game_field, r, c);
 					
@@ -209,6 +258,11 @@ game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 												
 												game_conquer_cards (game_field, field_card, FALSE, player_score, cpu_score);
 												
+												// free path
+												for (i=0; i<game_field_get_rows (game_field)*game_field_get_cols (game_field); i++)
+													free (path[i]);
+												free (path);
+												
 											    return TRUE;
 											}
 											
@@ -219,10 +273,14 @@ game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 							}
 						}
 					}
-				}
-			}
+			}}
 		}
 	}
+	
+	// free path
+	for (i=0; i<game_field_get_rows (game_field)*game_field_get_cols (game_field); i++)
+		free (path[i]);
+	free (path);
 	
 	// if there is no gain play a random card (when there is no card to play nor zone free on the field cpu_random will return false)
 	return game_play_cpu_card_random (game_field, cpu_hand, player_score, cpu_score);
