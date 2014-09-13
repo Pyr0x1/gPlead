@@ -8,16 +8,17 @@ enum position {
 	TOP,
 	RIGHT,
 	DOWN,
-	LEFT
+	LEFT,
+	SIDES_NUM
 
 };
 
 typedef struct card {
 
 	guint top;
+	guint right;
 	guint down;
 	guint left;
-	guint right;
 
 } Card;
 
