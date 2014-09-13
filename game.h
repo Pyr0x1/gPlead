@@ -26,8 +26,7 @@ gboolean game_play_cpu_card_random (GameField* game_field, CardsHand* cpu_hand, 
 gboolean game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore* player_score, GtkScore* cpu_score);
 gboolean game_play_cpu_card_best (GameField* game_field, CardsHand* cpu_hand);	// TODO
 
-int** generate_random_path(int num_col, int num_row);
 void game_conquer_cards (GameField* game_field, GtkFieldCard* field_card, gboolean is_player_card, GtkScore* player_score, GtkScore* cpu_score);
 
-#endif
+#endif /* GAME_H */
 
