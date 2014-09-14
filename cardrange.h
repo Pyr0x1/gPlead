@@ -2,6 +2,7 @@
 #define CARDRANGE_H
 
 #include "range.h"
+#include "card.h"
 
 typedef struct cardrange {
 
@@ -21,6 +22,7 @@ guint card_range_get_random_value_top (CardRange* card_range);
 guint card_range_get_random_value_right (CardRange* card_range);
 guint card_range_get_random_value_down (CardRange* card_range);
 guint card_range_get_random_value_left (CardRange* card_range);
+Card* card_range_get_random_card (CardRange* card_range);
 void card_range_free (CardRange* card_range);
 
 #endif /* CARDRANGE_H */

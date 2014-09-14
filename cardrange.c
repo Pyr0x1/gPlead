@@ -63,6 +63,13 @@ card_range_get_random_value_left (CardRange* card_range)
 	return range_get_random_value (card_range->left);
 }
 
+Card* card_range_get_random_card (CardRange* card_range){
+	return card_new_with_values (	range_get_random_value (card_range->top),
+			range_get_random_value (card_range->down),
+			range_get_random_value (card_range->left),
+			range_get_random_value (card_range->right));
+}
+
 void
 card_range_free (CardRange* card_range)
 {
