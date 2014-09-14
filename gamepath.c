@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include "gamepath.h"
 
@@ -23,6 +22,7 @@ game_path_new_random (guint num_col, guint num_row)
 	game_path->num_col = num_col;
 
 	choice = rand() % 3;
+	
 	
 	switch (choice){
 		case 0:	// ordered
