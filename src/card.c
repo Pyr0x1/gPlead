@@ -30,11 +30,26 @@ card_new_random (guint max)
 	Card* new = (Card*) calloc (1, sizeof(Card));
 
 	//srand(time(NULL));
-
+	
+	
 	new->top = rand() % max + 1;
 	new->down = rand() % max + 1;
 	new->left = rand() % max + 1;
 	new->right = rand() % max + 1;
+	
+	
+	return new;
+}
+
+Card*
+card_new_from_ranges (Range* range_top, Range* range_down, Range* range_left, Range* range_right)
+{
+	Card* new = (Card*) calloc (1, sizeof(Card));
+
+	new->top = range_get_random_value (range_top);
+	new->down = range_get_random_value (range_down);
+	new->left = range_get_random_value (range_left);
+	new->right = range_get_random_value (range_right);
 
 	return new;
 }

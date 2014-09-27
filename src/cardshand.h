@@ -14,6 +14,7 @@ typedef struct cardshand {
 CardsHand* cards_hand_new (guint cards_num);
 void cards_hand_add_empty (CardsHand* hand, GtkToggleButton* button);
 void cards_hand_add_random (CardsHand* hand, GtkToggleButton* button, guint rand_value, gboolean show);
+void cards_hand_add_from_collection (CardsHand* hand, GtkToggleButton* button, Collection* collection, guint level, gboolean show);
 
 GtkCard* cards_hand_get_nth (CardsHand* hand, guint num);
 GtkCard* cards_hand_get_random (CardsHand* hand); // actually gets the first not played card

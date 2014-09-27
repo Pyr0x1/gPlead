@@ -20,10 +20,21 @@ game_data_new (guint cards_num, guint field_num, GuiData* gui_data)
     game_data->player_hand = cards_hand_new (cards_num);
     game_data->cpu_hand = cards_hand_new (cards_num);
 
+
+	// creates collection of cards from file
+	Collection *coll = NULL;
+	coll = collection_load_file ("data/collection_1.txt");
+	
+	if (coll == NULL)
+		return NULL;
+
     for (i = 0; i < cards_num; i++){
-    	cards_hand_add_random (game_data->player_hand, GTK_TOGGLE_BUTTON (player_buttons[i]), 9, TRUE);
-    	cards_hand_add_random (game_data->cpu_hand, GTK_TOGGLE_BUTTON (cpu_buttons[i]), 9, FALSE);
+    	cards_hand_add_from_collection (game_data->player_hand, GTK_TOGGLE_BUTTON (player_buttons[i]), coll, i, TRUE);
+    	cards_hand_add_from_collection (game_data->cpu_hand, GTK_TOGGLE_BUTTON (cpu_buttons[i]), coll, i, FALSE);
     }
+
+	// collection no more needed
+	collection_free (coll);
 
     // Creates game field
     game_data->game_field = game_field_new (field_num);

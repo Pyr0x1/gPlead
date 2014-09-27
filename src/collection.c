@@ -3,7 +3,9 @@
 #include "collection.h"
 
 
-Collection* collection_load_file (gchar* filename){
+Collection*
+collection_load_file (gchar* filename)
+{
 	Collection* col;
 	FILE *in;
 	guint i, j;
@@ -11,16 +13,23 @@ Collection* collection_load_file (gchar* filename){
 	guint id, min_top, max_top, min_left, max_left, min_right, max_right, min_bottom, max_bottom;
 	
 	
+	if (filename == NULL)
+		return NULL;
+	
 	in = fopen (filename, "r");
 	if (!in)
 		return NULL;
 	
-	col = (Collection*) calloc ( 1, sizeof (Collection));
+	col = (Collection*) calloc (1, sizeof (Collection));
 	
 	fscanf (in, "%d", &col->level_num);
 	col->card_num = (guint*) calloc ( col->level_num, sizeof (guint));
 	for (i = 0; i < col->level_num; i++)
 		fscanf (in, "%d", &col->card_num[i]);
+	
+	col->card_list = (CardRange***) calloc (col->level_num, sizeof(CardRange**));
+	for (i = 0; i < col->level_num; i++)
+		col->card_list[i] = (CardRange**) calloc (col->card_num[i], sizeof(CardRange*));
 	
 	for (i = 0; i < col->level_num; i++)
 		for (j = 0; j < col->card_num[i]; j++){
@@ -42,20 +51,43 @@ Collection* collection_load_file (gchar* filename){
 }
 
 
-guint collection_get_level_number (Collection* collection){
+guint
+collection_get_level_number (Collection* collection)
+{
+	if (collection == NULL)
+		return 0;
 	return collection->level_num;
 }
 
-guint collection_get_card_number (Collection* collection, guint level){
-	return collection->card_num[level];
+guint
+collection_get_card_number (Collection* collection, guint level)
+{
+	if (collection == NULL)
+		return 0;
+	if (level < collection->level_num)
+		return collection->card_num [level];
+	else
+		return collection->card_num [0];
 }
 
-CardRange* collection_get_card_range (Collection* collection, guint level, guint i){
-	return collection->card_list[level][i];
+CardRange*
+collection_get_card_range (Collection* collection, guint level, guint i)
+{
+	if (collection == NULL)
+		return NULL;
+	if (level < collection->level_num && i < collection->card_num [level])
+		return collection->card_list[level][i];
+	else
+		return collection->card_list [0][0];
 }
 
-void collection_free (Collection* collection){
+void
+collection_free (Collection* collection)
+{
 	guint i, j;
+	
+	if (collection == NULL)
+		return;
 	
 	for (i = 0; i < collection->level_num; i++){
 		for (j = 0; j < collection->card_num[i]; j++)
@@ -63,6 +95,7 @@ void collection_free (Collection* collection){
 		
 		free (collection->card_list[i]);
 	}
+
 	free (collection->card_list);
 	free (collection->card_num);
 }

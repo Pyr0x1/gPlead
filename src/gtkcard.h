@@ -3,6 +3,7 @@
 
 #include <gtk/gtk.h>
 #include "card.h"
+#include "collection.h"
 
 typedef struct gtkcard {
 
@@ -15,6 +16,7 @@ typedef struct gtkcard {
 GtkCard* gtk_card_new_empty (GtkToggleButton* button);
 GtkCard* gtk_card_new_with_values (GtkToggleButton* button, guint top, guint down, guint left, guint right, gboolean show);
 GtkCard* gtk_card_new_random (GtkToggleButton* button, guint max, gboolean show);
+GtkCard* gtk_card_new_from_collection (GtkToggleButton* button, Collection* card_collection, guint level, gboolean show);
 void gtk_card_set_full (GtkCard* gcard);
 GtkToggleButton* gtk_card_get_button (GtkCard* gcard);
 gboolean gtk_card_is_selected (GtkCard* gcard);

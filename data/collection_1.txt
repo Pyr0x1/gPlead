@@ -16,3 +16,4 @@
 level_num
 card_num[0] card_num[1] ... card_num[level_num-1]
 id	top	left	right	bottom
+

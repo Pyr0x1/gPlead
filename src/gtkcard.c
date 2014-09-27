@@ -65,6 +65,38 @@ gtk_card_new_random (GtkToggleButton* button, guint max, gboolean show)
 	return new;
 }
 
+GtkCard*
+gtk_card_new_from_collection (GtkToggleButton* button, Collection* card_collection, guint level, gboolean show)
+{
+	CardRange* card_range = NULL;
+	GtkCard* new = (GtkCard*) calloc (1, sizeof(GtkCard));
+	gchar buff[256];
+	guint num_cards = collection_get_card_number (card_collection, level);
+	guint rand_i = rand() % num_cards; 
+
+	card_range = collection_get_card_range (card_collection, level, rand_i);
+
+	new->button = button;
+	new->card = card_new_from_ranges (card_range_get_top (card_range), 
+									  card_range_get_down (card_range),
+									  card_range_get_left (card_range),
+									  card_range_get_right (card_range));
+	new->full = TRUE;
+
+	if (show){
+		sprintf (buff, "\t%d\n\n%d\t\t%d\n\n\t%d", card_get_top_value (new->card),
+												   card_get_left_value (new->card),
+												   card_get_right_value (new->card),
+												   card_get_down_value (new->card));
+
+		gtk_button_set_label (GTK_BUTTON (new->button), buff);
+	}
+	else
+		gtk_button_set_label (GTK_BUTTON (new->button), "\t \n\n \t\t  \n\n\t ");
+
+	return new;
+}
+
 void
 gtk_card_set_full (GtkCard* gcard)
 {

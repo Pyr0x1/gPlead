@@ -28,7 +28,10 @@ range_get_max (Range* range)
 guint
 range_get_random_value (Range* range)
 {
-	return (rand() % (range->max - range->min)) + range->min;
+	if (range->max != range->min)
+		return (rand() % (range->max - range->min)) + range->min;
+	else
+		return range->max;	// if max == min the range is actually only a value
 }
 
 void

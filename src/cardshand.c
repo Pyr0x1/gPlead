@@ -42,6 +42,20 @@ cards_hand_add_random (CardsHand* hand, GtkToggleButton* button, guint rand_valu
 	return ;
 }
 
+void
+cards_hand_add_from_collection (CardsHand* hand, GtkToggleButton* button, Collection* collection, guint level, gboolean show)
+{
+	guint i;
+
+	for (i = 0; i < hand->cards_num; i++)
+		if (hand->gcards[i] == NULL)
+			break;
+
+	hand->gcards[i] = gtk_card_new_from_collection (button, collection, level, show);
+
+	return ;
+}
+
 GtkCard* 
 cards_hand_get_nth (CardsHand* hand, guint num)
 {
