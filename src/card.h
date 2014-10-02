@@ -7,9 +7,9 @@
 enum position {
 
 	TOP,
+	LEFT,
 	RIGHT,
 	DOWN,
-	LEFT,
 	SIDES_NUM
 
 };
