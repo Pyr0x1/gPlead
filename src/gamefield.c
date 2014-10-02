@@ -20,11 +20,14 @@ game_field_new (guint field_num)
 	return new;
 }
 
-void
+gint
 game_field_add (GameField* game_field, GtkToggleButton* button)
 {
 	guint i, j;
 
+	if (!game_field || !button)
+		return -1;
+	
 	for (i = 0; i < game_field->rows; i++)
 		for (j = 0; j < game_field->cols; j++)
 			if (game_field_get_nth (game_field, i, j) == NULL)
@@ -32,26 +35,38 @@ game_field_add (GameField* game_field, GtkToggleButton* button)
 
 	outofloop:
 
+	if (i >= game_field->rows || j >= game_field->cols)
+		return -1;
+	
 	game_field->gfield[i][j] = gtk_field_card_new_empty (button, i, j);
 
-	return ;
+	return 0;
 }
 
-guint 
+gint
 game_field_get_rows (GameField* game_field)
 {
+	if (!game_field)
+		return -1;
+	
 	return game_field->rows;
 }
 
-guint 
+gint
 game_field_get_cols (GameField* game_field)
 {
+	if (!game_field)
+		return -1;
+	
 	return game_field->cols;
 }
 
 GtkFieldCard*
 game_field_get_nth (GameField* game_field, guint row, guint col)
 {
+	if (!game_field)
+		return NULL;
+	
 	return game_field->gfield[row][col];
 }
 
@@ -61,6 +76,9 @@ game_field_get_random (GameField* game_field)
 	GtkFieldCard* tmp_card;
 	guint i, j;
 
+	if (!game_field)
+		return NULL;
+	
 	for (i = 0; i < game_field_get_rows (game_field); i++){
 		for (j = 0; j < game_field_get_cols (game_field); j++){
 			tmp_card = game_field_get_nth (game_field, i, j);
@@ -78,6 +96,9 @@ game_field_get_selected (GameField* game_field)
 	GtkFieldCard* field_card;
 	guint i, j;
 
+	if (!game_field)
+		return NULL;
+	
 	for (i = 0; i < game_field_get_rows (game_field); i++){
         for (j = 0; j < game_field_get_cols (game_field); j++){
             field_card = game_field_get_nth (game_field, i, j);
@@ -94,13 +115,16 @@ game_field_force_redraw (GameField* game_field)
 {
 	guint i, j;
 
+	if (!game_field)
+		return;
+	
 	for (i = 0; i < game_field_get_rows (game_field); i++){
 		for (j = 0; j < game_field_get_cols (game_field); j++){
 			gtk_widget_queue_draw (GTK_WIDGET (gtk_card_get_button (gtk_field_card_get_gtk_card (game_field_get_nth (game_field, i, j)))));
 		}
 	}
 
-	return ;
+	return;
 }
 
 void 
@@ -108,6 +132,9 @@ game_field_free (GameField* game_field)
 {
 	guint i, j;
 
+	if (!game_field)
+		return;
+	
 	for (i = 0; i < game_field_get_rows (game_field); i++){
 		for (j = 0; j < game_field_get_cols (game_field); j++){
 			gtk_field_card_free (game_field->gfield[i][j]);
@@ -120,5 +147,6 @@ game_field_free (GameField* game_field)
 	free (game_field->gfield);
 	free (game_field);
 
-	return ;
+	return;
 }
+

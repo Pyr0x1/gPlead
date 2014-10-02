@@ -10,3 +10,4 @@ void on_buttonfield_toggled (GtkToggleButton* button, gpointer user_data);
 gint on_timeout_cpu_moves( gpointer user_data );
 
 #endif /* HANDLERS_H */
+

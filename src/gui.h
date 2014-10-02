@@ -27,8 +27,9 @@ GtkWidget* gui_data_get_cpu_button_nth (GuiData* gui_data, guint n);
 GtkWidget* gui_data_get_field_button_nth (GuiData* gui_data, guint row, guint col);
 GtkWidget* gui_data_get_player_score_label (GuiData* gui_data);
 GtkWidget* gui_data_get_cpu_score_label (GuiData* gui_data);
-guint gui_data_get_cards_num (GuiData* gui_data);
-guint gui_data_get_field_num (GuiData* gui_data);
+gint gui_data_get_cards_num (GuiData* gui_data);
+gint gui_data_get_field_num (GuiData* gui_data);
 void gui_data_free (GuiData* gui_data);
 
 #endif /* GUI_H */
+

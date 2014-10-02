@@ -17,3 +17,4 @@ gint game_path_get_nth_col (GamePath* game_path, guint n);
 void game_path_free (GamePath* game_path);
 
 #endif /* GAMEPATH_H */
+

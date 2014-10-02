@@ -5,6 +5,9 @@
 GtkScore*
 gtk_score_new (GtkLabel* label)
 {
+	if (!label)
+		return NULL;
+
 	GtkScore* new = (GtkScore*) calloc (1, sizeof (GtkScore));
 	gchar buff[256];
 
@@ -16,52 +19,67 @@ gtk_score_new (GtkLabel* label)
 	return new;
 }
 
-void
+gint
 gtk_score_inc (GtkScore* gscore)
 {
+	if (!gscore)
+		return -1;
+
 	gchar buff[256];
 
 	gscore->score++;
 	sprintf (buff, "%d", gscore->score);
 	gtk_label_set_text (gscore->label, buff);
 
-	return ;
+	return 0;
 }
 
-void
+gint
 gtk_score_dec (GtkScore* gscore)
 {
+	if (!gscore)
+		return -1;
+	
 	gchar buff[256];
 
 	gscore->score--;
 	sprintf (buff, "%d", gscore->score);
 	gtk_label_set_text (gscore->label, buff);
 
-	return ;
+	return 0;
 }
 
-void
+gint
 gtk_score_reset (GtkScore* gscore)
 {
+	if (!gscore)
+		return -1;
+	
 	gchar buff[256];
 
 	gscore->score = 0;
 	sprintf (buff, "%d", gscore->score);
 	gtk_label_set_text (gscore->label, buff);
 
-	return ;
+	return 0;
 }
 
-guint
+gint
 gtk_score_get (GtkScore* gscore)
 {
+	if (!gscore)
+		return -1;
+	
 	return gscore->score;
 }
 
 void
 gtk_score_free (GtkScore* gscore)
 {
+	if (!gscore)
+		return;
 	free (gscore);
 
-	return ;
+	return;
 }
+

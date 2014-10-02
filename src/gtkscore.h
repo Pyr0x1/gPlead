@@ -11,10 +11,11 @@ typedef struct gtkscore {
 } GtkScore;
 
 GtkScore* gtk_score_new (GtkLabel* label);
-void gtk_score_inc (GtkScore* gscore);
-void gtk_score_dec (GtkScore* gscore);
-void gtk_score_reset (GtkScore* gscore);
-guint gtk_score_get (GtkScore* gscore);
+gint gtk_score_inc (GtkScore* gscore);
+gint gtk_score_dec (GtkScore* gscore);
+gint gtk_score_reset (GtkScore* gscore);
+gint gtk_score_get (GtkScore* gscore);
 void gtk_score_free (GtkScore* gscore);
 
 #endif /* GTKSCORE_H */
+

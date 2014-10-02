@@ -15,6 +15,9 @@ handlers_connect_all (GuiData* gui_data, GameData* game_data)
 {
     guint i, j;
 
+	if (!gui_data || !game_data)
+		return;
+	
     for (i = 0; i < gui_data_get_cards_num(gui_data); i++)
         g_signal_connect (G_OBJECT (gui_data_get_player_button_nth (gui_data, i)), "toggled", G_CALLBACK (on_buttonuser_toggled), (gpointer) game_data);
 
@@ -25,7 +28,7 @@ handlers_connect_all (GuiData* gui_data, GameData* game_data)
         }
     }
 
-    return ;
+    return;
 }
 
 void
@@ -49,7 +52,7 @@ on_buttonuser_toggled (GtkToggleButton* button, gpointer user_data)
         }
     }
 
-    return ;
+    return;
 }
 
 void

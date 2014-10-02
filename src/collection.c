@@ -51,23 +51,23 @@ collection_load_file (gchar* filename)
 }
 
 
-guint
+gint
 collection_get_level_number (Collection* collection)
 {
 	if (collection == NULL)
-		return 0;
+		return -1;
 	return collection->level_num;
 }
 
-guint
+gint
 collection_get_card_number (Collection* collection, guint level)
 {
 	if (collection == NULL)
-		return 0;
+		return -1;
 	if (level < collection->level_num)
 		return collection->card_num [level];
 	else
-		return collection->card_num [0];
+		return -1;
 }
 
 CardRange*
@@ -78,7 +78,7 @@ collection_get_card_range (Collection* collection, guint level, guint i)
 	if (level < collection->level_num && i < collection->card_num [level])
 		return collection->card_list[level][i];
 	else
-		return collection->card_list [0][0];
+		return NULL;
 }
 
 void

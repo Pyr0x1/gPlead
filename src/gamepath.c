@@ -53,6 +53,9 @@ game_path_new_random (guint num_col, guint num_row)
 gint
 game_path_get_nth_row (GamePath* game_path, guint n)
 {
+	if (!game_path)
+		return -1;
+	
 	if (n < game_path->num_row * game_path->num_col)
 		return game_path->path[n][0];
 	else
@@ -62,6 +65,9 @@ game_path_get_nth_row (GamePath* game_path, guint n)
 gint
 game_path_get_nth_col (GamePath* game_path, guint n)
 {
+	if (!game_path)
+		return -1;
+	
 	if (n < game_path->num_row * game_path->num_col)
 		return game_path->path[n][1];
 	else
@@ -72,11 +78,15 @@ void
 game_path_free (GamePath* game_path)
 {
 	guint i;
+	
+	if (!game_path)
+		return;
 
 	for (i = 0; i < game_path->num_col * game_path->num_row; i++)
 		free (game_path->path[i]);
 	free (game_path->path);
 	free (game_path);
 
-	return ;
+	return;
 }
+

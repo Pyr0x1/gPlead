@@ -178,54 +178,81 @@ gui_create (guint cards_num, guint field_num)
 GtkWidget*
 gui_data_get_main_window (GuiData* gui_data)
 {
+	if (!gui_data)
+		return NULL;
+	
 	return gui_data->window;
 }
 
 GtkWidget**
 gui_data_get_player_buttons (GuiData* gui_data)
 {
+	if (!gui_data)
+		return NULL;
+	
 	return gui_data->player_buttons;
 }
 
 GtkWidget**
 gui_data_get_cpu_buttons (GuiData* gui_data)
 {
+	if (!gui_data)
+		return NULL;
+	
 	return gui_data->cpu_buttons;
 }
 
 GtkWidget***
 gui_data_get_field_buttons (GuiData* gui_data)
 {
+	if (!gui_data)
+		return NULL;
+	
 	return gui_data->field_buttons;
 }
 
 GtkWidget*
 gui_data_get_player_score_label (GuiData* gui_data)
 {
+	if (!gui_data)
+		return NULL;
+	
 	return gui_data->player_score_label;
 }
 
 GtkWidget*
 gui_data_get_cpu_score_label (GuiData* gui_data)
 {
+	if (!gui_data)
+		return NULL;
+	
 	return gui_data->cpu_score_label;
 }
 
-guint 
+gint 
 gui_data_get_cards_num (GuiData* gui_data)
 {
+	if (!gui_data)
+		return -1;
+	
 	return gui_data->cards_num;
 }
 
-guint
+gint
 gui_data_get_field_num (GuiData* gui_data)
 {
+	if (!gui_data)
+		return -1;
+	
 	return gui_data->field_num;
 }
 
 GtkWidget*
 gui_data_get_player_button_nth (GuiData* gui_data, guint n)
 {
+	if (!gui_data)
+		return NULL;
+	
 	if (n < gui_data->cards_num)
 		return gui_data->player_buttons[n];
 	else
@@ -236,16 +263,21 @@ gui_data_get_player_button_nth (GuiData* gui_data, guint n)
 GtkWidget*
 gui_data_get_cpu_button_nth (GuiData* gui_data, guint n)
 {
+	if (!gui_data)
+		return NULL;
+	
 	if (n < gui_data->cards_num)
 		return gui_data->cpu_buttons[n];
 	else
 		return NULL;
-
 }
 
 GtkWidget* 
 gui_data_get_field_button_nth (GuiData* gui_data, guint row, guint col)
 {
+	if (!gui_data)
+		return NULL;
+	
 	if (row < gui_data->field_num && col < gui_data->field_num)
 		return gui_data->field_buttons[row][col];
 	else
@@ -255,6 +287,9 @@ gui_data_get_field_button_nth (GuiData* gui_data, guint row, guint col)
 void
 gui_data_free (GuiData* gui_data)
 {
+	if (!gui_data)
+		return;
+	
 	// Only free allocated arrays, widgets should be handled by Gtk itself
 	free (gui_data->player_buttons);
 	free (gui_data->field_buttons); 
@@ -263,3 +298,4 @@ gui_data_free (GuiData* gui_data)
 
 	return ;
 }
+

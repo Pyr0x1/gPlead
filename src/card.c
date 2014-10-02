@@ -31,6 +31,8 @@ card_new_random (guint max)
 
 	//srand(time(NULL));
 	
+	if (max == 0)
+		max = 1;
 	
 	new->top = rand() % max + 1;
 	new->down = rand() % max + 1;
@@ -44,48 +46,77 @@ card_new_random (guint max)
 Card*
 card_new_from_ranges (Range* range_top, Range* range_down, Range* range_left, Range* range_right)
 {
+	if (!range_top || !range_down || !range_left || !range_right)
+		return NULL;
+	
 	Card* new = (Card*) calloc (1, sizeof(Card));
+	gint t, d, l, r;
 
-	new->top = range_get_random_value (range_top);
-	new->down = range_get_random_value (range_down);
-	new->left = range_get_random_value (range_left);
-	new->right = range_get_random_value (range_right);
+	t = range_get_random_value (range_top);
+	d = range_get_random_value (range_down);
+	l = range_get_random_value (range_left);
+	r = range_get_random_value (range_right);
 
+	if ( t == -1 || d == -1 || l == -1 || r == -1){
+		free (new);
+		return NULL;
+	}
+	
+	new->top = t;
+	new->down = d;
+	new->left = l;
+	new->right = r;
+	
 	return new;
 }
 
-void 
+gint
 card_set_values (Card* card, guint top, guint down, guint left, guint right)
 {
+	if (!card)
+		return -1;
+	
 	card->top = top;
 	card->down = down;
 	card->left = left;
 	card->right = right;
 
-	return ;
+	return 0;
 }
 
-guint 
+gint 
 card_get_top_value (Card* card)
 {
+	if (!card)
+		return -1;
+	
 	return card->top;
 }
 
-guint 
+gint 
 card_get_down_value (Card* card)
 {
+	if (!card)
+		return -1;
+	
 	return card->down;
 }
 
-guint 
+gint 
 card_get_left_value (Card* card)
 {
+	if (!card)
+		return -1;
+	
 	return card->left;
 }
 
-guint 
+gint 
 card_get_right_value (Card* card)
 {
+	if (!card)
+		return -1;
+	
 	return card->right;
 }
 
@@ -93,31 +124,40 @@ gint
 card_compare (Card* card1, Card* card2, guint position)
 {
 	gint result;
+	
+	if (!card1 || !card2)
+		return -10000;
+	
 
 	switch (position){
-		case TOP: // card1 on the top of card2
+		case TOP:	// card1 on the top of card2
 			result = card_get_down_value (card1) - card_get_top_value (card2);		
 			break;
-		case RIGHT: // card1 on the right of card2
+		case RIGHT:	// card1 on the right of card2
 			result = card_get_left_value (card1) - card_get_right_value (card2);
 			break;
-		case DOWN: // card1 below card2
+		case DOWN:	// card1 below card2
 			result = card_get_top_value (card1) - card_get_down_value (card2);
 			break;
-		case LEFT: // card1 on the left of card2
+		case LEFT:	// card1 on the left of card2
 			result = card_get_right_value (card1) - card_get_left_value (card2);
 			break;
 		default:
 			fprintf(stderr, "Warning: invalid position passed to function \"card_compare\"");
+			result = -10000;
 	}
 
 	return result;
 }
 
-void
+gint
 card_switch_content (Card* card1, Card* card2)
 {
 	Card tmp;
+	
+	if (!card1 || !card2)
+		return -1;
+	
 
 	tmp.top = card1->top;
 	tmp.down = card1->down;
@@ -134,24 +174,31 @@ card_switch_content (Card* card1, Card* card2)
 	card2->left = tmp.left;
 	card2->right = tmp.right;
 
-	return ;
+	return 0;
 }
 
-void 
+gint
 card_clear (Card* card)
 {
+	if (!card)
+		return -1;
+	
 	card->top = 0;
 	card->down = 0;
 	card->left = 0;
 	card->right = 0;
 
-	return ;
+	return 0;
 }
 
 void
 card_free (Card* card)
 {
+	if (!card)
+		return;
+	
 	free(card);
 
-	return ;
+	return;
 }
+

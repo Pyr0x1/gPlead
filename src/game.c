@@ -7,6 +7,9 @@
 GameData* 
 game_data_new (guint cards_num, guint field_num, GuiData* gui_data)
 {
+	if (!gui_data)
+		return NULL;
+	
 	GameData* game_data = (GameData *) calloc (1, sizeof (GameData));
 	GtkWidget** player_buttons = gui_data_get_player_buttons (gui_data);
     GtkWidget*** field_buttons = gui_data_get_field_buttons (gui_data);
@@ -120,7 +123,7 @@ game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 			field_card = game_field_get_nth (game_field, r, c);
 			
 			// if it's full
-			if( gtk_card_is_full ( gtk_field_card_get_gtk_card ( field_card))){
+			if( gtk_card_is_full ( gtk_field_card_get_gtk_card (field_card))){
 				find = TRUE;		// end the search
 			}
 		}
@@ -354,6 +357,9 @@ game_conquer_cards (GameField* game_field, GtkFieldCard* field_card, gboolean is
 void 
 game_data_free (GameData* game_data)
 {
+	if (!game_data)
+		return;
+	
 	game_field_free (game_data->game_field);
     cards_hand_free (game_data->player_hand);
     cards_hand_free (game_data->cpu_hand);
@@ -361,5 +367,6 @@ game_data_free (GameData* game_data)
     gtk_score_free (game_data->cpu_score);
     free (game_data);
 
-	return ;
+	return;
 }
+

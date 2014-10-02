@@ -12,8 +12,8 @@ typedef struct collection_ {
 } Collection;
 
 Collection* collection_load_file (gchar* filename);
-guint collection_get_level_number (Collection* collection);
-guint collection_get_card_number (Collection* collection, guint level);
+gint collection_get_level_number (Collection* collection);
+gint collection_get_card_number (Collection* collection, guint level);
 CardRange* collection_get_card_range (Collection* collection, guint level, guint i);
 void collection_free (Collection* collection);
 
