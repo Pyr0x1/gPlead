@@ -110,6 +110,24 @@ game_field_get_selected (GameField* game_field)
 	return NULL; // "should" never return NULL
 }
 
+gint
+game_field_clear (GameField* game_field)
+{
+	guint i, j;
+
+	if (!game_field)
+		return -1;
+
+	for (i = 0; i < game_field_get_rows (game_field); i++){
+		for (j = 0; j < game_field_get_cols (game_field); j++){
+			if (gtk_field_card_clear (game_field_get_nth (game_field, i, j)) == -1)
+				return -1;
+		}
+	}
+
+	return 0;
+}
+
 void
 game_field_force_redraw (GameField* game_field)
 {
@@ -124,7 +142,7 @@ game_field_force_redraw (GameField* game_field)
 		}
 	}
 
-	return;
+	return ;
 }
 
 void 
@@ -133,7 +151,7 @@ game_field_free (GameField* game_field)
 	guint i, j;
 
 	if (!game_field)
-		return;
+		return ;
 	
 	for (i = 0; i < game_field_get_rows (game_field); i++){
 		for (j = 0; j < game_field_get_cols (game_field); j++){
@@ -147,6 +165,6 @@ game_field_free (GameField* game_field)
 	free (game_field->gfield);
 	free (game_field);
 
-	return;
+	return ;
 }
 

@@ -74,11 +74,20 @@ gtk_field_card_get_col (GtkFieldCard* gfcard)
 	return gfcard->col;
 }
 
+gint
+gtk_field_card_clear (GtkFieldCard* gfcard)
+{
+	if (!gfcard)
+		return -1;
+
+	return gtk_card_clear (gfcard->gcard);
+}
+
 void
 gtk_field_card_free (GtkFieldCard* gfcard)
 {
 	if (!gfcard)
-		return;
+		return ;
 	
 	gtk_card_free (gfcard->gcard);
 	free (gfcard);

@@ -103,7 +103,7 @@ gtk_card_new_from_collection (GtkToggleButton* button, Collection* card_collecti
 	}
 	guint rand_i = rand() % num_cards;
 
-	card_range = collection_get_card_range (card_collection, level, rand_i);
+	card_range = collection_get_card_range (card_collection, level, rand_i); // not freed because collection is entirely freed later
 
 	new->button = button;
 	//new->card = card_new_from_ranges (card_range_get_top (card_range), 
@@ -141,6 +141,33 @@ gtk_card_new_from_collection (GtkToggleButton* button, Collection* card_collecti
 }
 
 gint
+gtk_card_set_from_collection (GtkCard* gcard, Collection* card_collection, guint level, gboolean show)
+{
+	Card* tmp_card = NULL;
+
+	if (!gcard || !card_collection)
+		return -1;
+
+	CardRange* card_range = NULL;
+	guint num_cards = collection_get_card_number (card_collection, level);
+
+	if (num_cards == -1)	// level could be not available in collection
+		return -1;
+
+	guint rand_i = rand() % num_cards;
+
+	card_range = collection_get_card_range (card_collection, level, rand_i); // not freed because collection is entirely freed later
+
+	tmp_card = card_range_get_random_card (card_range);
+
+	card_switch_content (gtk_card_get_card (gcard), tmp_card);
+
+	card_free (tmp_card);
+
+	return 0;
+}
+
+gint
 gtk_card_set_full (GtkCard* gcard, gboolean value)
 {
 	if (!gcard)
@@ -158,6 +185,15 @@ gtk_card_get_button (GtkCard* gcard)
 		return NULL;
 	
 	return gcard->button;
+}
+
+Card*
+gtk_card_get_card (GtkCard* gcard)
+{
+	if (!gcard)
+		return NULL;
+
+	return gcard->card;
 }
 
 gboolean 
@@ -201,6 +237,15 @@ gtk_card_switch_content (GtkCard* gcard1, GtkCard* gcard2)
 	tmp_full = gcard1->full;
 	gcard1->full = gcard2->full;
 	gcard2->full = tmp_full;
+
+	return 0;
+}
+
+gint
+gtk_card_switch_content_label (GtkCard* gcard1, GtkCard* gcard2)
+{
+	if (gtk_card_switch_content (gcard1, gcard2) == -1)
+		return -1;
 
 	if (gcard1->full == TRUE)
 		gtk_card_write_label (gcard1);

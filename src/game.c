@@ -52,6 +52,10 @@ game_data_new (guint cards_num, guint field_num, GuiData* gui_data)
     game_data->player_score = gtk_score_new (GTK_LABEL (player_score_label));
     game_data->cpu_score = gtk_score_new (GTK_LABEL (cpu_score_label));
 
+    // shuffle decks
+    cards_hand_shuffle (game_data->player_hand, 10, 0);
+    cards_hand_shuffle (game_data->cpu_hand, 10, 1);
+
 	return game_data;
 }
 
@@ -64,7 +68,7 @@ game_play_player_card_selected (GameField* game_field, CardsHand* player_hand, G
 	if (player_card != NULL && field_card != NULL){
 
 		gtk_card_unselect (player_card);
-	    gtk_card_switch_content (player_card, gtk_field_card_get_gtk_card (field_card));
+	    gtk_card_switch_content_label (player_card, gtk_field_card_get_gtk_card (field_card));
 	    gtk_widget_set_sensitive (GTK_WIDGET(gtk_card_get_button (player_card)), FALSE);
 	    gtk_widget_set_name (GTK_WIDGET(gtk_card_get_button (player_card)), "");
 	    gtk_widget_set_sensitive (GTK_WIDGET(gtk_card_get_button (gtk_field_card_get_gtk_card (field_card))), FALSE);
@@ -88,7 +92,7 @@ game_play_cpu_card_random (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 
 	if (cpu_card != NULL && field_card != NULL){
 		gtk_card_write_label (cpu_card);
-		gtk_card_switch_content (cpu_card, gtk_field_card_get_gtk_card (field_card));
+		gtk_card_switch_content_label (cpu_card, gtk_field_card_get_gtk_card (field_card));
 	    gtk_widget_set_name (GTK_WIDGET(gtk_card_get_button (cpu_card)), "");
 	    gtk_widget_set_name (GTK_WIDGET(gtk_card_get_button (gtk_field_card_get_gtk_card (field_card))), "togglebuttoncpuplayed");
 	    gtk_toggle_button_set_active (gtk_card_get_button (gtk_field_card_get_gtk_card (field_card)), FALSE);
@@ -194,7 +198,7 @@ game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 											// play the card
 											if (cpu_card != NULL && field_card != NULL){
 												gtk_card_write_label (cpu_card);
-												gtk_card_switch_content (cpu_card, gtk_field_card_get_gtk_card (field_card));
+												gtk_card_switch_content_label (cpu_card, gtk_field_card_get_gtk_card (field_card));
 											    gtk_widget_set_name (GTK_WIDGET(gtk_card_get_button (cpu_card)), "");
 											    gtk_widget_set_name (GTK_WIDGET(gtk_card_get_button (gtk_field_card_get_gtk_card (field_card))), "togglebuttoncpuplayed");
 											    gtk_toggle_button_set_active (gtk_card_get_button (gtk_field_card_get_gtk_card (field_card)), FALSE);
@@ -273,7 +277,7 @@ game_play_cpu_card_best (GameField* game_field, CardsHand* cpu_hand)
 
 	if (cpu_card != NULL && field_card != NULL){
 		gtk_card_write_label (cpu_card);
-		gtk_card_switch_content (cpu_card, gtk_field_card_get_gtk_card (field_card));
+		gtk_card_switch_content_label (cpu_card, gtk_field_card_get_gtk_card (field_card));
 	    gtk_widget_set_name (GTK_WIDGET(gtk_card_get_button (cpu_card)), "");
 	    gtk_widget_set_sensitive (GTK_WIDGET(gtk_card_get_button (gtk_field_card_get_gtk_card (field_card))), FALSE);
 	    gtk_widget_set_name (GTK_WIDGET(gtk_card_get_button (gtk_field_card_get_gtk_card (field_card))), "togglebuttoncpuplayed");
@@ -282,6 +286,28 @@ game_play_cpu_card_best (GameField* game_field, CardsHand* cpu_hand)
 	}
 
 	return FALSE;
+}
+
+gint
+game_is_over (GameData* game_data)
+{
+	guint rows;
+	guint cols;
+	guint player_score;
+	guint cpu_score;
+
+	if (!game_data)
+		return -1;
+
+	rows = game_field_get_rows (game_data->game_field);
+	cols = game_field_get_cols (game_data->game_field);
+	player_score = gtk_score_get (game_get_player_score (game_data));
+	cpu_score = gtk_score_get (game_get_cpu_score (game_data));
+
+	if (player_score + cpu_score == rows * cols)
+		return TRUE; // game over
+	else
+		return FALSE; // not game over yet
 }
 
 void
@@ -352,6 +378,24 @@ game_conquer_cards (GameField* game_field, GtkFieldCard* field_card, gboolean is
 	}
 
 	return ;
+}
+
+GtkScore*
+game_get_player_score (GameData* game_data)
+{
+	if (!game_data)
+		return NULL;
+
+	return game_data->player_score;
+}
+
+GtkScore*
+game_get_cpu_score (GameData* game_data)
+{
+	if (!game_data)
+		return NULL;
+
+	return game_data->cpu_score;
 }
 
 void 

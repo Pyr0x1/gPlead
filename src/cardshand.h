@@ -20,6 +20,7 @@ GtkCard* cards_hand_get_nth (CardsHand* hand, guint num);
 GtkCard* cards_hand_get_random (CardsHand* hand); // actually gets the first not played card
 GtkCard* cards_hand_get_selected (CardsHand* hand);
 gint cards_hand_get_cards_num (CardsHand* hand);
+gint cards_hand_shuffle (CardsHand* hand, guint swaps_num, guint hand_type);
 void cards_hand_free (CardsHand* hand);
 
 #endif /* CARDSHAND_H */

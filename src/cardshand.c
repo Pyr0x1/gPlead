@@ -133,6 +133,31 @@ cards_hand_get_cards_num (CardsHand* hand)
 	return hand->cards_num;
 }
 
+gint
+cards_hand_shuffle (CardsHand* hand, guint swaps_num, guint hand_type)
+{
+	guint num_cards = hand->cards_num;
+	guint i;
+
+	if (!hand)
+		return -1;
+
+	for (i = 0; i < swaps_num; i++){
+		guint rand_i = rand() % num_cards;
+		guint rand_j = rand() % num_cards;
+		if (hand_type == 0) { // player hand
+			if (gtk_card_switch_content_label (cards_hand_get_nth (hand, rand_i), cards_hand_get_nth (hand, rand_j)) == -1)
+				return -1;
+		}
+		else if (hand_type == 1) { // cpu hand
+			if (gtk_card_switch_content (cards_hand_get_nth (hand, rand_i), cards_hand_get_nth (hand, rand_j)) == -1)
+				return -1;
+		}
+	}
+
+	return 0;
+}
+
 void 
 cards_hand_free (CardsHand* hand)
 {
