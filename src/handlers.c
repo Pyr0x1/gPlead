@@ -120,8 +120,23 @@ on_timeout_cpu_moves (gpointer user_data)
 			gtk_widget_set_sensitive (GTK_WIDGET (gtk_card_get_button (cards_hand_get_nth (player_hand, i))), TRUE);
     
     
-    if (game_is_over (game_data))
-		game_data_set (game_data);
+    if (game_is_over (game_data)){
+		gint response;
+		{
+		  GtkWidget *dialog;
+		  dialog = gtk_message_dialog_new ( NULL,	// with window as parent, popup may be inside the window (with null it's outside)
+		            GTK_DIALOG_DESTROY_WITH_PARENT,
+		            GTK_MESSAGE_QUESTION,
+		            GTK_BUTTONS_YES_NO,
+		            "New Game");
+		  gtk_window_set_title(GTK_WINDOW(dialog), "New Game");
+		  response = gtk_dialog_run(GTK_DIALOG(dialog));
+		  gtk_widget_destroy(dialog);
+		}
+
+		if (response == GTK_RESPONSE_YES)
+			game_data_set (game_data);		// start a new game
+	}
     
 	return FALSE;	// if true this function would be called at regular timing, with false it will execute only once
 }
