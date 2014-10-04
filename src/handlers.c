@@ -119,6 +119,10 @@ on_timeout_cpu_moves (gpointer user_data)
     	if (strcmp (gtk_widget_get_name (GTK_WIDGET (gtk_card_get_button (cards_hand_get_nth ( player_hand, i)))), "togglebuttonuser") == 0)
 			gtk_widget_set_sensitive (GTK_WIDGET (gtk_card_get_button (cards_hand_get_nth (player_hand, i))), TRUE);
     
+    
+    if (game_is_over (game_data))
+		game_data_set (game_data);
+    
 	return FALSE;	// if true this function would be called at regular timing, with false it will execute only once
 }
 

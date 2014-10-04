@@ -59,6 +59,73 @@ game_data_new (guint cards_num, guint field_num, GuiData* gui_data)
 	return game_data;
 }
 
+gint
+game_data_set (GameData* game_data)
+{
+	if (!game_data)
+		return -1;
+	
+    guint cards_num, field_num;
+
+	guint i, j;
+
+	cards_num = game_data->player_hand->cards_num;
+	field_num = game_data->game_field->cols;
+
+	// creates collection of cards from file
+	Collection *coll = NULL;
+	coll = collection_load_file ("data/collection_1.txt");
+	
+	if (coll == NULL)
+		return -1;
+
+    for (i = 0; i < cards_num; i++){
+    	GtkCard* gcp = cards_hand_get_nth (game_data->player_hand, i);
+    	GtkCard* gcc = cards_hand_get_nth (game_data->cpu_hand, i);
+    	
+    	gtk_card_set_from_collection (gcp, coll, i, TRUE);
+    	gtk_card_set_from_collection (gcc, coll, i, FALSE);
+    	
+    	gtk_card_write_label (gcp);
+    	
+	    gtk_widget_set_name (GTK_WIDGET(gtk_card_get_button (gcp)), "togglebuttonuser");
+	    gtk_widget_set_name (GTK_WIDGET(gtk_card_get_button (gcc)), "togglebuttoncpu");
+    	
+		gtk_widget_set_sensitive (GTK_WIDGET (gtk_card_get_button (cards_hand_get_nth (game_data->player_hand, i))), TRUE);
+    	
+    	//cards_hand_add_from_collection (game_data->player_hand, GTK_TOGGLE_BUTTON (player_buttons[i]), coll, i, TRUE);
+    	//cards_hand_add_from_collection (game_data->cpu_hand, GTK_TOGGLE_BUTTON (cpu_buttons[i]), coll, i, FALSE);
+    }
+
+	// collection no more needed
+	collection_free (coll);
+
+    for (i = 0; i < field_num; i++){
+    	for (j = 0; j < field_num; j++){
+    		GtkFieldCard* gcf = game_field_get_nth (game_data->game_field, i, j);
+    		
+    		gtk_card_clear (gcf->gcard);
+    		
+	    	gtk_widget_set_name (GTK_WIDGET(gtk_card_get_button (gcf->gcard)), "");
+	    	
+			gtk_widget_set_sensitive (GTK_WIDGET (gtk_card_get_button (gtk_field_card_get_gtk_card (game_field_get_nth (game_data->game_field, i, j)))), TRUE);
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gtk_card_get_button (gtk_field_card_get_gtk_card (game_field_get_nth (game_data->game_field, i, j)))), TRUE);
+	    	
+    		//game_field_add (game_data->game_field, GTK_TOGGLE_BUTTON (field_buttons[i][j]));
+    	}
+    }
+
+    // Creates scores
+    gtk_score_reset (game_data->player_score);
+    gtk_score_reset (game_data->cpu_score);
+    
+    // shuffle decks
+    cards_hand_shuffle (game_data->player_hand, 10, 0);
+    cards_hand_shuffle (game_data->cpu_hand, 10, 1);
+
+	return 0;
+}
+
 gboolean
 game_play_player_card_selected (GameField* game_field, CardsHand* player_hand, GtkScore* player_score, GtkScore* cpu_score)
 {

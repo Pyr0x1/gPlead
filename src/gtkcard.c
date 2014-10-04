@@ -164,6 +164,8 @@ gtk_card_set_from_collection (GtkCard* gcard, Collection* card_collection, guint
 
 	card_free (tmp_card);
 
+	gcard->full = TRUE;
+
 	return 0;
 }
 

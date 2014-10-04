@@ -19,6 +19,7 @@ typedef struct game_elems {
 
 GameData* game_data_new (guint cards_num, guint field_num, GuiData* gui_data);
 void game_data_free (GameData* game_data);
+gint game_data_set (GameData* game_data);
 
 // these functions return true if the card was correctly played, false otherwise (like if no card is selected)
 gboolean game_play_player_card_selected (GameField* game_field, CardsHand* player_hand, GtkScore* player_score, GtkScore* cpu_score);
