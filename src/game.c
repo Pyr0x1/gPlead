@@ -466,6 +466,24 @@ game_get_cpu_score (GameData* game_data)
 	return game_data->cpu_score;
 }
 
+gint
+game_get_winner (GameData* game_data)
+{
+	guint player_score;
+	guint cpu_score;
+
+	if (!game_data)
+		return -1;
+
+	player_score = gtk_score_get (game_get_player_score (game_data));
+	cpu_score =  gtk_score_get (game_get_cpu_score (game_data));
+
+	if (player_score > cpu_score)
+		return 1;
+	else
+		return 0;
+}
+
 void 
 game_data_free (GameData* game_data)
 {

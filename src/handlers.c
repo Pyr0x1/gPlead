@@ -109,6 +109,7 @@ on_timeout_cpu_moves (gpointer user_data)
 {
 	GeneralData* general_data = (GeneralData*) user_data;
     GameData* game_data = (GameData*) general_data_get_game_data (general_data);
+    GuiData* gui_data = (GuiData*) general_data_get_gui_data (general_data);
     CardsHand* player_hand = (CardsHand*) game_data->player_hand;
     GameField* game_field = (GameField*) game_data->game_field;
     CardsHand* cpu_hand = (CardsHand*) game_data->cpu_hand;
@@ -128,19 +129,30 @@ on_timeout_cpu_moves (gpointer user_data)
     if (game_is_over (game_data)){
 		gint response;
 		{
-		  GtkWidget *dialog;
-		  dialog = gtk_message_dialog_new ( GTK_WINDOW (general_data->gui_data->window),
-		            GTK_DIALOG_DESTROY_WITH_PARENT,
-		            GTK_MESSAGE_QUESTION,
-		            GTK_BUTTONS_YES_NO,
-		            "New Game");
-		  gtk_window_set_title(GTK_WINDOW(dialog), "New Game");
-		  response = gtk_dialog_run(GTK_DIALOG(dialog));
-		  gtk_widget_destroy(dialog);
+            // create game over popup
+            GtkWidget *dialog;
+            char buff[256];
+
+            if (game_get_winner (game_data) == 1)
+                sprintf (buff, "Player wins!\nRestart?");
+            else
+                sprintf (buff, "CPU wins!\nRestart?");
+
+            dialog = gtk_message_dialog_new ( GTK_WINDOW (gui_data_get_main_window (gui_data)),
+                                              GTK_DIALOG_DESTROY_WITH_PARENT,
+                                              GTK_MESSAGE_QUESTION,
+                                              GTK_BUTTONS_YES_NO,
+                                              "%s", buff);
+            
+            gtk_window_set_title (GTK_WINDOW (dialog), "Game Over");
+
+            response = gtk_dialog_run (GTK_DIALOG (dialog));
+
+            gtk_widget_destroy (dialog);
 		}
 
 		if (response == GTK_RESPONSE_YES)
-			game_data_set (game_data);		// start a new game
+            game_data_set (game_data);  // start a new game
 	}
     
 	return FALSE;	// if true this function would be called at regular timing, with false it will execute only once
