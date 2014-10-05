@@ -56,7 +56,7 @@ void
 show_about_popup (GtkMenuItem* about_menu_item, gpointer user_data)
 {
     GtkWidget* dialog = gtk_about_dialog_new ();
-    const gchar* authors[] = {"Loris \"Pyrox\" Gabriele", "Davide \"Unwlelt\" Benotto"};
+    const gchar* authors[] = {"Loris \"Pyrox\" Gabriele", "Davide \"Unwlelt\" Benotto", NULL};
     const gchar* comments = "A Final Fantasy 8 card game clone written in C and Gtk+";
 
     gtk_about_dialog_set_program_name (GTK_ABOUT_DIALOG(dialog), "Triple Triad");
