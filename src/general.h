@@ -19,3 +19,4 @@ GuiData* general_data_get_gui_data (GeneralData* general_data);
 void general_data_free (GeneralData* general_data);
 
 #endif /* GENERAL_H */
+

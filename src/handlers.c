@@ -125,7 +125,7 @@ on_buttonfield_toggled (GtkToggleButton* button, gpointer user_data)
             for (i = 0; i < cards_hand_get_cards_num (player_hand); i++)
 	    		gtk_widget_set_sensitive (GTK_WIDGET (gtk_card_get_button (cards_hand_get_nth (player_hand, i))), FALSE);
             
-            g_timeout_add (1000,	// 1 second
+            game_data->timer_id = g_timeout_add (1000,	// 1 second
                            on_timeout_cpu_moves,
                            (gpointer) user_data);
             
@@ -154,6 +154,8 @@ on_timeout_cpu_moves (gpointer user_data)
     GtkScore* cpu_score = (GtkScore*) game_data->cpu_score;
 	
     guint i;
+
+	game_data->timer_id = 0;
 
 	game_play_cpu_card_greedy (game_field, cpu_hand, player_score, cpu_score);
     

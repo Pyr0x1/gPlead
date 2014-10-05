@@ -19,6 +19,9 @@ game_data_new (guint cards_num, guint field_num, GuiData* gui_data)
 
 	guint i, j;
 
+
+	game_data->timer_id = 0;
+	
 	// Creates player hand and cpu hand
     game_data->player_hand = cards_hand_new (cards_num);
     game_data->cpu_hand = cards_hand_new (cards_num);
@@ -123,6 +126,9 @@ game_data_set (GameData* game_data)
     cards_hand_shuffle (game_data->player_hand, 10, 0);
     cards_hand_shuffle (game_data->cpu_hand, 10, 1);
 
+	if (game_data->timer_id > 0)
+		g_source_remove (game_data->timer_id);
+	game_data->timer_id = 0;
 
 	return 0;
 }

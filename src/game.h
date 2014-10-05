@@ -14,6 +14,7 @@ typedef struct game_elems {
     CardsHand* cpu_hand;
     GtkScore* player_score;
     GtkScore* cpu_score;
+	guint timer_id;
 
 } GameData;
 
