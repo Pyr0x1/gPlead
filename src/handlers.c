@@ -22,9 +22,11 @@ handlers_connect_all (GeneralData* general_data)
     gui_data = general_data_get_gui_data (general_data);
     game_data = general_data_get_game_data (general_data);
 	
+    // handlers for player buttons
     for (i = 0; i < gui_data_get_cards_num (gui_data); i++)
         g_signal_connect (G_OBJECT (gui_data_get_player_button_nth (gui_data, i)), "toggled", G_CALLBACK (on_buttonuser_toggled), (gpointer) game_data);
 
+    // handlers for field buttons
     for (i = 0; i < gui_data_get_field_num (gui_data); i++){
         for (j = 0; j < gui_data_get_field_num (gui_data); j++){
             g_signal_connect (G_OBJECT (gui_data_get_field_button_nth (gui_data, i, j)), "toggled", G_CALLBACK (on_buttonfield_toggled), (gpointer) general_data);
@@ -32,7 +34,22 @@ handlers_connect_all (GeneralData* general_data)
         }
     }
 
+    // handlers for menu entries
+    g_signal_connect (G_OBJECT (gui_data_get_new_game_menu_item (gui_data)), "activate", G_CALLBACK (handlers_new_game), (gpointer) game_data);
+    g_signal_connect (G_OBJECT (gui_data_get_exit_menu_item (gui_data)), "activate", G_CALLBACK (gtk_main_quit), NULL);
+    //g_signal_connect (G_OBJECT (gui_data_get_about_menu_item (gui_data)), "activate", G_CALLBACK (gtk_main_quit), NULL);
+
     return;
+}
+
+void
+handlers_new_game (GtkMenuItem* new_game_menu_item, gpointer user_data)
+{
+    GameData* game_data = (GameData*) user_data;
+
+    game_data_set (game_data);
+
+    return ;
 }
 
 void

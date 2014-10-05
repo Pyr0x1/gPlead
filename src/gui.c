@@ -21,6 +21,16 @@ gui_create (guint cards_num, guint field_num)
     GtkWidget* cpu_score_label;
     GtkSizeGroup* size_group;
 
+    /*------ Menu --------*/
+    GtkWidget* menu_bar;
+	GtkWidget* file_menu;
+	GtkWidget* file_menu_item;
+	GtkWidget* new_game_menu_item;
+	GtkWidget* exit_menu_item;
+	GtkWidget* help_menu;
+	GtkWidget* help_menu_item;
+	GtkWidget* about_menu_item;
+
     GuiData* gui_data;
     /*---------------------------*/
 
@@ -53,10 +63,33 @@ gui_create (guint cards_num, guint field_num)
     for (i = 0; i < field_num; i++)
     	field_buttons[i] = (GtkWidget**) calloc (field_num, sizeof (GtkWidget*));
 
+    // Create menu
+    menu_bar = gtk_menu_bar_new ();
+	file_menu = gtk_menu_new ();
+	file_menu_item = gtk_menu_item_new_with_label ("File");
+	new_game_menu_item = gtk_menu_item_new_with_label ("New Game");
+	exit_menu_item = gtk_menu_item_new_with_label ("Exit");
+	help_menu = gtk_menu_new ();
+	help_menu_item = gtk_menu_item_new_with_label ("Help");
+	about_menu_item = gtk_menu_item_new_with_label ("About");
+
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu_bar), file_menu_item);
+	gtk_menu_item_set_submenu (GTK_MENU_ITEM (file_menu_item), file_menu);
+	gtk_menu_shell_append (GTK_MENU_SHELL (file_menu), new_game_menu_item);
+	gtk_menu_shell_append (GTK_MENU_SHELL (file_menu), exit_menu_item);
+
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu_bar), help_menu_item);
+	gtk_menu_item_set_submenu (GTK_MENU_ITEM (help_menu_item), help_menu);
+	gtk_menu_shell_append (GTK_MENU_SHELL (help_menu), about_menu_item);
+
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 5);
+	gtk_container_add (GTK_CONTAINER (window), vbox);
+	gtk_box_pack_start (GTK_BOX (vbox), menu_bar, TRUE, FALSE, 5);
+
     // Create horizontal box to place game elements (player cards, game field, cpu cards)
     hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 5);
     gtk_box_set_homogeneous (GTK_BOX (hbox), FALSE);
-    gtk_container_add (GTK_CONTAINER (window), hbox);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, FALSE, 5);
 
     // Creates size group to let all buttons have the same size
     size_group = gtk_size_group_new (GTK_SIZE_GROUP_BOTH);
@@ -172,6 +205,10 @@ gui_create (guint cards_num, guint field_num)
 	gui_data->player_score_label = player_score_label;
 	gui_data->cpu_score_label = cpu_score_label;
 
+	gui_data->new_game_menu_item = new_game_menu_item;
+	gui_data->exit_menu_item = exit_menu_item;
+	gui_data->about_menu_item = about_menu_item;
+
 	return gui_data;
 }
 
@@ -282,6 +319,33 @@ gui_data_get_field_button_nth (GuiData* gui_data, guint row, guint col)
 		return gui_data->field_buttons[row][col];
 	else
 		return NULL;
+}
+
+GtkWidget*
+gui_data_get_new_game_menu_item (GuiData* gui_data)
+{
+	if (!gui_data)
+		return NULL;
+	else
+		return gui_data->new_game_menu_item;
+}
+
+GtkWidget*
+gui_data_get_exit_menu_item (GuiData* gui_data)
+{
+	if (!gui_data)
+		return NULL;
+	else
+		return gui_data->exit_menu_item;
+}
+
+GtkWidget*
+gui_data_get_about_menu_item (GuiData* gui_data)
+{
+	if (!gui_data)
+		return NULL;
+	else
+		return gui_data->about_menu_item;
 }
 
 void
