@@ -37,7 +37,7 @@ handlers_connect_all (GeneralData* general_data)
     // handlers for menu entries
     g_signal_connect (G_OBJECT (gui_data_get_new_game_menu_item (gui_data)), "activate", G_CALLBACK (handlers_new_game), (gpointer) game_data);
     g_signal_connect (G_OBJECT (gui_data_get_exit_menu_item (gui_data)), "activate", G_CALLBACK (gtk_main_quit), NULL);
-    //g_signal_connect (G_OBJECT (gui_data_get_about_menu_item (gui_data)), "activate", G_CALLBACK (gtk_main_quit), NULL);
+    g_signal_connect (G_OBJECT (gui_data_get_about_menu_item (gui_data)), "activate", G_CALLBACK (show_about_popup), NULL);
 
     return;
 }
@@ -48,6 +48,26 @@ handlers_new_game (GtkMenuItem* new_game_menu_item, gpointer user_data)
     GameData* game_data = (GameData*) user_data;
 
     game_data_set (game_data);
+
+    return ;
+}
+
+void
+show_about_popup (GtkMenuItem* about_menu_item, gpointer user_data)
+{
+    GtkWidget* dialog = gtk_about_dialog_new ();
+    const gchar* authors[] = {"Loris \"Pyrox\" Gabriele", "Davide \"Unwlelt\" Benotto"};
+    const gchar* comments = "A Final Fantasy 8 card game clone written in C and Gtk+";
+
+    gtk_about_dialog_set_program_name (GTK_ABOUT_DIALOG(dialog), "Triple Triad");
+    gtk_about_dialog_set_version (GTK_ABOUT_DIALOG(dialog), "0.1");
+    gtk_about_dialog_set_website (GTK_ABOUT_DIALOG(dialog), "https://github.com/Pyr0x1/TripleTriad");
+    gtk_about_dialog_set_authors (GTK_ABOUT_DIALOG(dialog), authors);
+    gtk_about_dialog_set_comments (GTK_ABOUT_DIALOG(dialog), comments);
+
+    gtk_dialog_run (GTK_DIALOG (dialog));
+
+    gtk_widget_destroy (dialog);
 
     return ;
 }
