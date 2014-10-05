@@ -11,19 +11,19 @@
 
 
 void
-handlers_connect_all (GuiData* gui_data, GameData* game_data)
+handlers_connect_all (GeneralData* general_data)
 {
     guint i, j;
 
-	if (!gui_data || !game_data)
+	if (!general_data)
 		return;
 	
-    for (i = 0; i < gui_data_get_cards_num(gui_data); i++)
-        g_signal_connect (G_OBJECT (gui_data_get_player_button_nth (gui_data, i)), "toggled", G_CALLBACK (on_buttonuser_toggled), (gpointer) game_data);
+    for (i = 0; i < gui_data_get_cards_num(general_data->gui_data); i++)
+        g_signal_connect (G_OBJECT (gui_data_get_player_button_nth (general_data->gui_data, i)), "toggled", G_CALLBACK (on_buttonuser_toggled), (gpointer) general_data->game_data);
 
-    for (i = 0; i < gui_data_get_field_num(gui_data); i++){
-        for (j = 0; j < gui_data_get_field_num(gui_data); j++){
-            g_signal_connect (G_OBJECT (gui_data_get_field_button_nth (gui_data, i, j)), "toggled", G_CALLBACK (on_buttonfield_toggled), (gpointer) game_data);
+    for (i = 0; i < gui_data_get_field_num(general_data->gui_data); i++){
+        for (j = 0; j < gui_data_get_field_num(general_data->gui_data); j++){
+            g_signal_connect (G_OBJECT (gui_data_get_field_button_nth (general_data->gui_data, i, j)), "toggled", G_CALLBACK (on_buttonfield_toggled), (gpointer) general_data);
 
         }
     }
@@ -58,7 +58,8 @@ on_buttonuser_toggled (GtkToggleButton* button, gpointer user_data)
 void
 on_buttonfield_toggled (GtkToggleButton* button, gpointer user_data)
 {
-    GameData* game_data = (GameData*) user_data;
+	GeneralData* general_data = (GeneralData*) user_data;
+    GameData* game_data = (GameData*) general_data->game_data;
     CardsHand* player_hand = (CardsHand*) game_data->player_hand;
     GameField* game_field = (GameField*) game_data->game_field;
     GtkScore* player_score = (GtkScore*) game_data->player_score;
@@ -102,8 +103,8 @@ on_buttonfield_toggled (GtkToggleButton* button, gpointer user_data)
 gint
 on_timeout_cpu_moves (gpointer user_data)
 {
-
-    GameData* game_data = (GameData*) user_data;
+	GeneralData* general_data = (GeneralData*) user_data;
+    GameData* game_data = (GameData*) general_data->game_data;
     CardsHand* player_hand = (CardsHand*) game_data->player_hand;
     GameField* game_field = (GameField*) game_data->game_field;
     CardsHand* cpu_hand = (CardsHand*) game_data->cpu_hand;
@@ -124,7 +125,7 @@ on_timeout_cpu_moves (gpointer user_data)
 		gint response;
 		{
 		  GtkWidget *dialog;
-		  dialog = gtk_message_dialog_new ( NULL,	// with window as parent, popup may be inside the window (with null it's outside)
+		  dialog = gtk_message_dialog_new ( GTK_WINDOW (general_data->gui_data->window),
 		            GTK_DIALOG_DESTROY_WITH_PARENT,
 		            GTK_MESSAGE_QUESTION,
 		            GTK_BUTTONS_YES_NO,

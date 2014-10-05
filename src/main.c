@@ -12,49 +12,52 @@
 int
 main (int argc, char *argv[])
 {
-        GuiData* gui_data;
-        GameData* game_data;
-        guint cards_num = 5, field_num = 3; // default values
-
-        /* Parameters check */
-        if (argc != 1 && argc != 3){
-        	fprintf (stderr, "Error, invalid arguments\n");
-        	return -1;
-        }
-        else {
-        	if (argc == 3){
-	        	cards_num = atoi (argv[1]);
-	        	field_num = atoi (argv[2]);
-                if (cards_num >= 5 && field_num >= 3){
-    	        	if ((cards_num * 2 - 1) != field_num * field_num){
-    	        		fprintf (stderr, "Error, size aren't good\n");
-    	        		return -2;
-    	        	}
-                }
-                else{
-                    fprintf (stderr, "Error, size is too little\n");
-                    return -3;
-                }
+	GeneralData* general_data;
+	//GuiData* gui_data;
+	//GameData* game_data;
+	guint cards_num = 5, field_num = 3; // default values
+	
+	/* Parameters check */
+	if (argc != 1 && argc != 3){
+		fprintf (stderr, "Error, invalid arguments\n");
+		return -1;
+	}
+	else {
+		if (argc == 3){
+	    	cards_num = atoi (argv[1]);
+	    	field_num = atoi (argv[2]);
+	        if (cards_num >= 5 && field_num >= 3){
+	        	if ((cards_num * 2 - 1) != field_num * field_num){
+	        		fprintf (stderr, "Error, size aren't good\n");
+	        		return -2;
+	        	}
 	        }
-        }
-        /* End of parameters check, here they should be valid */
-
-        srand(time(NULL)); // random seed every time you run the program
-
-        gui_data = gui_create (cards_num, field_num);
-        game_data = game_data_new (cards_num, 
-        						   field_num, 
-        						   gui_data);
-
-        handlers_connect_all (gui_data, game_data);
-
-       	// Start Gtk loop
-        gtk_widget_show_all (gui_data_get_main_window (gui_data));    
-        gtk_main ();
-
-        game_data_free (game_data);
-        gui_data_free (gui_data);
-
-        return 0;
+	        else{
+	            fprintf (stderr, "Error, size is too little\n");
+	            return -3;
+	        }
+	    }
+	}
+	/* End of parameters check, here they should be valid */
+	
+	srand(time(NULL)); // random seed every time you run the program
+	
+	
+	general_data = general_data_new ();
+	general_data->gui_data = gui_create (cards_num, field_num);
+	general_data->game_data = game_data_new (cards_num, 
+							   field_num, 
+							   general_data->gui_data);
+	
+	handlers_connect_all (general_data);
+	
+	
+	// Start Gtk loop
+	gtk_widget_show_all (gui_data_get_main_window (general_data->gui_data));    
+	gtk_main ();
+	
+	general_data_free (general_data);
+	
+	return 0;
 }
 

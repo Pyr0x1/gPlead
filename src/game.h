@@ -17,6 +17,16 @@ typedef struct game_elems {
 
 } GameData;
 
+typedef struct _general_data_ {
+	
+	GameData* game_data;
+	GuiData* gui_data;
+	
+} GeneralData;
+
+GeneralData* general_data_new ();
+void general_data_free (GeneralData* general_data);
+
 GameData* game_data_new (guint cards_num, guint field_num, GuiData* gui_data);
 void game_data_free (GameData* game_data);
 gint game_data_set (GameData* game_data);
