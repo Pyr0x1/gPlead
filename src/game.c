@@ -3,7 +3,6 @@
 #include <string.h>
 #include "game.h"
 #include "gamepath.h"
-#include "handlers.h"
 
 GameData* 
 game_data_new (guint cards_num, guint field_num, GuiData* gui_data)
@@ -123,20 +122,6 @@ game_data_set (GameData* game_data)
     // shuffle decks
     cards_hand_shuffle (game_data->player_hand, 10, 0);
     cards_hand_shuffle (game_data->cpu_hand, 10, 1);
-
-
-	// choose who starts the game
-	gint choice;
-	choice = rand() % 10000;
-	if (choice >= 5000){
-		// cpu has the first turn (otherwise the player keep the first move)
-        for (i = 0; i < cards_hand_get_cards_num (game_data->player_hand); i++)
-    		gtk_widget_set_sensitive (GTK_WIDGET (gtk_card_get_button (cards_hand_get_nth (game_data->player_hand, i))), FALSE);
-        
-        g_timeout_add (1000,	// 1 second
-                       on_timeout_cpu_moves,
-                       (gpointer) game_data);
-    }
 
 	return 0;
 }
