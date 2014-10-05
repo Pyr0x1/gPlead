@@ -3,6 +3,7 @@
 
 #include "gui.h"
 #include "game.h"
+#include "general.h"
 
 void handlers_connect_all (GeneralData* general_data);
 void on_buttonuser_toggled (GtkToggleButton* button, gpointer user_data);

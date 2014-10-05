@@ -9,21 +9,25 @@
 #include "gamefield.h"
 #include "game.h"
 
-
 void
 handlers_connect_all (GeneralData* general_data)
 {
     guint i, j;
+    GuiData* gui_data = NULL;
+    GameData* game_data = NULL;
 
 	if (!general_data)
 		return;
-	
-    for (i = 0; i < gui_data_get_cards_num(general_data->gui_data); i++)
-        g_signal_connect (G_OBJECT (gui_data_get_player_button_nth (general_data->gui_data, i)), "toggled", G_CALLBACK (on_buttonuser_toggled), (gpointer) general_data->game_data);
 
-    for (i = 0; i < gui_data_get_field_num(general_data->gui_data); i++){
-        for (j = 0; j < gui_data_get_field_num(general_data->gui_data); j++){
-            g_signal_connect (G_OBJECT (gui_data_get_field_button_nth (general_data->gui_data, i, j)), "toggled", G_CALLBACK (on_buttonfield_toggled), (gpointer) general_data);
+    gui_data = general_data_get_gui_data (general_data);
+    game_data = general_data_get_game_data (general_data);
+	
+    for (i = 0; i < gui_data_get_cards_num (gui_data); i++)
+        g_signal_connect (G_OBJECT (gui_data_get_player_button_nth (gui_data, i)), "toggled", G_CALLBACK (on_buttonuser_toggled), (gpointer) game_data);
+
+    for (i = 0; i < gui_data_get_field_num (gui_data); i++){
+        for (j = 0; j < gui_data_get_field_num (gui_data); j++){
+            g_signal_connect (G_OBJECT (gui_data_get_field_button_nth (gui_data, i, j)), "toggled", G_CALLBACK (on_buttonfield_toggled), (gpointer) general_data);
 
         }
     }
@@ -59,7 +63,7 @@ void
 on_buttonfield_toggled (GtkToggleButton* button, gpointer user_data)
 {
 	GeneralData* general_data = (GeneralData*) user_data;
-    GameData* game_data = (GameData*) general_data->game_data;
+    GameData* game_data = (GameData*) general_data_get_game_data (general_data);
     CardsHand* player_hand = (CardsHand*) game_data->player_hand;
     GameField* game_field = (GameField*) game_data->game_field;
     GtkScore* player_score = (GtkScore*) game_data->player_score;
@@ -104,7 +108,7 @@ gint
 on_timeout_cpu_moves (gpointer user_data)
 {
 	GeneralData* general_data = (GeneralData*) user_data;
-    GameData* game_data = (GameData*) general_data->game_data;
+    GameData* game_data = (GameData*) general_data_get_game_data (general_data);
     CardsHand* player_hand = (CardsHand*) game_data->player_hand;
     GameField* game_field = (GameField*) game_data->game_field;
     CardsHand* cpu_hand = (CardsHand*) game_data->cpu_hand;
