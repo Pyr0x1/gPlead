@@ -35,7 +35,7 @@ handlers_connect_all (GeneralData* general_data)
     }
 
     // handlers for menu entries
-    g_signal_connect (G_OBJECT (gui_data_get_new_game_menu_item (gui_data)), "activate", G_CALLBACK (handlers_new_game), (gpointer) game_data);
+    g_signal_connect (G_OBJECT (gui_data_get_new_game_menu_item (gui_data)), "activate", G_CALLBACK (handlers_new_game), (gpointer) general_data);
     g_signal_connect (G_OBJECT (gui_data_get_exit_menu_item (gui_data)), "activate", G_CALLBACK (gtk_main_quit), NULL);
     g_signal_connect (G_OBJECT (gui_data_get_about_menu_item (gui_data)), "activate", G_CALLBACK (show_about_popup), NULL);
 
@@ -45,10 +45,28 @@ handlers_connect_all (GeneralData* general_data)
 void
 handlers_new_game (GtkMenuItem* new_game_menu_item, gpointer user_data)
 {
-    GameData* game_data = (GameData*) user_data;
+    GeneralData* general_data = (GeneralData*) user_data;
 
-    game_data_set (game_data);
+    game_data_set (general_data->game_data);
 
+	// choose who starts the game
+	guint i;
+	gint choice;
+	choice = rand() % 10000;
+	if (choice >= 5000){
+		// cpu has the first turn (otherwise the player keep the first move)
+        for (i = 0; i < cards_hand_get_cards_num (general_data->game_data->player_hand); i++)
+    		gtk_widget_set_sensitive (GTK_WIDGET (gtk_card_get_button (cards_hand_get_nth (general_data->game_data->player_hand, i))), FALSE);
+        
+        g_timeout_add (1000,	// 1 second
+                       on_timeout_cpu_moves,
+                       (gpointer) general_data);
+        
+    	gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "togglebuttoncpuplayed");
+	}
+	else
+    	gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "togglebuttonplayer");
+    
     return ;
 }
 
@@ -129,6 +147,7 @@ on_buttonfield_toggled (GtkToggleButton* button, gpointer user_data)
                            on_timeout_cpu_moves,
                            (gpointer) user_data);
             
+            gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "togglebuttoncpuplayed");
             //game_play_cpu_card_greedy (game_field, cpu_hand, player_score, cpu_score);
         }
         else
@@ -164,6 +183,7 @@ on_timeout_cpu_moves (gpointer user_data)
     	if (strcmp (gtk_widget_get_name (GTK_WIDGET (gtk_card_get_button (cards_hand_get_nth ( player_hand, i)))), "togglebuttonuser") == 0)
 			gtk_widget_set_sensitive (GTK_WIDGET (gtk_card_get_button (cards_hand_get_nth (player_hand, i))), TRUE);
     
+    gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "togglebuttonuser");
     
     if (game_is_over (game_data)){
 		gint response;
@@ -190,8 +210,26 @@ on_timeout_cpu_moves (gpointer user_data)
             gtk_widget_destroy (dialog);
 		}
 
-		if (response == GTK_RESPONSE_YES)
-            game_data_set (game_data);  // start a new game
+		if (response == GTK_RESPONSE_YES){
+            game_data_set (general_data->game_data);  // start a new game
+			
+			// choose who starts the game
+			gint choice;
+			choice = rand() % 10000;
+			if (choice >= 5000){
+				// cpu has the first turn (otherwise the player keep the first move)
+		        for (i = 0; i < cards_hand_get_cards_num (game_data->player_hand); i++)
+		    		gtk_widget_set_sensitive (GTK_WIDGET (gtk_card_get_button (cards_hand_get_nth (game_data->player_hand, i))), FALSE);
+		        
+		        g_timeout_add (1000,	// 1 second
+		                       on_timeout_cpu_moves,
+		                       (gpointer) general_data);
+		        
+		    	gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "togglebuttoncpuplayed");
+			}
+			else
+		    	gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "togglebuttonuser");	
+		}
 	}
     
 	return FALSE;	// if true this function would be called at regular timing, with false it will execute only once

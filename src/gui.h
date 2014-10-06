@@ -14,6 +14,7 @@ typedef struct guielems {
     GtkWidget** cpu_buttons; 
     GtkWidget* player_score_label;
     GtkWidget* cpu_score_label;
+	GtkWidget* move_teller;
 
     // Menu elements
     GtkWidget* new_game_menu_item;

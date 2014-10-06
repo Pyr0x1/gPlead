@@ -19,6 +19,7 @@ gui_create (guint cards_num, guint field_num)
     GtkWidget** cpu_buttons;
     GtkWidget* player_score_label;
     GtkWidget* cpu_score_label;
+	GtkWidget* move_teller;
     GtkSizeGroup* size_group;
 
     /*------ Menu --------*/
@@ -137,9 +138,19 @@ gui_create (guint cards_num, guint field_num)
 
 		gtk_grid_insert_row (GTK_GRID (grid), 0);
 
+		// add "move teller"
+		move_teller = gtk_toggle_button_new_with_label (NULL);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (move_teller), FALSE);
+		gtk_widget_set_sensitive (GTK_WIDGET (move_teller), FALSE);
+		gtk_size_group_add_widget (size_group, move_teller);
+		gtk_grid_attach (GTK_GRID (grid), move_teller, 1, 0, 1, 1);
+		
+		/*
 		fake_label = gtk_label_new (NULL);
+    	gtk_widget_set_name (fake_label, "togglebuttoncpuplayed");
+		gtk_size_group_add_widget (size_group, fake_label);
 		gtk_grid_attach (GTK_GRID (grid), fake_label, 1, 0, 1, 1);
-
+		*/
 		gtk_grid_insert_row (GTK_GRID (grid), (field_num + 2 * label_padding - 1));
 
 		fake_label = gtk_label_new (NULL);
@@ -154,6 +165,8 @@ gui_create (guint cards_num, guint field_num)
 	cpu_score_label = gtk_label_new (NULL);
 	gtk_size_group_add_widget (size_group, cpu_score_label);
 	gtk_grid_attach (GTK_GRID (grid), cpu_score_label, field_num - 1, 0, 1, 1);
+
+
 
 	// Adds grid to horizontal box
 	gtk_box_pack_start (GTK_BOX (hbox), grid, TRUE, FALSE, 5);
@@ -204,6 +217,7 @@ gui_create (guint cards_num, guint field_num)
 	gui_data->cpu_buttons = cpu_buttons; 
 	gui_data->player_score_label = player_score_label;
 	gui_data->cpu_score_label = cpu_score_label;
+	gui_data->move_teller = move_teller;
 
 	gui_data->new_game_menu_item = new_game_menu_item;
 	gui_data->exit_menu_item = exit_menu_item;

@@ -51,7 +51,23 @@ main (int argc, char *argv[])
 	
 	handlers_connect_all (general_data);
 	
-	
+	gint choice;
+	gint i;
+	choice = rand() % 10000;
+	if (choice >= 5000){
+		// cpu has the first turn (otherwise the player keep the first move)
+	    for (i = 0; i < cards_hand_get_cards_num (general_data->game_data->player_hand); i++)
+			gtk_widget_set_sensitive (GTK_WIDGET (gtk_card_get_button (cards_hand_get_nth (general_data->game_data->player_hand, i))), FALSE);
+	    
+	    g_timeout_add (1000,	// 1 second
+	                   on_timeout_cpu_moves,
+	                   (gpointer) general_data);
+	    
+    	gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "togglebuttoncpuplayed");
+	}
+	else
+    	gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "togglebuttonuser");
+
 	// Start Gtk loop
 	gtk_widget_show_all (gui_data_get_main_window (general_data->gui_data));    
 	gtk_main ();
