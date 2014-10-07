@@ -49,23 +49,16 @@ handlers_new_game (GtkMenuItem* new_game_menu_item, gpointer user_data)
 
     game_data_set (general_data->game_data);
 
-	// choose who starts the game
-	guint i;
-	gint choice;
-	choice = rand() % 10000;
-	if (choice >= 5000){
-		// cpu has the first turn (otherwise the player keep the first move)
-        for (i = 0; i < cards_hand_get_cards_num (general_data->game_data->player_hand); i++)
-    		gtk_widget_set_sensitive (GTK_WIDGET (gtk_card_get_button (cards_hand_get_nth (general_data->game_data->player_hand, i))), FALSE);
+	if (game_teller_set_first (general_data->game_data) == 0){ // if CPU starts
+        guint i;
         
-        g_timeout_add (1000,	// 1 second
+        for (i = 0; i < cards_hand_get_cards_num (general_data->game_data->player_hand); i++)
+            gtk_widget_set_sensitive (GTK_WIDGET (gtk_card_get_button (cards_hand_get_nth (general_data->game_data->player_hand, i))), FALSE);
+
+        g_timeout_add (1000, // 1 second
                        on_timeout_cpu_moves,
                        (gpointer) general_data);
-        
-    	gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "movetellercpu");
-	}
-	else
-    	gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "movetellerplayer");
+    }
     
     return ;
 }
@@ -147,7 +140,7 @@ on_buttonfield_toggled (GtkToggleButton* button, gpointer user_data)
                            on_timeout_cpu_moves,
                            (gpointer) user_data);
             
-            gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "movetellercpu");
+            game_teller_switch_player (game_data);
             //game_play_cpu_card_greedy (game_field, cpu_hand, player_score, cpu_score);
         }
         else
@@ -183,7 +176,7 @@ on_timeout_cpu_moves (gpointer user_data)
     	if (strcmp (gtk_widget_get_name (GTK_WIDGET (gtk_card_get_button (cards_hand_get_nth ( player_hand, i)))), "togglebuttonuser") == 0)
 			gtk_widget_set_sensitive (GTK_WIDGET (gtk_card_get_button (cards_hand_get_nth (player_hand, i))), TRUE);
     
-    gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "movetellerplayer");
+    game_teller_switch_player (game_data);
     
     if (game_is_over (game_data)){
 		gint response;
@@ -211,24 +204,18 @@ on_timeout_cpu_moves (gpointer user_data)
 		}
 
 		if (response == GTK_RESPONSE_YES){
-            game_data_set (general_data->game_data);  // start a new game
+            game_data_set (game_data);  // start a new game
 			
-			// choose who starts the game
-			gint choice;
-			choice = rand() % 10000;
-			if (choice >= 5000){
-				// cpu has the first turn (otherwise the player keep the first move)
-		        for (i = 0; i < cards_hand_get_cards_num (game_data->player_hand); i++)
-		    		gtk_widget_set_sensitive (GTK_WIDGET (gtk_card_get_button (cards_hand_get_nth (game_data->player_hand, i))), FALSE);
-		        
-		        g_timeout_add (1000,	// 1 second
-		                       on_timeout_cpu_moves,
-		                       (gpointer) general_data);
-		        
-		    	gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "movetellercpu");
-			}
-			else
-		    	gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "movetellerplayer");	
+			if (game_teller_set_first (general_data->game_data) == 0){ // if CPU starts
+                guint i;
+                
+                for (i = 0; i < cards_hand_get_cards_num (general_data->game_data->player_hand); i++)
+                    gtk_widget_set_sensitive (GTK_WIDGET (gtk_card_get_button (cards_hand_get_nth (general_data->game_data->player_hand, i))), FALSE);
+
+                g_timeout_add (1000, // 1 second
+                               on_timeout_cpu_moves,
+                               (gpointer) general_data);
+            }
 		}
 	}
     

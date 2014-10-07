@@ -6,6 +6,7 @@
 #include "gamefield.h"
 #include "gui.h"
 #include "gtkscore.h"
+#include "gtkteller.h"
 
 typedef struct game_elems {
 
@@ -14,6 +15,7 @@ typedef struct game_elems {
     CardsHand* cpu_hand;
     GtkScore* player_score;
     GtkScore* cpu_score;
+    GtkTeller* teller;
 	guint timer_id;
 
 } GameData;
@@ -35,6 +37,9 @@ GtkScore* game_get_player_score (GameData* game_data);
 GtkScore* game_get_cpu_score (GameData* game_data);
 
 gint game_get_winner (GameData* game_data);
+
+gint game_teller_set_first (GameData* game_data);
+gint game_teller_switch_player (GameData* game_data);
 
 void game_conquer_cards (GameField* game_field, GtkFieldCard* field_card, gboolean is_player_card, GtkScore* player_score, GtkScore* cpu_score);
 

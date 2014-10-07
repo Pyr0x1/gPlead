@@ -14,7 +14,7 @@ typedef struct guielems {
     GtkWidget** cpu_buttons; 
     GtkWidget* player_score_label;
     GtkWidget* cpu_score_label;
-	GtkWidget* move_teller;
+	GtkWidget* teller_label;
 
     // Menu elements
     GtkWidget* new_game_menu_item;
@@ -36,6 +36,7 @@ GtkWidget* gui_data_get_cpu_score_label (GuiData* gui_data);
 GtkWidget* gui_data_get_new_game_menu_item (GuiData* gui_data);
 GtkWidget* gui_data_get_exit_menu_item (GuiData* gui_data);
 GtkWidget* gui_data_get_about_menu_item (GuiData* gui_data);
+GtkWidget* gui_data_get_teller_label (GuiData* gui_data);
 gint gui_data_get_cards_num (GuiData* gui_data);
 gint gui_data_get_field_num (GuiData* gui_data);
 void gui_data_free (GuiData* gui_data);

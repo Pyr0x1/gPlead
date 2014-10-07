@@ -16,9 +16,9 @@ game_data_new (guint cards_num, guint field_num, GuiData* gui_data)
     GtkWidget** cpu_buttons = gui_data_get_cpu_buttons (gui_data); 
     GtkWidget* player_score_label = gui_data_get_player_score_label (gui_data);
     GtkWidget* cpu_score_label = gui_data_get_cpu_score_label (gui_data);
+    GtkWidget* teller_label = gui_data_get_teller_label (gui_data);
 
 	guint i, j;
-
 
 	game_data->timer_id = 0;
 	
@@ -54,6 +54,9 @@ game_data_new (guint cards_num, guint field_num, GuiData* gui_data)
     // Creates scores
     game_data->player_score = gtk_score_new (GTK_LABEL (player_score_label));
     game_data->cpu_score = gtk_score_new (GTK_LABEL (cpu_score_label));
+
+    // Creates teller
+    game_data->teller = gtk_teller_new_with_values (GTK_LABEL (teller_label), 1, "movetellerplayer", "movetellercpu");
 
     // shuffle decks
     cards_hand_shuffle (game_data->player_hand, 10, 0);
@@ -490,6 +493,24 @@ game_get_winner (GameData* game_data)
 		return 0;
 }
 
+gint
+game_teller_set_first (GameData* game_data)
+{
+	if (!game_data)
+		return -1;
+
+	return gtk_teller_set_first_player (game_data->teller);
+}
+
+gint
+game_teller_switch_player (GameData* game_data)
+{
+	if (!game_data)
+		return -1;
+
+	return gtk_teller_switch_player (game_data->teller);
+}
+
 void 
 game_data_free (GameData* game_data)
 {
@@ -501,6 +522,7 @@ game_data_free (GameData* game_data)
     cards_hand_free (game_data->cpu_hand);
     gtk_score_free (game_data->player_score);
     gtk_score_free (game_data->cpu_score);
+    gtk_teller_free (game_data->teller);
     free (game_data);
 
 	return;

@@ -19,7 +19,7 @@ gui_create (guint cards_num, guint field_num)
     GtkWidget** cpu_buttons;
     GtkWidget* player_score_label;
     GtkWidget* cpu_score_label;
-	GtkWidget* move_teller;
+	GtkWidget* teller_label;
     GtkSizeGroup* size_group;
 
     /*------ Menu --------*/
@@ -159,10 +159,10 @@ gui_create (guint cards_num, guint field_num)
 	gtk_grid_attach (GTK_GRID (grid), cpu_score_label, field_num - 1, 0, 1, 1);
 
 	// add "move teller"
-	move_teller = gtk_label_new (NULL);
-	gtk_widget_set_name (move_teller, "movetellerplayer");
-	gtk_size_group_add_widget (size_group, move_teller);
-	gtk_grid_attach (GTK_GRID (grid), move_teller, field_num / 2, 0, 1, 1);
+	teller_label = gtk_label_new (NULL);
+	//gtk_widget_set_name (teller_label, "movetellerplayer");
+	gtk_size_group_add_widget (size_group, teller_label);
+	gtk_grid_attach (GTK_GRID (grid), teller_label, field_num / 2, 0, 1, 1);
 
 	// Adds grid to horizontal box
 	gtk_box_pack_start (GTK_BOX (hbox), grid, TRUE, FALSE, 5);
@@ -213,7 +213,7 @@ gui_create (guint cards_num, guint field_num)
 	gui_data->cpu_buttons = cpu_buttons; 
 	gui_data->player_score_label = player_score_label;
 	gui_data->cpu_score_label = cpu_score_label;
-	gui_data->move_teller = move_teller;
+	gui_data->teller_label = teller_label;
 
 	gui_data->new_game_menu_item = new_game_menu_item;
 	gui_data->exit_menu_item = exit_menu_item;
@@ -356,6 +356,15 @@ gui_data_get_about_menu_item (GuiData* gui_data)
 		return NULL;
 	else
 		return gui_data->about_menu_item;
+}
+
+GtkWidget*
+gui_data_get_teller_label (GuiData* gui_data)
+{
+	if (!gui_data)
+		return NULL;
+	else
+		return gui_data->teller_label;
 }
 
 void
