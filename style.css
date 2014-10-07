@@ -32,3 +32,19 @@ GtkToggleButton#togglebuttoncpuplayed {
 GtkToggleButton#togglebuttoncpuplayed*:insensitive {
 	color: #202020;
 }
+
+GtkWindow GtkLabel#movetellerplayer {
+	background: #729fcf;
+	background-color: #729fcf;
+	margin-top: 500px;
+	margin-bottom: 500px;
+	border-radius: 500px;
+}
+
+GtkWindow GtkLabel#movetellercpu {
+	background: #f16060;
+	background-color:#f16060;
+	margin-top: 500px;
+	margin-bottom: 500px;
+	border-radius : 500px;
+}

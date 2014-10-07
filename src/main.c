@@ -63,10 +63,10 @@ main (int argc, char *argv[])
 	                   on_timeout_cpu_moves,
 	                   (gpointer) general_data);
 	    
-    	gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "togglebuttoncpuplayed");
+    	gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "movetellercpu");
 	}
 	else
-    	gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "togglebuttonuser");
+    	gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "movetellerplayer");
 
 	// Start Gtk loop
 	gtk_widget_show_all (gui_data_get_main_window (general_data->gui_data));    

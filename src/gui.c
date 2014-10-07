@@ -137,36 +137,32 @@ gui_create (guint cards_num, guint field_num)
 	for (i = 0; i < label_padding; i++){
 
 		gtk_grid_insert_row (GTK_GRID (grid), 0);
-
-		// add "move teller"
-		move_teller = gtk_toggle_button_new_with_label (NULL);
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (move_teller), FALSE);
-		gtk_widget_set_sensitive (GTK_WIDGET (move_teller), FALSE);
-		gtk_size_group_add_widget (size_group, move_teller);
-		gtk_grid_attach (GTK_GRID (grid), move_teller, 1, 0, 1, 1);
 		
-		/*
 		fake_label = gtk_label_new (NULL);
-    	gtk_widget_set_name (fake_label, "togglebuttoncpuplayed");
+
 		gtk_size_group_add_widget (size_group, fake_label);
-		gtk_grid_attach (GTK_GRID (grid), fake_label, 1, 0, 1, 1);
-		*/
+		gtk_grid_attach (GTK_GRID (grid), fake_label, 0, 0, 1, 1);
+
 		gtk_grid_insert_row (GTK_GRID (grid), (field_num + 2 * label_padding - 1));
 
 		fake_label = gtk_label_new (NULL);
-		gtk_grid_attach (GTK_GRID (grid), fake_label, 1, (field_num + 2 * label_padding - 1), 1, 1);
+		gtk_grid_attach (GTK_GRID (grid), fake_label, 0, (field_num + 2 * label_padding - 1), 1, 1);
 	}
 	
 	// Add labels for score
-	player_score_label = gtk_label_new (NULL);
+	player_score_label = gtk_grid_get_child_at (GTK_GRID (grid), 0, 0);
 	gtk_size_group_add_widget (size_group, player_score_label);
-	gtk_grid_attach (GTK_GRID (grid), player_score_label, 0, 0, 1, 1);
+	//gtk_grid_attach (GTK_GRID (grid), player_score_label, 0, 0, 1, 1);
 
 	cpu_score_label = gtk_label_new (NULL);
 	gtk_size_group_add_widget (size_group, cpu_score_label);
 	gtk_grid_attach (GTK_GRID (grid), cpu_score_label, field_num - 1, 0, 1, 1);
 
-
+	// add "move teller"
+	move_teller = gtk_label_new (NULL);
+	gtk_widget_set_name (move_teller, "movetellerplayer");
+	gtk_size_group_add_widget (size_group, move_teller);
+	gtk_grid_attach (GTK_GRID (grid), move_teller, field_num / 2, 0, 1, 1);
 
 	// Adds grid to horizontal box
 	gtk_box_pack_start (GTK_BOX (hbox), grid, TRUE, FALSE, 5);

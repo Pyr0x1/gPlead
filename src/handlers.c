@@ -62,10 +62,10 @@ handlers_new_game (GtkMenuItem* new_game_menu_item, gpointer user_data)
                        on_timeout_cpu_moves,
                        (gpointer) general_data);
         
-    	gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "togglebuttoncpuplayed");
+    	gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "movetellercpu");
 	}
 	else
-    	gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "togglebuttonplayer");
+    	gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "movetellerplayer");
     
     return ;
 }
@@ -147,7 +147,7 @@ on_buttonfield_toggled (GtkToggleButton* button, gpointer user_data)
                            on_timeout_cpu_moves,
                            (gpointer) user_data);
             
-            gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "togglebuttoncpuplayed");
+            gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "movetellercpu");
             //game_play_cpu_card_greedy (game_field, cpu_hand, player_score, cpu_score);
         }
         else
@@ -183,7 +183,7 @@ on_timeout_cpu_moves (gpointer user_data)
     	if (strcmp (gtk_widget_get_name (GTK_WIDGET (gtk_card_get_button (cards_hand_get_nth ( player_hand, i)))), "togglebuttonuser") == 0)
 			gtk_widget_set_sensitive (GTK_WIDGET (gtk_card_get_button (cards_hand_get_nth (player_hand, i))), TRUE);
     
-    gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "togglebuttonuser");
+    gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "movetellerplayer");
     
     if (game_is_over (game_data)){
 		gint response;
@@ -225,10 +225,10 @@ on_timeout_cpu_moves (gpointer user_data)
 		                       on_timeout_cpu_moves,
 		                       (gpointer) general_data);
 		        
-		    	gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "togglebuttoncpuplayed");
+		    	gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "movetellercpu");
 			}
 			else
-		    	gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "togglebuttonuser");	
+		    	gtk_widget_set_name (general_data_get_gui_data (general_data)->move_teller, "movetellerplayer");	
 		}
 	}
     
