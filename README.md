@@ -3,7 +3,7 @@ gPlead
 
 A FF8 Triple Triad clone written in C and GTK+.
 
-<a href="http://it.tinypic.com?ref=2nki6hx" target="_blank"><img src="http://i61.tinypic.com/2nki6hx.png" border="0" alt="TripleTriad"></a>
+<a href="http://it.tinypic.com?ref=2nki6hx" target="_blank"><img src="http://i61.tinypic.com/2nki6hx.png" border="0" alt="gPlead"></a>
 
 
 How to Play
@@ -29,5 +29,5 @@ make
 from a terminal window.    
 The game can then be started by running
 ```bash
-./TripleTriad  
+./gPlead  
 ```
