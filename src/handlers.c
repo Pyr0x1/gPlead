@@ -71,7 +71,7 @@ show_about_popup (GtkMenuItem* about_menu_item, gpointer user_data)
     const gchar* comments = "A Final Fantasy 8 card game clone written in C and Gtk+";
     const gchar* license = "The MIT License (MIT)\n\nCopyright (c) 2014 Loris \"Pyrox\" Gabriele, Davide \"Unwlelt\" Benotto\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in\nall copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\nTHE SOFTWARE.";
 
-    gtk_about_dialog_set_program_name (GTK_ABOUT_DIALOG(dialog), "Triple Triad");
+    gtk_about_dialog_set_program_name (GTK_ABOUT_DIALOG(dialog), "gPlead");
     gtk_about_dialog_set_version (GTK_ABOUT_DIALOG(dialog), "0.1");
     gtk_about_dialog_set_website (GTK_ABOUT_DIALOG(dialog), "https://github.com/Pyr0x1/TripleTriad");
     gtk_about_dialog_set_authors (GTK_ABOUT_DIALOG(dialog), authors);
