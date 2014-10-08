@@ -1,4 +1,4 @@
-TripleTriad
+gPlead
 ======
 
 A FF8 Triple Triad clone written in C and GTK+.
