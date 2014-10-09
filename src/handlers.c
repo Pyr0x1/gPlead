@@ -9,6 +9,12 @@
 #include "gamefield.h"
 #include "game.h"
 
+#ifdef _WIN32
+	#include <windows.h>
+#endif // _WIN32
+
+
+
 void
 handlers_connect_all (GeneralData* general_data)
 {
@@ -63,6 +69,16 @@ handlers_new_game (GtkMenuItem* new_game_menu_item, gpointer user_data)
     return ;
 }
 
+#ifdef _WIN32
+gboolean
+on_link_activated (GtkAboutDialog *label, gchar *uri, gpointer user_data){
+	
+	ShellExecute( NULL, NULL, uri, NULL, NULL, SW_SHOWNORMAL);
+	
+	return TRUE;
+}
+#endif // _WIN32
+
 void
 show_about_popup (GtkMenuItem* about_menu_item, gpointer user_data)
 {
@@ -77,6 +93,11 @@ show_about_popup (GtkMenuItem* about_menu_item, gpointer user_data)
     gtk_about_dialog_set_authors (GTK_ABOUT_DIALOG(dialog), authors);
     gtk_about_dialog_set_comments (GTK_ABOUT_DIALOG(dialog), comments);
     gtk_about_dialog_set_license (GTK_ABOUT_DIALOG(dialog), license);
+
+#ifdef _WIN32
+    g_signal_connect (G_OBJECT (dialog), "activate-link", G_CALLBACK (on_link_activated), (gpointer) NULL);
+#endif // _WIN32
+	
 
     gtk_dialog_run (GTK_DIALOG (dialog));
 
