@@ -112,7 +112,7 @@ game_data_set (GameData* game_data)
     		
     		gtk_card_clear (gcf->gcard);
     		
-	    	gtk_widget_set_name (GTK_WIDGET(gtk_card_get_button (gcf->gcard)), "");
+	    	gtk_widget_set_name (GTK_WIDGET(gtk_card_get_button (gcf->gcard)), "fieldbutton");
 	    	
 			gtk_widget_set_sensitive (GTK_WIDGET (gtk_card_get_button (gtk_field_card_get_gtk_card (game_field_get_nth (game_data->game_field, i, j)))), TRUE);
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gtk_card_get_button (gtk_field_card_get_gtk_card (game_field_get_nth (game_data->game_field, i, j)))), TRUE);
