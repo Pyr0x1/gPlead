@@ -4,7 +4,7 @@
 #include "gui.h"
 #include "handlers.h"
 
-GuiData* 
+GuiData*
 gui_create (guint cards_num, guint field_num)
 {
 	/*------ Gui variables ------*/
@@ -31,6 +31,7 @@ gui_create (guint cards_num, guint field_num)
 	GtkWidget* help_menu;
 	GtkWidget* help_menu_item;
 	GtkWidget* about_menu_item;
+	GtkWidget* menu_separator;
 
     GuiData* gui_data;
     /*---------------------------*/
@@ -77,13 +78,15 @@ gui_create (guint cards_num, guint field_num)
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu_bar), file_menu_item);
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (file_menu_item), file_menu);
 	gtk_menu_shell_append (GTK_MENU_SHELL (file_menu), new_game_menu_item);
+	menu_separator = gtk_separator_menu_item_new ();
+	gtk_menu_shell_append (GTK_MENU_SHELL (file_menu), menu_separator);
 	gtk_menu_shell_append (GTK_MENU_SHELL (file_menu), exit_menu_item);
 
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu_bar), help_menu_item);
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (help_menu_item), help_menu);
 	gtk_menu_shell_append (GTK_MENU_SHELL (help_menu), about_menu_item);
 
-	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 5);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add (GTK_CONTAINER (window), vbox);
 	gtk_box_pack_start (GTK_BOX (vbox), menu_bar, TRUE, FALSE, 5);
 
@@ -127,6 +130,7 @@ gui_create (guint cards_num, guint field_num)
 		for (j = 0; j < field_num; j++){
 			field_buttons[i][j] = gtk_toggle_button_new_with_label (NULL);
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (field_buttons[i][j]), TRUE);
+			gtk_widget_set_name (field_buttons[i][j], "fieldbutton");
 			gtk_size_group_add_widget (size_group, field_buttons[i][j]);
 			gtk_grid_attach (GTK_GRID (grid), field_buttons[i][j], j, i, 1, 1);
 		}
@@ -137,7 +141,7 @@ gui_create (guint cards_num, guint field_num)
 	for (i = 0; i < label_padding; i++){
 
 		gtk_grid_insert_row (GTK_GRID (grid), 0);
-		
+
 		fake_label = gtk_label_new (NULL);
 
 		gtk_size_group_add_widget (size_group, fake_label);
@@ -148,7 +152,7 @@ gui_create (guint cards_num, guint field_num)
 		fake_label = gtk_label_new (NULL);
 		gtk_grid_attach (GTK_GRID (grid), fake_label, 0, (field_num + 2 * label_padding - 1), 1, 1);
 	}
-	
+
 	// Add labels for score
 	player_score_label = gtk_grid_get_child_at (GTK_GRID (grid), 0, 0);
 	gtk_size_group_add_widget (size_group, player_score_label);
@@ -185,7 +189,7 @@ gui_create (guint cards_num, guint field_num)
 	}
 
     // Adds cpu cards to horizontal box
-    gtk_box_pack_start (GTK_BOX (hbox), vbox, TRUE, FALSE, 5);	
+    gtk_box_pack_start (GTK_BOX (hbox), vbox, TRUE, FALSE, 5);
 
     // CSS part
 	provider = gtk_css_provider_new ();
@@ -210,7 +214,7 @@ gui_create (guint cards_num, guint field_num)
 	gui_data->field_num = field_num;
     gui_data->player_buttons = player_buttons;
 	gui_data->field_buttons = field_buttons;
-	gui_data->cpu_buttons = cpu_buttons; 
+	gui_data->cpu_buttons = cpu_buttons;
 	gui_data->player_score_label = player_score_label;
 	gui_data->cpu_score_label = cpu_score_label;
 	gui_data->teller_label = teller_label;
@@ -227,7 +231,7 @@ gui_data_get_main_window (GuiData* gui_data)
 {
 	if (!gui_data)
 		return NULL;
-	
+
 	return gui_data->window;
 }
 
@@ -236,7 +240,7 @@ gui_data_get_player_buttons (GuiData* gui_data)
 {
 	if (!gui_data)
 		return NULL;
-	
+
 	return gui_data->player_buttons;
 }
 
@@ -245,7 +249,7 @@ gui_data_get_cpu_buttons (GuiData* gui_data)
 {
 	if (!gui_data)
 		return NULL;
-	
+
 	return gui_data->cpu_buttons;
 }
 
@@ -254,7 +258,7 @@ gui_data_get_field_buttons (GuiData* gui_data)
 {
 	if (!gui_data)
 		return NULL;
-	
+
 	return gui_data->field_buttons;
 }
 
@@ -263,7 +267,7 @@ gui_data_get_player_score_label (GuiData* gui_data)
 {
 	if (!gui_data)
 		return NULL;
-	
+
 	return gui_data->player_score_label;
 }
 
@@ -272,16 +276,16 @@ gui_data_get_cpu_score_label (GuiData* gui_data)
 {
 	if (!gui_data)
 		return NULL;
-	
+
 	return gui_data->cpu_score_label;
 }
 
-gint 
+gint
 gui_data_get_cards_num (GuiData* gui_data)
 {
 	if (!gui_data)
 		return -1;
-	
+
 	return gui_data->cards_num;
 }
 
@@ -290,7 +294,7 @@ gui_data_get_field_num (GuiData* gui_data)
 {
 	if (!gui_data)
 		return -1;
-	
+
 	return gui_data->field_num;
 }
 
@@ -299,7 +303,7 @@ gui_data_get_player_button_nth (GuiData* gui_data, guint n)
 {
 	if (!gui_data)
 		return NULL;
-	
+
 	if (n < gui_data->cards_num)
 		return gui_data->player_buttons[n];
 	else
@@ -312,19 +316,19 @@ gui_data_get_cpu_button_nth (GuiData* gui_data, guint n)
 {
 	if (!gui_data)
 		return NULL;
-	
+
 	if (n < gui_data->cards_num)
 		return gui_data->cpu_buttons[n];
 	else
 		return NULL;
 }
 
-GtkWidget* 
+GtkWidget*
 gui_data_get_field_button_nth (GuiData* gui_data, guint row, guint col)
 {
 	if (!gui_data)
 		return NULL;
-	
+
 	if (row < gui_data->field_num && col < gui_data->field_num)
 		return gui_data->field_buttons[row][col];
 	else
@@ -372,13 +376,12 @@ gui_data_free (GuiData* gui_data)
 {
 	if (!gui_data)
 		return;
-	
+
 	// Only free allocated arrays, widgets should be handled by Gtk itself
 	free (gui_data->player_buttons);
-	free (gui_data->field_buttons); 
-	free (gui_data->cpu_buttons); 
+	free (gui_data->field_buttons);
+	free (gui_data->cpu_buttons);
 	free (gui_data);
 
 	return ;
 }
-

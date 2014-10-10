@@ -33,6 +33,13 @@ GtkToggleButton#togglebuttoncpuplayed*:insensitive {
 	color: #202020;
 }
 
+GtkToggleButton#fieldbutton {
+	background: #e1e1e1;
+	background-color: #e1e1e1;
+	color: #e1e1e1;
+	border: 1px solid #a3a3a3;
+}
+
 GtkWindow GtkLabel#movetellerplayer {
 	background: #729fcf;
 	background-color: #729fcf;
