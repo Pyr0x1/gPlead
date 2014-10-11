@@ -15,7 +15,7 @@ typedef struct gtkcard {
 } GtkCard;
 
 GtkCard* gtk_card_new_empty (GtkToggleButton* button);
-GtkCard* gtk_card_new_with_values (GtkToggleButton* button, guint top, guint down, guint left, guint right, gboolean show);
+GtkCard* gtk_card_new_with_values (GtkToggleButton* button, guint top, guint down, guint left, guint right, guint element, gboolean show);
 GtkCard* gtk_card_new_random (GtkToggleButton* button, guint max, gboolean show);
 GtkCard* gtk_card_new_from_collection (GtkToggleButton* button, Collection* card_collection, guint level, gboolean show);
 gint gtk_card_set_from_collection (GtkCard* gcard, Collection* card_collection, guint level, gboolean show);

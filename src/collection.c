@@ -10,7 +10,7 @@ collection_load_file (gchar* filename)
 	FILE *in;
 	guint i, j;
 	
-	guint id, min_top, max_top, min_left, max_left, min_right, max_right, min_bottom, max_bottom;
+	guint id, min_top, max_top, min_left, max_left, min_right, max_right, min_bottom, max_bottom, min_element, max_element;
 	
 	
 	if (filename == NULL)
@@ -33,16 +33,17 @@ collection_load_file (gchar* filename)
 	
 	for (i = 0; i < col->level_num; i++)
 		for (j = 0; j < col->card_num[i]; j++){
-			Range *range_top, *range_left, *range_right, *range_bottom;
+			Range *range_top, *range_left, *range_right, *range_bottom, *range_element;
 			
-			fscanf (in, "%d%d%d%d%d%d%d%d%d", &id, &min_top, &max_top, &min_left, &max_left, &min_right, &max_right, &min_bottom, &max_bottom);
+			fscanf (in, "%d%d%d%d%d%d%d%d%d%d%d", &id, &min_top, &max_top, &min_left, &max_left, &min_right, &max_right, &min_bottom, &max_bottom, &min_element, &max_element);
 			
 			range_top = range_new ( min_top, max_top);
 			range_left = range_new ( min_left, max_left);
 			range_right = range_new ( min_right, max_right);
 			range_bottom = range_new ( min_bottom, max_bottom);
+			range_element = range_new ( min_element, max_element);
 			
-			col->card_list[i][j] = card_range_new (range_top, range_right, range_bottom, range_left);
+			col->card_list[i][j] = card_range_new (range_top, range_right, range_bottom, range_left, range_element);
 		}
 	
 	fclose(in);

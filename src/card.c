@@ -12,7 +12,7 @@ card_new_empty ()
 }
 
 Card* 
-card_new_with_values (guint top, guint down, guint left, guint right)
+card_new_with_values (guint top, guint down, guint left, guint right, guint element)
 {
 	Card* new = (Card*) calloc (1, sizeof(Card));
 
@@ -20,6 +20,8 @@ card_new_with_values (guint top, guint down, guint left, guint right)
 	new->down = down;
 	new->left = left;
 	new->right = right;
+	
+	new->element = element;
 
 	return new;
 }
@@ -39,6 +41,7 @@ card_new_random (guint max)
 	new->left = rand() % max + 1;
 	new->right = rand() % max + 1;
 	
+	new->element = rand() % ELEMENTS_NUM;
 	
 	return new;
 }
@@ -67,11 +70,13 @@ card_new_from_ranges (Range* range_top, Range* range_down, Range* range_left, Ra
 	new->left = l;
 	new->right = r;
 	
+	new->element = ET_RED;
+	
 	return new;
 }
 
 gint
-card_set_values (Card* card, guint top, guint down, guint left, guint right)
+card_set_values (Card* card, guint top, guint down, guint left, guint right, guint element)
 {
 	if (!card)
 		return -1;
@@ -80,6 +85,8 @@ card_set_values (Card* card, guint top, guint down, guint left, guint right)
 	card->down = down;
 	card->left = left;
 	card->right = right;
+
+	card->element = element;
 
 	return 0;
 }
@@ -163,16 +170,19 @@ card_switch_content (Card* card1, Card* card2)
 	tmp.down = card1->down;
 	tmp.left = card1->left;
 	tmp.right = card1->right;
+	tmp.element = card1->element;
 
 	card1->top = card2->top;
 	card1->down = card2->down;
 	card1->left = card2->left;
 	card1->right = card2->right;
+	card1->element = card2->element;
 
 	card2->top = tmp.top;
 	card2->down = tmp.down;
 	card2->left = tmp.left;
 	card2->right = tmp.right;
+	card2->element = tmp.element;
 
 	return 0;
 }
@@ -187,6 +197,8 @@ card_clear (Card* card)
 	card->down = 0;
 	card->left = 0;
 	card->right = 0;
+	
+	card->element = ET_RED;
 
 	return 0;
 }
