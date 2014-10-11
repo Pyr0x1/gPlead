@@ -10,10 +10,12 @@ typedef struct cardrange {
 	Range* right;
 	Range* down;
 	Range* left;
+	
+	Range* element;
 
 } CardRange;
 
-CardRange* card_range_new (Range* top, Range* right, Range* down, Range* left);
+CardRange* card_range_new (Range* top, Range* right, Range* down, Range* left, Range* element);
 Range* card_range_get_top (CardRange* card_range);
 Range* card_range_get_right (CardRange* card_range);
 Range* card_range_get_down (CardRange* card_range);

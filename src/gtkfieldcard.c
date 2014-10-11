@@ -5,6 +5,8 @@
 GtkFieldCard*
 gtk_field_card_new_empty (GtkToggleButton* button, guint row, guint col)
 {
+	guint i;
+	
 	if (!button)
 		return NULL;
 	
@@ -13,12 +15,32 @@ gtk_field_card_new_empty (GtkToggleButton* button, guint row, guint col)
 	new->row = row;
 	new->col = col;
 	new->gcard = gtk_card_new_empty (button);
+	
+	for (i=0; i<4; i++)
+		new->elements[i] = rand() % ELEMENTS_NUM;
+	
+	for (i=0; i<4; i++)
+		switch (new->elements[i]){
+			case ET_BLUE:
+	    		gtk_widget_set_name (GTK_WIDGET (new->gcard->labels[i]), "movetellerplayer");	// ET_BLUE
+				break;
+			case ET_GREEN:
+	    		gtk_widget_set_name (GTK_WIDGET (new->gcard->labels[i]), "");	// ET_GREEN
+				break;
+			case ET_YELLOW:
+	    		gtk_widget_set_name (GTK_WIDGET (new->gcard->labels[i]), "");	// ET_YELLOW
+				break;
+			case ET_RED:
+	    		gtk_widget_set_name (GTK_WIDGET (new->gcard->labels[i]), "movetellercpu");	// ET_RED
+				break;
+		}
+
 
 	return new;
 }
 
 GtkFieldCard* 
-gtk_field_card_new_with_values (GtkToggleButton* button, guint top, guint down, guint left, guint right, gboolean show, guint row, guint col)
+gtk_field_card_new_with_values (GtkToggleButton* button, guint top, guint down, guint left, guint right, guint element, gboolean show, guint row, guint col)
 {
 	if (!button)
 		return NULL;
@@ -27,7 +49,7 @@ gtk_field_card_new_with_values (GtkToggleButton* button, guint top, guint down, 
 
 	new->row = row;
 	new->col = col;
-	new->gcard = gtk_card_new_with_values (button, top, down, left, right, show);
+	new->gcard = gtk_card_new_with_values (button, top, down, left, right, element, show);
 
 	return new;
 }
@@ -77,10 +99,34 @@ gtk_field_card_get_col (GtkFieldCard* gfcard)
 gint
 gtk_field_card_clear (GtkFieldCard* gfcard)
 {
+	guint i;
 	if (!gfcard)
 		return -1;
+	if (gtk_card_clear (gfcard->gcard) == -1)
+		return -1;
 
-	return gtk_card_clear (gfcard->gcard);
+
+	for (i=0; i<4; i++)
+		gfcard->elements[i] = rand() % ELEMENTS_NUM;
+	
+	for (i=0; i<4; i++)
+		switch (gfcard->elements[i]){
+			case ET_BLUE:
+	    		gtk_widget_set_name (GTK_WIDGET (gfcard->gcard->labels[i]), "movetellerplayer");	// ET_BLUE
+				break;
+			case ET_GREEN:
+	    		gtk_widget_set_name (GTK_WIDGET (gfcard->gcard->labels[i]), "");	// ET_GREEN
+				break;
+			case ET_YELLOW:
+	    		gtk_widget_set_name (GTK_WIDGET (gfcard->gcard->labels[i]), "");	// ET_YELLOW
+				break;
+			case ET_RED:
+	    		gtk_widget_set_name (GTK_WIDGET (gfcard->gcard->labels[i]), "movetellercpu");	// ET_RED
+				break;
+		}
+
+
+	return 0;
 }
 
 void

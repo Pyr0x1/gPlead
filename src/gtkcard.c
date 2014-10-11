@@ -23,7 +23,7 @@ gtk_card_new_empty (GtkToggleButton* button)
 }
 
 GtkCard* 
-gtk_card_new_with_values (GtkToggleButton* button, guint top, guint down, guint left, guint right, gboolean show)
+gtk_card_new_with_values (GtkToggleButton* button, guint top, guint down, guint left, guint right, guint element, gboolean show)
 {
 	if (!button)
 		return NULL;
@@ -31,7 +31,7 @@ gtk_card_new_with_values (GtkToggleButton* button, guint top, guint down, guint 
 	GtkCard* new = (GtkCard*) calloc (1, sizeof(GtkCard));
 	
 	new->button = button;
-	new->card = card_new_with_values (top, down, left, right);
+	new->card = card_new_with_values (top, down, left, right, element);
 	new->full = TRUE;
 
 	_gtk_card_create_labels (new);
@@ -268,8 +268,12 @@ gtk_card_write_label (GtkCard* gcard)
 	if (!gcard)
 		return -1;
 	
-	guint value;
+	guint value, i;
 	gchar buff[256];
+
+
+	for (i=0; i<4; i++)
+	    gtk_widget_set_name (GTK_WIDGET (gcard->labels[i]), "");
 
 	value = card_get_top_value (gcard->card);
 	if (value == 10)

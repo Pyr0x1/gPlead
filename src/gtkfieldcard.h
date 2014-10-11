@@ -12,11 +12,12 @@ typedef struct gtkfieldcard {
 	guint row;
 	guint col;
 	GtkCard* gcard;
+	guint elements[4];	// top, left, right, bottom
 
 } GtkFieldCard;
 
 GtkFieldCard* gtk_field_card_new_empty (GtkToggleButton* button, guint row, guint col);
-GtkFieldCard* gtk_field_card_new_with_values (GtkToggleButton* button, guint top, guint down, guint left, guint right, gboolean show, guint row, guint col);
+GtkFieldCard* gtk_field_card_new_with_values (GtkToggleButton* button, guint top, guint down, guint left, guint right, guint element, gboolean show, guint row, guint col);
 GtkFieldCard* gtk_field_card_new_random (GtkToggleButton* button, guint max, gboolean show, guint row, guint col);
 GtkCard* gtk_field_card_get_gtk_card (GtkFieldCard* gfcard);
 gint gtk_field_card_get_row (GtkFieldCard* gfcard);

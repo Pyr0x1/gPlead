@@ -110,7 +110,7 @@ game_data_set (GameData* game_data)
     	for (j = 0; j < field_num; j++){
     		GtkFieldCard* gcf = game_field_get_nth (game_data->game_field, i, j);
     		
-    		gtk_card_clear (gcf->gcard);
+    		gtk_field_card_clear (gcf);
     		
 	    	gtk_widget_set_name (GTK_WIDGET(gtk_card_get_button (gcf->gcard)), "fieldbutton");
 	    	

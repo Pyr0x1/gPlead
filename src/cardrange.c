@@ -3,9 +3,9 @@
 #include "cardrange.h"
 
 CardRange*
-card_range_new (Range* top, Range* right, Range* down, Range* left)
+card_range_new (Range* top, Range* right, Range* down, Range* left, Range* element)
 {
-	if (!top || !right || !down || !left)
+	if (!top || !right || !down || !left || !element)
 		return NULL;
 	
 	CardRange* new = (CardRange*) calloc (1, sizeof(CardRange));
@@ -14,6 +14,8 @@ card_range_new (Range* top, Range* right, Range* down, Range* left)
 	new->right = right;
 	new->down = down;
 	new->left = left;
+	
+	new->element = element;
 
 	return new;
 }
@@ -96,16 +98,18 @@ card_range_get_random_card (CardRange* card_range)
 	if (!card_range)
 		return NULL;
 	
-	gint top_, down_, left_, right_;
+	gint top_, down_, left_, right_, element_;
 	top_ = range_get_random_value (card_range->top);
 	down_ = range_get_random_value (card_range->down);
 	left_ = range_get_random_value (card_range->left);
 	right_ = range_get_random_value (card_range->right);
 	
-	if ( top_ == -1 || down_ == -1 || left_ == -1 || right_ == -1)
+	element_ = range_get_random_value (card_range->element);
+	
+	if ( top_ == -1 || down_ == -1 || left_ == -1 || right_ == -1 || element_ == -1)
 		return NULL;
 	
-	return card_new_with_values ( top_, down_, left_, right_);
+	return card_new_with_values ( top_, down_, left_, right_, element_);
 }
 
 void
