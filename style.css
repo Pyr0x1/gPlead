@@ -55,3 +55,27 @@ GtkWindow GtkLabel#movetellercpu {
 	margin-bottom: 500px;
 	border-radius : 500px;
 }
+
+GtkLabel#yellowrune {
+	background: #edd400;
+	background-color: #edd400;
+	border: 1px solid #a3a3a3;
+}
+
+GtkLabel#bluerune {
+	background: #729fcf;
+	background-color: #729fcf;
+	border: 1px solid #a3a3a3;
+}
+
+GtkLabel#redrune {
+	background: #f16060;
+	background-color: #f16060;
+	border: 1px solid #a3a3a3;
+}
+
+GtkLabel#greenrune {
+	background: #73d216;
+	background-color: #73d216;
+	border: 1px solid #a3a3a3;
+}
