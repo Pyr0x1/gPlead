@@ -112,16 +112,16 @@ gtk_field_card_clear (GtkFieldCard* gfcard)
 	for (i=0; i<4; i++)
 		switch (gfcard->elements[i]){
 			case ET_BLUE:
-	    		gtk_widget_set_name (GTK_WIDGET (gfcard->gcard->labels[i]), "movetellerplayer");	// ET_BLUE
+	    		gtk_widget_set_name (GTK_WIDGET (gfcard->gcard->labels[i]), "bluerune");	// ET_BLUE
 				break;
 			case ET_GREEN:
-	    		gtk_widget_set_name (GTK_WIDGET (gfcard->gcard->labels[i]), "");	// ET_GREEN
+	    		gtk_widget_set_name (GTK_WIDGET (gfcard->gcard->labels[i]), "greenrune");	// ET_GREEN
 				break;
 			case ET_YELLOW:
-	    		gtk_widget_set_name (GTK_WIDGET (gfcard->gcard->labels[i]), "");	// ET_YELLOW
+	    		gtk_widget_set_name (GTK_WIDGET (gfcard->gcard->labels[i]), "yellowrune");	// ET_YELLOW
 				break;
 			case ET_RED:
-	    		gtk_widget_set_name (GTK_WIDGET (gfcard->gcard->labels[i]), "movetellercpu");	// ET_RED
+	    		gtk_widget_set_name (GTK_WIDGET (gfcard->gcard->labels[i]), "redrune");	// ET_RED
 				break;
 		}
 

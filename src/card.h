@@ -43,10 +43,10 @@ gint card_get_top_value (Card* card);
 gint card_get_down_value (Card* card);
 gint card_get_left_value (Card* card);
 gint card_get_right_value (Card* card);
+gint card_get_element (Card* card);
 gint card_compare (Card* card1, Card* card2, guint position);
 gint card_switch_content (Card* card1, Card* card2);
 gint card_clear (Card* card);
 void card_free (Card* card);
 
 #endif /* CARD_H */
-

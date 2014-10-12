@@ -11,7 +11,7 @@ typedef struct gtkcard {
 	GtkToggleButton* button;
 	Card* card;
 	GtkLabel* labels[4];
-
+	GtkLabel* element_label;
 } GtkCard;
 
 GtkCard* gtk_card_new_empty (GtkToggleButton* button);
@@ -28,6 +28,7 @@ gint gtk_card_compare (GtkCard* gcard1, GtkCard* gcard2, guint position);
 gint gtk_card_switch_content (GtkCard* gcard1, GtkCard* gcard2);
 gint gtk_card_switch_content_label (GtkCard* gcard1, GtkCard* gcard2);
 gint gtk_card_write_label (GtkCard* gcard);
+gint gtk_card_clear_element_label (GtkCard* gcard);
 gint gtk_card_clear (GtkCard* gcard);
 void gtk_card_unselect (GtkCard* gcard);
 void gtk_card_free (GtkCard* gcard);
@@ -36,4 +37,3 @@ void gtk_card_free (GtkCard* gcard);
 gint _gtk_card_create_labels (GtkCard* gcard); // to be used AFTER creating new card
 
 #endif /* GTKCARD_H */
-

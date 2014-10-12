@@ -3,7 +3,7 @@
 #include <time.h>
 #include "card.h"
 
-Card* 
+Card*
 card_new_empty ()
 {
 	Card* new = (Card*) calloc (1, sizeof(Card));
@@ -11,7 +11,7 @@ card_new_empty ()
 	return new;
 }
 
-Card* 
+Card*
 card_new_with_values (guint top, guint down, guint left, guint right, guint element)
 {
 	Card* new = (Card*) calloc (1, sizeof(Card));
@@ -20,29 +20,29 @@ card_new_with_values (guint top, guint down, guint left, guint right, guint elem
 	new->down = down;
 	new->left = left;
 	new->right = right;
-	
+
 	new->element = element;
 
 	return new;
 }
 
-Card* 
+Card*
 card_new_random (guint max)
 {
 	Card* new = (Card*) calloc (1, sizeof(Card));
 
 	//srand(time(NULL));
-	
+
 	if (max == 0)
 		max = 1;
-	
+
 	new->top = rand() % max + 1;
 	new->down = rand() % max + 1;
 	new->left = rand() % max + 1;
 	new->right = rand() % max + 1;
-	
+
 	new->element = rand() % ELEMENTS_NUM;
-	
+
 	return new;
 }
 
@@ -51,7 +51,7 @@ card_new_from_ranges (Range* range_top, Range* range_down, Range* range_left, Ra
 {
 	if (!range_top || !range_down || !range_left || !range_right)
 		return NULL;
-	
+
 	Card* new = (Card*) calloc (1, sizeof(Card));
 	gint t, d, l, r;
 
@@ -64,14 +64,14 @@ card_new_from_ranges (Range* range_top, Range* range_down, Range* range_left, Ra
 		free (new);
 		return NULL;
 	}
-	
+
 	new->top = t;
 	new->down = d;
 	new->left = l;
 	new->right = r;
-	
+
 	new->element = ET_RED;
-	
+
 	return new;
 }
 
@@ -80,7 +80,7 @@ card_set_values (Card* card, guint top, guint down, guint left, guint right, gui
 {
 	if (!card)
 		return -1;
-	
+
 	card->top = top;
 	card->down = down;
 	card->left = left;
@@ -91,54 +91,63 @@ card_set_values (Card* card, guint top, guint down, guint left, guint right, gui
 	return 0;
 }
 
-gint 
+gint
 card_get_top_value (Card* card)
 {
 	if (!card)
 		return -1;
-	
+
 	return card->top;
 }
 
-gint 
+gint
 card_get_down_value (Card* card)
 {
 	if (!card)
 		return -1;
-	
+
 	return card->down;
 }
 
-gint 
+gint
 card_get_left_value (Card* card)
 {
 	if (!card)
 		return -1;
-	
+
 	return card->left;
 }
 
-gint 
+gint
 card_get_right_value (Card* card)
 {
 	if (!card)
 		return -1;
-	
+
 	return card->right;
 }
 
-gint 
+gint
+card_get_element (Card* card)
+{
+	if (!card)
+		return -1;
+
+	return card->element;
+}
+
+gint
 card_compare (Card* card1, Card* card2, guint position)
 {
 	gint result;
-	
+
 	if (!card1 || !card2)
 		return -10000;
-	
+
 
 	switch (position){
 		case TOP:	// card1 on the top of card2
-			result = card_get_down_value (card1) - card_get_top_value (card2);		
+			result = card_get_down_value (card1) - card_get_top_value (card2);
 			break;
 		case RIGHT:	// card1 on the right of card2
 			result = card_get_left_value (card1) - card_get_right_value (card2);
@@ -161,10 +170,10 @@ gint
 card_switch_content (Card* card1, Card* card2)
 {
 	Card tmp;
-	
+
 	if (!card1 || !card2)
 		return -1;
-	
+
 
 	tmp.top = card1->top;
 	tmp.down = card1->down;
@@ -192,12 +201,12 @@ card_clear (Card* card)
 {
 	if (!card)
 		return -1;
-	
+
 	card->top = 0;
 	card->down = 0;
 	card->left = 0;
 	card->right = 0;
-	
+
 	card->element = ET_RED;
 
 	return 0;
@@ -208,9 +217,8 @@ card_free (Card* card)
 {
 	if (!card)
 		return;
-	
+
 	free(card);
 
 	return;
 }
-

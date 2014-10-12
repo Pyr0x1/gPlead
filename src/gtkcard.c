@@ -3,12 +3,12 @@
 #include <string.h>
 #include "gtkcard.h"
 
-GtkCard* 
+GtkCard*
 gtk_card_new_empty (GtkToggleButton* button)
 {
 	if (!button)
 		return NULL;
-	
+
 	GtkCard* new = (GtkCard*) calloc (1, sizeof(GtkCard));
 
 	new->button = button;
@@ -22,14 +22,14 @@ gtk_card_new_empty (GtkToggleButton* button)
 	return new;
 }
 
-GtkCard* 
+GtkCard*
 gtk_card_new_with_values (GtkToggleButton* button, guint top, guint down, guint left, guint right, guint element, gboolean show)
 {
 	if (!button)
 		return NULL;
-	
+
 	GtkCard* new = (GtkCard*) calloc (1, sizeof(GtkCard));
-	
+
 	new->button = button;
 	new->card = card_new_with_values (top, down, left, right, element);
 	new->full = TRUE;
@@ -55,14 +55,14 @@ gtk_card_new_with_values (GtkToggleButton* button, guint top, guint down, guint 
 	return new;
 }
 
-GtkCard* 
+GtkCard*
 gtk_card_new_random (GtkToggleButton* button, guint max, gboolean show)
 {
 	if (!button)
 		return NULL;
-	
+
 	GtkCard* new = (GtkCard*) calloc (1, sizeof(GtkCard));
-	
+
 	new->button = button;
 	new->card = card_new_random (max);
 	new->full = TRUE;
@@ -93,7 +93,7 @@ gtk_card_new_from_collection (GtkToggleButton* button, Collection* card_collecti
 {
 	if (!button || !card_collection)
 		return NULL;
-	
+
 	CardRange* card_range = NULL;
 	GtkCard* new = (GtkCard*) calloc (1, sizeof(GtkCard));
 	guint num_cards = collection_get_card_number (card_collection, level);
@@ -106,7 +106,7 @@ gtk_card_new_from_collection (GtkToggleButton* button, Collection* card_collecti
 	card_range = collection_get_card_range (card_collection, level, rand_i); // not freed because collection is entirely freed later
 
 	new->button = button;
-	//new->card = card_new_from_ranges (card_range_get_top (card_range), 
+	//new->card = card_new_from_ranges (card_range_get_top (card_range),
 	//								  card_range_get_down (card_range),
 	//								  card_range_get_left (card_range),
 	//								  card_range_get_right (card_range));
@@ -134,7 +134,7 @@ gtk_card_new_from_collection (GtkToggleButton* button, Collection* card_collecti
 	}
 	else
 		gtk_button_set_label (GTK_BUTTON (new->button), "\t \n\n \t\t  \n\n\t ");
-	
+
 	*/
 
 	return new;
@@ -174,18 +174,18 @@ gtk_card_set_full (GtkCard* gcard, gboolean value)
 {
 	if (!gcard)
 		return -1;
-	
+
 	gcard->full = value;
 
 	return 0;
 }
 
-GtkToggleButton* 
+GtkToggleButton*
 gtk_card_get_button (GtkCard* gcard)
 {
 	if (!gcard)
 		return NULL;
-	
+
 	return gcard->button;
 }
 
@@ -198,12 +198,12 @@ gtk_card_get_card (GtkCard* gcard)
 	return gcard->card;
 }
 
-gboolean 
+gboolean
 gtk_card_is_selected (GtkCard* gcard)
 {
 	if (!gcard)
 		return FALSE;
-	
+
 	return gtk_toggle_button_get_active (gcard->button);
 }
 
@@ -212,7 +212,7 @@ gtk_card_is_full (GtkCard* gcard)
 {
 	if (!gcard)
 		return FALSE;
-	
+
 	return gcard->full;
 }
 
@@ -221,7 +221,7 @@ gtk_card_compare (GtkCard* gcard1, GtkCard* gcard2, guint position)
 {
 	if (!gcard1 || !gcard2)
 		return -10000;
-	
+
 	return card_compare (gcard1->card, gcard2->card, position);
 }
 
@@ -230,7 +230,7 @@ gtk_card_switch_content (GtkCard* gcard1, GtkCard* gcard2)
 {
 	if (!gcard1 || !gcard2)
 		return -1;
-	
+
 	gboolean tmp_full;
 
 	if (card_switch_content (gcard1->card, gcard2->card) == -1)
@@ -267,12 +267,12 @@ gtk_card_write_label (GtkCard* gcard)
 {
 	if (!gcard)
 		return -1;
-	
-	guint value, i;
+
+	guint value, i, elem;
 	gchar buff[256];
 
 
-	for (i=0; i<4; i++)
+	for (i = 0; i < 4; i++)
 	    gtk_widget_set_name (GTK_WIDGET (gcard->labels[i]), "");
 
 	value = card_get_top_value (gcard->card);
@@ -303,7 +303,34 @@ gtk_card_write_label (GtkCard* gcard)
 		sprintf (buff, "%d", value);
 	gtk_label_set_label (gcard->labels[DOWN], buff);
 
+	elem = card_get_element (gcard->card);
+	switch (elem){
+		case ET_BLUE:
+			gtk_widget_set_name (GTK_WIDGET (gcard->element_label), "bluerune");
+			break;
+		case ET_GREEN:
+			gtk_widget_set_name (GTK_WIDGET (gcard->element_label), "greenrune");
+			break;
+		case ET_YELLOW:
+			gtk_widget_set_name (GTK_WIDGET (gcard->element_label), "yellowrune");
+			break;
+		case ET_RED:
+			gtk_widget_set_name (GTK_WIDGET (gcard->element_label), "redrune");
+			break;
+	}
+
 	gtk_card_set_full (gcard, TRUE);
+
+	return 0;
+}
+
+gint
+gtk_card_clear_element_label (GtkCard* gcard)
+{
+	if (!gcard)
+		return -1;
+
+	gtk_widget_set_name (GTK_WIDGET(gcard->element_label), "");
 
 	return 0;
 }
@@ -313,7 +340,7 @@ gtk_card_clear (GtkCard* gcard)
 {
 	if (!gcard)
 		return -1;
-	
+
 	if (card_clear (gcard->card) == -1)
 		return -1;
 
@@ -321,29 +348,30 @@ gtk_card_clear (GtkCard* gcard)
 	gtk_label_set_label (gcard->labels[LEFT], " ");
 	gtk_label_set_label (gcard->labels[RIGHT], " ");
 	gtk_label_set_label (gcard->labels[DOWN], " ");
+	gtk_widget_set_name (GTK_WIDGET(gcard->element_label), "");
 
 	gcard->full = FALSE;
 
 	return 0;
 }
 
-void 
+void
 gtk_card_unselect (GtkCard* gcard)
 {
 	if (!gcard)
 		return;
-	
+
 	gtk_toggle_button_set_active (gcard->button, FALSE);
 
 	return;
 }
 
-void 
+void
 gtk_card_free (GtkCard* gcard)
 {
 	if (!gcard)
 		return;
-	
+
 	card_free (gcard->card);
 	free (gcard);
 
@@ -357,7 +385,7 @@ _gtk_card_create_labels (GtkCard* gcard)
 {
 	if (!gcard)
 		return -1;
-	
+
 	GtkWidget* grid = NULL;
 
 	grid = gtk_grid_new ();
@@ -380,6 +408,8 @@ _gtk_card_create_labels (GtkCard* gcard)
 	gcard->labels[3] = GTK_LABEL (gtk_label_new (" "));
 	gtk_grid_attach (GTK_GRID (grid), GTK_WIDGET (gcard->labels[DOWN]), 1, 2, 1, 1);
 
+	gcard->element_label = GTK_LABEL (gtk_label_new (" "));
+	gtk_grid_attach (GTK_GRID (grid), GTK_WIDGET (gcard->element_label), 1, 1, 1, 1);
+
 	return 0;
 }
-
