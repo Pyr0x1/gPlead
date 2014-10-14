@@ -143,7 +143,10 @@ game_play_player_card_selected (GameField* game_field, CardsHand* player_hand, G
 	GtkFieldCard* field_card = game_field_get_selected (game_field);
 
 	if (player_card != NULL && field_card != NULL){
-
+		
+		// must be called before any exchange, the values of player_card are modified
+	    gtk_field_card_augment_values_from_runes (field_card, player_card);
+	    
 		gtk_card_unselect (player_card);
 	    gtk_card_switch_content_label (player_card, gtk_field_card_get_gtk_card (field_card));
 	    gtk_widget_set_sensitive (GTK_WIDGET(gtk_card_get_button (player_card)), FALSE);
@@ -170,6 +173,10 @@ game_play_cpu_card_random (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 	GtkFieldCard* field_card = game_field_get_random (game_field);
 
 	if (cpu_card != NULL && field_card != NULL){
+		
+		// must be called before any exchange, the values of player_card are modified
+	    gtk_field_card_augment_values_from_runes (field_card, cpu_card);
+	    
 		gtk_card_write_label (cpu_card);
 		gtk_card_switch_content_label (cpu_card, gtk_field_card_get_gtk_card (field_card));
 	    gtk_widget_set_name (GTK_WIDGET(gtk_card_get_button (cpu_card)), "");
@@ -279,6 +286,10 @@ game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 
 											// play the card
 											if (cpu_card != NULL && field_card != NULL){
+												
+												// must be called before any exchange, the values of player_card are modified
+											    gtk_field_card_augment_values_from_runes (field_card, cpu_card);
+	    
 												gtk_card_write_label (cpu_card);
 												gtk_card_switch_content_label (cpu_card, gtk_field_card_get_gtk_card (field_card));
 											    gtk_widget_set_name (GTK_WIDGET(gtk_card_get_button (cpu_card)), "");
