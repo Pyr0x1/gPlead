@@ -11,7 +11,8 @@ typedef struct gtkcard {
 	GtkToggleButton* button;
 	Card* card;
 	GtkLabel* labels[4];
-	GtkLabel* element_label;
+	GtkLabel* element_label; // rune label
+	gboolean value_augmented[4]; // value is augmented by runes or not
 } GtkCard;
 
 GtkCard* gtk_card_new_empty (GtkToggleButton* button);

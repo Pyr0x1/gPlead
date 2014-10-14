@@ -137,7 +137,7 @@ card_get_element (Card* card)
 }
 
 gint
-card_compare (Card* card1, Card* card2, guint position)
+card_compare (Card* card1, Card* card2, guint position, gboolean first_augmented, gboolean second_augmented)
 {
 	gint result;
 
@@ -162,6 +162,11 @@ card_compare (Card* card1, Card* card2, guint position)
 			fprintf(stderr, "Warning: invalid position passed to function \"card_compare\"");
 			result = -10000;
 	}
+	
+	if (first_augmented)
+		result++;
+	if (second_augmented)
+		result--;
 
 	return result;
 }

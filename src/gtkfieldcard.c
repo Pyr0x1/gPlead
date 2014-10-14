@@ -137,31 +137,12 @@ gtk_field_card_augment_values_from_runes (GtkFieldCard* gfcard, GtkCard* player_
 	if (!gfcard || !player_card)
 		return -1;
 	
-	// TODO
-	// insert check for A value (cannot go to 11) or insert S value
-	// insert array flag for each value, like bool GtkCard->value_augmented[4];
-	// if value_augmented[i] is true, the label of that value is set appropriately (in bold or with a specific color) using css
-	// with value_augmented flag the value increase may be delayed to another function, or completely avoided (with a check that write a increased value if the flag is true, leaving the original value unchanged)
 	
 	guint player_rune = player_card->card->element;
 	
 	for (i = 0; i < 4; i++)
 		if (gfcard->elements[i] == player_rune)
-			switch (i){
-				case TOP:
-					player_card->card->top++;
-					break;
-				case LEFT:
-					player_card->card->left++;
-					break;
-				case RIGHT:
-					player_card->card->right++;
-					break;
-				case DOWN:
-					player_card->card->down++;
-					break;
-			}
-	
+			player_card->value_augmented[i] = TRUE;
 	
 	return 0;
 }

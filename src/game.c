@@ -276,7 +276,9 @@ game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 									// compare values
 									if (card_compare ((*cpu_card).card,
 										(*gtk_field_card_get_gtk_card ( game_field_get_nth (game_field, near_r[near_i], near_c[near_i]))).card ,
-										position[near_i]) > 0 ){	//  if cpu card beats the card on the field
+										position[near_i],
+										FALSE,	// TODO
+										FALSE) > 0 ){	//  if cpu card beats the card on the field
 
 										const gchar *card_name = gtk_widget_get_name (GTK_WIDGET(gtk_card_get_button (gtk_field_card_get_gtk_card ( game_field_get_nth (game_field, near_r[near_i], near_c[near_i]) ))));
 
