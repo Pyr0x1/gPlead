@@ -18,7 +18,7 @@ gtk_card_new_empty (GtkToggleButton* button)
 	new->full = FALSE;
 	
 	for (i = 0; i < 4; i++)
-		new->value_augmented[i] = FALSE;
+		new->value_augmented[i] = 0;
 
 	_gtk_card_create_labels (new);
 
@@ -42,7 +42,7 @@ gtk_card_new_with_values (GtkToggleButton* button, guint top, guint down, guint 
 	new->full = TRUE;
 
 	for (i = 0; i < 4; i++)
-		new->value_augmented[i] = FALSE;
+		new->value_augmented[i] = 0;
 	
 	_gtk_card_create_labels (new);
 
@@ -80,7 +80,7 @@ gtk_card_new_random (GtkToggleButton* button, guint max, gboolean show)
 	new->full = TRUE;
 
 	for (i = 0; i < 4; i++)
-		new->value_augmented[i] = FALSE;
+		new->value_augmented[i] = 0;
 
 	_gtk_card_create_labels (new);
 
@@ -131,7 +131,7 @@ gtk_card_new_from_collection (GtkToggleButton* button, Collection* card_collecti
 	new->full = TRUE;
 
 	for (i = 0; i < 4; i++)
-		new->value_augmented[i] = FALSE;
+		new->value_augmented[i] = 0;
 
 	if (!new->card){
 		free (new);
@@ -188,7 +188,7 @@ gtk_card_set_from_collection (GtkCard* gcard, Collection* card_collection, guint
 	gcard->full = TRUE;
 
 	for (i = 0; i < 4; i++)
-		gcard->value_augmented[i] = FALSE;
+		gcard->value_augmented[i] = 0;
 	
 	return 0;
 }
@@ -243,7 +243,7 @@ gtk_card_is_full (GtkCard* gcard)
 gint
 gtk_card_compare (GtkCard* gcard1, GtkCard* gcard2, guint position)
 {
-	gboolean first_augmented, second_augmented;
+	gint first_augmented, second_augmented;
 	
 	if (!gcard1 || !gcard2)
 		return -10000;
@@ -328,15 +328,18 @@ gtk_card_write_label (GtkCard* gcard)
 
 
 	for (i = 0; i < 4; i++)
-		if (gcard->value_augmented[i])
+		if (gcard->value_augmented[i] == 1)
 	    	gtk_widget_set_name (GTK_WIDGET (gcard->labels[i]), "augmentedLabel");
+		else if (gcard->value_augmented[i] == -1)
+	    	gtk_widget_set_name (GTK_WIDGET (gcard->labels[i]), "decreasedLabel");
 		else
 	    	gtk_widget_set_name (GTK_WIDGET (gcard->labels[i]), "");
 
 	value = card_get_top_value (gcard->card);
-	if (gcard->value_augmented[TOP])
-		value++;
-	if (value == 10)
+	value += gcard->value_augmented[TOP];
+	if (value == 0)
+		sprintf (buff, "%s", "1");
+	else if (value == 10)
 		sprintf (buff, "%s", "A");
 	else if (value == 11)
 		sprintf (buff, "%s", "S");
@@ -345,9 +348,10 @@ gtk_card_write_label (GtkCard* gcard)
 	gtk_label_set_label (gcard->labels[TOP], buff);
 
 	value = card_get_left_value (gcard->card);
-	if (gcard->value_augmented[LEFT])
-		value++;
-	if (value == 10)
+	value += gcard->value_augmented[LEFT];
+	if (value == 0)
+		sprintf (buff, "%s", "1");
+	else if (value == 10)
 		sprintf (buff, "%s", "A");
 	else if (value == 11)
 		sprintf (buff, "%s", "S");
@@ -356,9 +360,10 @@ gtk_card_write_label (GtkCard* gcard)
 	gtk_label_set_label (gcard->labels[LEFT], buff);
 
 	value = card_get_right_value (gcard->card);
-	if (gcard->value_augmented[RIGHT])
-		value++;
-	if (value == 10)
+	value += gcard->value_augmented[RIGHT];
+	if (value == 0)
+		sprintf (buff, "%s", "1");
+	else if (value == 10)
 		sprintf (buff, "%s", "A");
 	else if (value == 11)
 		sprintf (buff, "%s", "S");
@@ -367,9 +372,10 @@ gtk_card_write_label (GtkCard* gcard)
 	gtk_label_set_label (gcard->labels[RIGHT], buff);
 
 	value = card_get_down_value (gcard->card);
-	if (gcard->value_augmented[DOWN])
-		value++;
-	if (value == 10)
+	value += gcard->value_augmented[DOWN];
+	if (value == 0)
+		sprintf (buff, "%s", "1");
+	else if (value == 10)
 		sprintf (buff, "%s", "A");
 	else if (value == 11)
 		sprintf (buff, "%s", "S");

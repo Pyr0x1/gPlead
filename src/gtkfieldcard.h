@@ -24,6 +24,7 @@ gint gtk_field_card_get_row (GtkFieldCard* gfcard);
 gint gtk_field_card_get_col (GtkFieldCard* gfcard);
 gint gtk_field_card_clear (GtkFieldCard* gfcard);
 gint gtk_field_card_augment_values_from_runes (GtkFieldCard* gfcard, GtkCard* player_card);
+gint gtk_field_card_get_expected_augmentation (GtkFieldCard* gfcard, GtkCard* gcard, guint position);
 void gtk_field_card_free (GtkFieldCard* gfcard);
 
 #endif /* GTKFIELDCARD_H */

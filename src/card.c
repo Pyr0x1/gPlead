@@ -137,9 +137,22 @@ card_get_element (Card* card)
 }
 
 gint
-card_compare (Card* card1, Card* card2, guint position, gboolean first_augmented, gboolean second_augmented)
+card_get_opposite_element (gint element){
+	guint opposite_rune[ELEMENTS_NUM];
+	
+	opposite_rune[ET_BLUE] = ET_RED;
+	opposite_rune[ET_RED] = ET_BLUE;
+	opposite_rune[ET_GREEN] = ET_YELLOW;
+	opposite_rune[ET_YELLOW] = ET_GREEN;
+	
+	return opposite_rune[element];
+}
+
+gint
+card_compare (Card* card1, Card* card2, guint position, gint first_augmented, gint second_augmented)
 {
 	gint result;
+	gint first, second;
 
 	if (!card1 || !card2)
 		return -10000;
@@ -147,26 +160,48 @@ card_compare (Card* card1, Card* card2, guint position, gboolean first_augmented
 
 	switch (position){
 		case TOP:	// card1 on the top of card2
-			result = card_get_down_value (card1) - card_get_top_value (card2);
+			first = card_get_down_value (card1);
+			second = card_get_top_value (card2);
+			if (first == 1 && first_augmented == -1)
+				first = 2;
+			if (second == 1 && second_augmented == -1)
+				second = 2;
+			result = first - second;
 			break;
 		case RIGHT:	// card1 on the right of card2
-			result = card_get_left_value (card1) - card_get_right_value (card2);
+			first = card_get_left_value (card1);
+			second = card_get_right_value (card2);
+			if (first == 1 && first_augmented == -1)
+				first = 2;
+			if (second == 1 && second_augmented == -1)
+				second = 2;
+			result = first - second;
 			break;
 		case DOWN:	// card1 below card2
-			result = card_get_top_value (card1) - card_get_down_value (card2);
+			first = card_get_top_value (card1);
+			second = card_get_down_value (card2);
+			if (first == 1 && first_augmented == -1)
+				first = 2;
+			if (second == 1 && second_augmented == -1)
+				second = 2;
+			result = first - second;
 			break;
 		case LEFT:	// card1 on the left of card2
-			result = card_get_right_value (card1) - card_get_left_value (card2);
+			first = card_get_right_value (card1);
+			second = card_get_left_value (card2);
+			if (first == 1 && first_augmented == -1)
+				first = 2;
+			if (second == 1 && second_augmented == -1)
+				second = 2;
+			result = first - second;
 			break;
 		default:
 			fprintf(stderr, "Warning: invalid position passed to function \"card_compare\"");
 			result = -10000;
 	}
 	
-	if (first_augmented)
-		result++;
-	if (second_augmented)
-		result--;
+	result += first_augmented;
+	result -= second_augmented;
 
 	return result;
 }

@@ -12,7 +12,7 @@ typedef struct gtkcard {
 	Card* card;
 	GtkLabel* labels[4];
 	GtkLabel* element_label; // rune label
-	gboolean value_augmented[4]; // value is augmented by runes or not
+	gint value_augmented[4]; // value augmented by runes (may be also decreased) (correct values for this field are -1, 0 and +1)
 } GtkCard;
 
 GtkCard* gtk_card_new_empty (GtkToggleButton* button);
