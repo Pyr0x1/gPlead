@@ -412,6 +412,8 @@ gtk_card_clear_element_label (GtkCard* gcard)
 gint
 gtk_card_clear (GtkCard* gcard)
 {
+	guint i;
+	
 	if (!gcard)
 		return -1;
 
@@ -424,6 +426,9 @@ gtk_card_clear (GtkCard* gcard)
 	gtk_label_set_label (gcard->labels[DOWN], " ");
 	gtk_widget_set_name (GTK_WIDGET(gcard->element_label), "");
 
+	for (i = 0; i < 4; i++)
+	    gtk_widget_set_name (GTK_WIDGET (gcard->labels[i]), "");
+	
 	gcard->full = FALSE;
 
 	return 0;

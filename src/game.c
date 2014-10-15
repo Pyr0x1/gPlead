@@ -250,22 +250,26 @@ game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 					if ( !gtk_card_is_full ( gtk_field_card_get_gtk_card ( field_card))){
 
 						// find if there is a card near, compare values and check if can be obtained (gain)
-						gint near_r[4], near_c[4], position[4];
+						gint near_r[4], near_c[4], position[4], opposite_position[4];
 						guint near_i;
 
 						// 4 positions to check: up, down, left, right
 						near_r[0] = r-1;
 						near_c[0] = c;
 						position[0] = DOWN;
+						opposite_position[0] = TOP;
 						near_r[1] = r+1;
 						near_c[1] = c;
 						position[1] = TOP;
+						opposite_position[1] = DOWN;
 						near_r[2] = r;
 						near_c[2] = c-1;
 						position[2] = RIGHT;
+						opposite_position[2] = LEFT;
 						near_r[3] = r;
 						near_c[3] = c+1;
 						position[3] = LEFT;
+						opposite_position[3] = RIGHT;
 
 						for (near_i = 0; near_i < 4 && !find; near_i++){
 							if (near_r[near_i] >= 0 && near_r[near_i] < game_field_get_rows (game_field) &&
@@ -277,8 +281,8 @@ game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 									if (card_compare ((*cpu_card).card,
 										(*gtk_field_card_get_gtk_card ( game_field_get_nth (game_field, near_r[near_i], near_c[near_i]))).card ,
 										position[near_i],
-										FALSE,	// TODO
-										FALSE) > 0 ){	//  if cpu card beats the card on the field
+										cpu_card->value_augmented[opposite_position[near_i]],
+										(*gtk_field_card_get_gtk_card ( game_field_get_nth (game_field, near_r[near_i], near_c[near_i]))).value_augmented[position[near_i]]) > 0 ){	//  if cpu card beats the card on the field
 
 										const gchar *card_name = gtk_widget_get_name (GTK_WIDGET(gtk_card_get_button (gtk_field_card_get_gtk_card ( game_field_get_nth (game_field, near_r[near_i], near_c[near_i]) ))));
 

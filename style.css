@@ -79,3 +79,10 @@ GtkLabel#greenrune {
 	background-color: #73d216;
 	border: 1px solid #a3a3a3;
 }
+
+GtkLabel#augmentedLabel {
+	background: #2ef6dd;
+	background-color: #2ef6dd;
+	border: 1px solid #a3a3a3;
+}
+
