@@ -6,6 +6,7 @@ GtkFieldCard*
 gtk_field_card_new_empty (GtkToggleButton* button, guint row, guint col)
 {
 	guint i;
+	guint n[ELEMENTS_NUM];
 
 	if (!button)
 		return NULL;
@@ -16,10 +17,17 @@ gtk_field_card_new_empty (GtkToggleButton* button, guint row, guint col)
 	new->col = col;
 	new->gcard = gtk_card_new_empty (button);
 
-	for (i=0; i<4; i++)
+	for (i = 0; i < ELEMENTS_NUM; i++)
+		n[i] = 0;
+	
+	for (i = 0; i < 4; i++){
 		new->elements[i] = rand() % ELEMENTS_NUM;
+		if (n[new->elements[i]] == 2)
+			new->elements[i] = (new->elements[i] + 1) % ELEMENTS_NUM;
+		n[new->elements[i]]++;
+	}
 
-	for (i=0; i<4; i++)
+	for (i = 0; i < 4; i++)
 		switch (new->elements[i]){
 			case ET_BLUE:
 	    		gtk_widget_set_name (GTK_WIDGET (new->gcard->labels[i]), "bluerune");	// ET_BLUE
