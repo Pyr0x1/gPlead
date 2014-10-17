@@ -93,7 +93,6 @@ show_about_popup (GtkMenuItem* about_menu_item, gpointer user_data)
     gtk_about_dialog_set_authors (GTK_ABOUT_DIALOG(dialog), authors);
     gtk_about_dialog_set_comments (GTK_ABOUT_DIALOG(dialog), comments);
     gtk_about_dialog_set_license (GTK_ABOUT_DIALOG(dialog), license);
-    gtk_window_set_icon_from_file (GTK_WINDOW (dialog), "icon.png", NULL);
 
 #ifdef _WIN32
     g_signal_connect (G_OBJECT (dialog), "activate-link", G_CALLBACK (on_link_activated), (gpointer) NULL);

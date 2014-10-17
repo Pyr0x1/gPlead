@@ -54,7 +54,7 @@ gui_create (guint cards_num, guint field_num)
     gtk_window_set_title (GTK_WINDOW (window), "gPlead");
     gtk_window_set_position (GTK_WINDOW (window), GTK_WIN_POS_CENTER);
     gtk_window_set_resizable (GTK_WINDOW (window), FALSE);
-    gtk_window_set_icon_from_file (GTK_WINDOW (window), "icon.png", NULL);
+    gtk_window_set_default_icon_from_file ("icon.png", NULL);
     g_signal_connect (window, "destroy", G_CALLBACK (gtk_main_quit), NULL);
 
     // Allocate arrays for buttons and gui data
