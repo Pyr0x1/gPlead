@@ -4,6 +4,7 @@
 #include "game.h"
 #include "gamepath.h"
 
+
 GameData*
 game_data_new (guint cards_num, guint field_num, GuiData* gui_data)
 {
@@ -277,12 +278,14 @@ game_play_cpu_card_greedy (GameField* game_field, CardsHand* cpu_hand, GtkScore*
 
 								if (gtk_card_is_full ( gtk_field_card_get_gtk_card ( game_field_get_nth (game_field, near_r[near_i], near_c[near_i]))) ){
 									
+									
 									// compare values
 									if (card_compare ((*cpu_card).card,
 										(*gtk_field_card_get_gtk_card ( game_field_get_nth (game_field, near_r[near_i], near_c[near_i]))).card ,
 										position[near_i],
-										gtk_field_card_get_expected_augmentation (game_field_get_nth (game_field, near_r[near_i], near_c[near_i]), cpu_card, opposite_position[near_i]),
+										gtk_field_card_get_expected_augmentation (field_card, cpu_card, opposite_position[near_i]),
 										(*gtk_field_card_get_gtk_card ( game_field_get_nth (game_field, near_r[near_i], near_c[near_i]))).value_augmented[position[near_i]]) > 0 ){	//  if cpu card beats the card on the field
+
 
 										const gchar *card_name = gtk_widget_get_name (GTK_WIDGET(gtk_card_get_button (gtk_field_card_get_gtk_card ( game_field_get_nth (game_field, near_r[near_i], near_c[near_i]) ))));
 
@@ -551,3 +554,4 @@ game_data_free (GameData* game_data)
 
 	return;
 }
+
