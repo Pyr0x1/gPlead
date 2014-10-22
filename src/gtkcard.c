@@ -333,7 +333,7 @@ gtk_card_write_label (GtkCard* gcard)
 		else if (gcard->value_augmented[i] == -1)
 	    	gtk_widget_set_name (GTK_WIDGET (gcard->labels[i]), "decreasedLabel");
 		else
-	    	gtk_widget_set_name (GTK_WIDGET (gcard->labels[i]), "");
+	    	gtk_widget_set_name (GTK_WIDGET (gcard->labels[i]), "cardLabel");
 
 	value = card_get_top_value (gcard->card);
 	value += gcard->value_augmented[TOP];
