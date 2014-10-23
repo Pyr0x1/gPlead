@@ -109,3 +109,15 @@ GtkLabel#cardLabel {
     font-weight: bold;
 }
 
+GtkLabel#playerScore {
+	font-family: "Courier New", "Consolas", "Courier", "Courier New", "Lucida Console"; /* choose a font, if the first font is not available select the second font and so on */
+    font-weight: bold;
+	font: 18px;
+}
+
+GtkLabel#cpuScore {
+	font-family: "Courier New", "Consolas", "Courier", "Courier New", "Lucida Console"; /* choose a font, if the first font is not available select the second font and so on */
+    font-weight: bold;
+	font: 18px;
+}
+

@@ -156,10 +156,12 @@ gui_create (guint cards_num, guint field_num)
 
 	// Add labels for score
 	player_score_label = gtk_grid_get_child_at (GTK_GRID (grid), 0, 0);
+	gtk_widget_set_name (player_score_label, "playerScore");
 	gtk_size_group_add_widget (size_group, player_score_label);
 	//gtk_grid_attach (GTK_GRID (grid), player_score_label, 0, 0, 1, 1);
 
 	cpu_score_label = gtk_label_new (NULL);
+	gtk_widget_set_name (cpu_score_label, "cpuScore");
 	gtk_size_group_add_widget (size_group, cpu_score_label);
 	gtk_grid_attach (GTK_GRID (grid), cpu_score_label, field_num - 1, 0, 1, 1);
 
