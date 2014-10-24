@@ -1,6 +1,6 @@
 GtkToggleButton#togglebuttonuser {
-	background: #729fcf;
-	background-color: #729fcf;
+	background: #98AFC7;
+	background-color: #98AFC7;
 	color: #202020;
 	border: 5px solid #3465a4;
 }
@@ -10,8 +10,8 @@ GtkToggleButton#togglebuttonuser*:insensitive {
 }
 
 GtkToggleButton#togglebuttonuser:active {
-	background: #638ab3;
-	background-color: #638ab3;
+	background: #7A91A9;
+	background-color: #7A91A9;
 	border: 5px solid #204a87;
 }
 
@@ -23,10 +23,10 @@ GtkToggleButton#togglebuttoncpu, GtkToggleButton#togglebuttoncpu:insensitive {
 }
 
 GtkToggleButton#togglebuttoncpuplayed {
-	background: #f16060;
-	background-color: #f16060;
+	background: #E77471;
+	background-color: #E77471;
 	color: #202020;
-	border: 5px solid #ef2929;
+	border: 5px solid #C11B17;
 }
 
 GtkToggleButton#togglebuttoncpuplayed*:insensitive {
@@ -41,16 +41,16 @@ GtkToggleButton#fieldbutton {
 }
 
 GtkWindow GtkLabel#movetellerplayer {
-	background: #729fcf;
-	background-color: #729fcf;
+	background: #3465a4;
+	background-color: #3465a4;
 	margin-top: 500px;
 	margin-bottom: 500px;
 	border-radius: 500px;
 }
 
 GtkWindow GtkLabel#movetellercpu {
-	background: #f16060;
-	background-color:#f16060;
+	background: #C11B17;
+	background-color: #C11B17;
 	margin-top: 500px;
 	margin-bottom: 500px;
 	border-radius : 500px;
@@ -65,8 +65,8 @@ GtkLabel#yellowrune {
 }
 
 GtkLabel#bluerune {
-	background: #729fcf;
-	background-color: #729fcf;
+	background: #3465a4;
+	background-color: #3465a4;
 	border: 1px solid #a3a3a3;
 	font-family: "Courier New", "Consolas", "Courier", "Courier New", "Lucida Console"; /* choose a font, if the first font is not available select the second font and so on */
     font-weight: bold;
