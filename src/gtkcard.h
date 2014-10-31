@@ -11,7 +11,8 @@ typedef struct gtkcard {
 	GtkToggleButton* button;
 	Card* card;
 	GtkLabel* labels[4];
-	GtkLabel* element_label; // rune label
+	//GtkLabel* element_label; // rune label
+	GtkWidget* element_label; // rune
 	gint value_augmented[4]; // value augmented by runes (may be also decreased) (correct values for this field are -1, 0 and +1)
 } GtkCard;
 

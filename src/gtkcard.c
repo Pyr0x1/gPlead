@@ -382,20 +382,60 @@ gtk_card_write_label (GtkCard* gcard)
 	else
 		sprintf (buff, "%d", value);
 	gtk_label_set_label (gcard->labels[DOWN], buff);
+	
+	GdkPixbuf *pixbuf;
+	GdkPixbuf *pixbuf2;
 
 	elem = card_get_element (gcard->card);
 	switch (elem){
 		case ET_BLUE:
-			gtk_widget_set_name (GTK_WIDGET (gcard->element_label), "bluerune");
+			//gtk_widget_set_name (GTK_WIDGET (gcard->element_label), "bluerune");
+			//gtk_image_set_from_file (GTK_IMAGE (gcard->element_label), "blue_rune.bmp");
+			
+			
+			pixbuf = gdk_pixbuf_new_from_file_at_scale ("data/blue_rune.png", 20, 20, FALSE, NULL);	// the size here does not matter, can be anything
+			pixbuf2 = gdk_pixbuf_scale_simple (pixbuf, 20, 20, GDK_INTERP_NEAREST);	// this actually change the size
+			
+			gtk_image_set_from_pixbuf (GTK_IMAGE (gcard->element_label), pixbuf2);
+			g_object_unref (pixbuf);
+			g_object_unref (pixbuf2);
+	
 			break;
 		case ET_GREEN:
-			gtk_widget_set_name (GTK_WIDGET (gcard->element_label), "greenrune");
+			//gtk_widget_set_name (GTK_WIDGET (gcard->element_label), "greenrune");
+			//gtk_image_set_from_file (GTK_IMAGE (gcard->element_label), "green_rune.bmp");
+			
+			
+			pixbuf = gdk_pixbuf_new_from_file_at_scale ("data/green_rune.png", 20, 20, FALSE, NULL);	// the size here does not matter, can be anything
+			pixbuf2 = gdk_pixbuf_scale_simple (pixbuf, 20, 20, GDK_INTERP_NEAREST);	// this actually change the size
+			
+			gtk_image_set_from_pixbuf (GTK_IMAGE (gcard->element_label), pixbuf2);
+			g_object_unref (pixbuf);
+			g_object_unref (pixbuf2);
+	
 			break;
 		case ET_YELLOW:
-			gtk_widget_set_name (GTK_WIDGET (gcard->element_label), "yellowrune");
+			//gtk_widget_set_name (GTK_WIDGET (gcard->element_label), "yellowrune");
+			//gtk_image_set_from_file (GTK_IMAGE (gcard->element_label), "yellow_rune.bmp");
+			
+			pixbuf = gdk_pixbuf_new_from_file_at_scale ("data/yellow_rune.png", 20, 20, FALSE, NULL);	// the size here does not matter, can be anything
+			pixbuf2 = gdk_pixbuf_scale_simple (pixbuf, 20, 20, GDK_INTERP_NEAREST);	// this actually change the size
+			
+			gtk_image_set_from_pixbuf (GTK_IMAGE (gcard->element_label), pixbuf2);
+			g_object_unref (pixbuf);
+			g_object_unref (pixbuf2);
 			break;
 		case ET_RED:
-			gtk_widget_set_name (GTK_WIDGET (gcard->element_label), "redrune");
+			//gtk_widget_set_name (GTK_WIDGET (gcard->element_label), "redrune");
+			//gtk_image_set_from_file (GTK_IMAGE (gcard->element_label), "red_rune.bmp");
+			
+			pixbuf = gdk_pixbuf_new_from_file_at_scale ("data/red_rune.png", 20, 20, FALSE, NULL);	// the size here does not matter, can be anything
+			pixbuf2 = gdk_pixbuf_scale_simple (pixbuf, 20, 20, GDK_INTERP_NEAREST);	// this actually change the size
+			
+			gtk_image_set_from_pixbuf (GTK_IMAGE (gcard->element_label), pixbuf2);
+			g_object_unref (pixbuf);
+			g_object_unref (pixbuf2);
+			
 			break;
 	}
 
@@ -410,7 +450,17 @@ gtk_card_clear_element_label (GtkCard* gcard)
 	if (!gcard)
 		return -1;
 
-	gtk_widget_set_name (GTK_WIDGET(gcard->element_label), "");
+	//gtk_widget_set_name (GTK_WIDGET(gcard->element_label), "");
+	//gtk_image_set_from_file (GTK_IMAGE (gcard->element_label), "void_rune.bmp");
+	
+	GdkPixbuf *pixbuf, *pixbuf2;
+	
+	pixbuf = gdk_pixbuf_new_from_file_at_scale ("data/void_rune.png", 20, 20, FALSE, NULL);	// the size here does not matter, can be anything
+	pixbuf2 = gdk_pixbuf_scale_simple (pixbuf, 20, 20, GDK_INTERP_NEAREST);	// this actually change the size
+	
+	gtk_image_set_from_pixbuf (GTK_IMAGE (gcard->element_label), pixbuf2);
+	g_object_unref (pixbuf);
+	g_object_unref (pixbuf2);
 
 	return 0;
 }
@@ -430,7 +480,18 @@ gtk_card_clear (GtkCard* gcard)
 	gtk_label_set_label (gcard->labels[LEFT], " ");
 	gtk_label_set_label (gcard->labels[RIGHT], " ");
 	gtk_label_set_label (gcard->labels[DOWN], " ");
-	gtk_widget_set_name (GTK_WIDGET(gcard->element_label), "");
+	//gtk_widget_set_name (GTK_WIDGET(gcard->element_label), "");
+	//gtk_image_set_from_file (GTK_IMAGE (gcard->element_label), "void_rune.bmp");
+	
+	GdkPixbuf *pixbuf, *pixbuf2;
+	
+	pixbuf = gdk_pixbuf_new_from_file_at_scale ("data/void_rune.png", 20, 20, FALSE, NULL);	// the size here does not matter, can be anything
+	pixbuf2 = gdk_pixbuf_scale_simple (pixbuf, 20, 20, GDK_INTERP_NEAREST);	// this actually change the size
+	
+	gtk_image_set_from_pixbuf (GTK_IMAGE (gcard->element_label), pixbuf2);
+	g_object_unref (pixbuf);
+	g_object_unref (pixbuf2);
+
 
 	for (i = 0; i < 4; i++)
 	    gtk_widget_set_name (GTK_WIDGET (gcard->labels[i]), "");
@@ -475,8 +536,8 @@ _gtk_card_create_labels (GtkCard* gcard)
 
 	grid = gtk_grid_new ();
 
-	gtk_grid_set_row_spacing (GTK_GRID (grid), 10);
-	gtk_grid_set_column_spacing (GTK_GRID (grid), 15);
+	gtk_grid_set_row_spacing (GTK_GRID (grid), 5);
+	gtk_grid_set_column_spacing (GTK_GRID (grid), 10);
 	gtk_grid_set_row_homogeneous (GTK_GRID (grid), TRUE);
 	gtk_grid_set_column_homogeneous (GTK_GRID (grid), TRUE);
 	gtk_container_add (GTK_CONTAINER (gcard->button), grid);
@@ -493,8 +554,20 @@ _gtk_card_create_labels (GtkCard* gcard)
 	gcard->labels[3] = GTK_LABEL (gtk_label_new (" "));
 	gtk_grid_attach (GTK_GRID (grid), GTK_WIDGET (gcard->labels[DOWN]), 1, 2, 1, 1);
 
-	gcard->element_label = GTK_LABEL (gtk_label_new (" "));
+
+	GdkPixbuf *pixbuf, *pixbuf2;
+	
+	pixbuf = gdk_pixbuf_new_from_file_at_scale ("data/void_rune.png", 20, 20, FALSE, NULL);	// the size here does not matter, can be anything
+	pixbuf2 = gdk_pixbuf_scale_simple (pixbuf, 20, 20, GDK_INTERP_NEAREST);	// this actually change the size
+	
+	gcard->element_label = gtk_image_new_from_pixbuf (pixbuf2);
+	g_object_unref (pixbuf);
+	g_object_unref (pixbuf2);
+	
+	//gcard->element_label = GTK_LABEL (gtk_label_new (" "));
+	//gcard->element_label = gtk_image_new_from_file ("void_rune.bmp");
 	gtk_grid_attach (GTK_GRID (grid), GTK_WIDGET (gcard->element_label), 1, 1, 1, 1);
 
 	return 0;
 }
+
