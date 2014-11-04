@@ -536,8 +536,8 @@ _gtk_card_create_labels (GtkCard* gcard)
 
 	grid = gtk_grid_new ();
 
-	gtk_grid_set_row_spacing (GTK_GRID (grid), 5);
-	gtk_grid_set_column_spacing (GTK_GRID (grid), 10);
+	gtk_grid_set_row_spacing (GTK_GRID (grid), 4);
+	gtk_grid_set_column_spacing (GTK_GRID (grid), 2);
 	gtk_grid_set_row_homogeneous (GTK_GRID (grid), TRUE);
 	gtk_grid_set_column_homogeneous (GTK_GRID (grid), TRUE);
 	gtk_container_add (GTK_CONTAINER (gcard->button), grid);
