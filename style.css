@@ -57,8 +57,8 @@ GtkWindow GtkLabel#movetellercpu {
 }
 
 GtkLabel#yellowrune {
-	background: #edd400;
-	background-color: #edd400;
+	background: #f4b400;/*#edd400;*/
+	background-color: #f4b400;/*#edd400;*/
 	border: 1px solid #a3a3a3;
 	font-family: "Courier New", "Consolas", "Courier", "Courier New", "Lucida Console"; /* choose a font, if the first font is not available select the second font and so on */
     font-weight: bold;
