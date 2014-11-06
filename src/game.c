@@ -30,7 +30,7 @@ game_data_new (guint cards_num, guint field_num, GuiData* gui_data)
 
 	// creates collection of cards from file
 	Collection *coll = NULL;
-	coll = collection_load_file ("data/collection_1.txt");
+	coll = collection_load_file ("data/collection_1");
 
 	if (coll == NULL)
 		return NULL;
@@ -81,7 +81,7 @@ game_data_set (GameData* game_data)
 
 	// creates collection of cards from file
 	Collection *coll = NULL;
-	coll = collection_load_file ("data/collection_1.txt");
+	coll = collection_load_file ("data/collection_1");
 
 	if (coll == NULL)
 		return -1;
