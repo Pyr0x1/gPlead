@@ -89,7 +89,7 @@ show_about_popup (GtkMenuItem* about_menu_item, gpointer user_data)
 
     gtk_about_dialog_set_program_name (GTK_ABOUT_DIALOG(dialog), "gPlead");
     gtk_about_dialog_set_version (GTK_ABOUT_DIALOG(dialog), "1.0");
-    gtk_about_dialog_set_website (GTK_ABOUT_DIALOG(dialog), "https://github.com/Pyr0x1/gPlead");
+    gtk_about_dialog_set_website (GTK_ABOUT_DIALOG(dialog), "http://unwlelt.itch.io/gPlead");//"https://github.com/Pyr0x1/gPlead");
     gtk_about_dialog_set_authors (GTK_ABOUT_DIALOG(dialog), authors);
     gtk_about_dialog_set_comments (GTK_ABOUT_DIALOG(dialog), comments);
     gtk_about_dialog_set_license (GTK_ABOUT_DIALOG(dialog), license);
